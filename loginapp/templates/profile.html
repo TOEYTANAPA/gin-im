@@ -1,0 +1,573 @@
+{% extends 'base.html' %} {% load static %}{% load widget_tweaks %} {% block content %}{% load my_filter_range %}
+    <style>
+    .errorlist {
+    color: #EF5350;
+    }
+    input[type=text],
+    input[type=password],
+    input[type=email] {
+    background-color: #FAFFBD;
+    }
+    .title {
+    color: black;
+    }
+    .uk-button-default:hover {
+    background-color: #FFBF00;
+    color: white;
+    }
+    .uk-button-default {
+    color: #FFBF00;
+    }
+    .active {
+    /*background-color: #6ACAD1;*/
+    color: #6ACAD1;
+    font-weight: bold;
+    }
+
+     .click-add {
+    /*background-color: #6ACAD1;*/
+    color: #FFBF00;
+    font-weight: bold;
+    }
+    .uk-list>li>a:hover {
+    color: #6ACAD1;
+    text-decoration: none;
+    }
+    li>a {
+    color: #9E9E9E;
+    }
+    .divide {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #FFBF00;
+    /*margin: 1em 0;*/
+    padding: 0;
+    }
+    label {
+    font-size: 14px;
+    color: #9E9E9E;
+    }
+    </style>
+    <hr class="uk-box-shadow-medium ">
+    <div class="uk-background-muted" style="margin-top: -20px;">
+        <div class="container profile-desktop " id="home">
+            <br>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body uk-margin-remove">
+                    <h2 class="uk-heading-bullet" style="color: black">บัญชีของฉัน</h2>
+                    <div uk-grid>
+                        <div class="uk-width-1-3@m uk-text-center">
+                            <div class="uk-margin-top">
+                                <ul class=" uk-list-divider uk-list  uk-text-left" style="width: 70%">
+                                    <li class="click-about"><a class="uk-link-reset " href=""><span>&#8226;</span> ข้อมูลส่วนตัว</a></li>
+                                    <li><a class="click-review" ><span>&#8226;</span> รีวิวของฉัน</a></li>
+                                    <li><a class="click-love" ><span>&#8226;</span> ร้านอาหารโปรด</a></li>
+                                    <li><a class="click-order" ><span>&#8226;</span> ออเดอร์ของฉัน</a></li>                                    
+                                    <li><a class="" ><span>&#8226;</span> ประวัติความหิว</a></li>
+                                    <li><a href="{% url 'logout' %}"><span>&#8226;</span> ออกจากระบบ </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="uk-width-2-3@m uk-grid-match " uk-grid>
+                            <div class="about" id="about">
+                                
+                                <form method="post" enctype='multipart/form-data'>
+                                    <!-- <fieldset class="uk-fieldset"> -->
+                                    {% csrf_token %}
+                                    <h4 class="title uk-heading-bullet">ข้อมูลส่วนตัว</h4>
+                                    <hr class="divide">
+                                    <table class="uk-table ">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label class="uk-align-right">อีเมล</label>
+                                                </td>
+                                                <td>{{person.email}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label class="uk-align-right" for="">ชื่อผู้ใช้ </label>
+                                                </td>
+                                                <td> {{form.name|add_class:"uk-input"}} {% if form.errors.username %}
+                                                    <p style="margin-bottom: 10px">{{ form.errors.username }}
+                                                    <br> </p>
+                                                {% else %}
+                                                <br> {% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label class="uk-align-right">ภาพโปรไฟล์</label>
+                                                </td>
+                                                <td>
+                                                    <div class="imgCrop">
+                                                        <div> <img src=" ../{{person.picture.url}}" style="width: 150px;height: 140px;" class="inImg" /></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label class="uk-align-right">เลือกรูปภาพโปรไฟล์ </label>
+                                                </td>
+                                                <td>
+                                                    <div class="" uk-margin>
+                                                        <div uk-form-custom="target: true">
+                                                            {{form.image|add_class:"uk-input"}}
+                                                            <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>                                  
+                                    <table class="uk-table ">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label class="uk-align-right" for="">เบอร์โทรศัพท์ </label>
+                                                </td>
+                                                <td>{{form.phone|add_class:"uk-input"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label class="uk-align-right" for="">ที่อยู่ปัจจุบัน </label>
+                                                </td>
+                                                <td>{{form.address|add_class:"uk-input"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td> </td>
+                                                <td>
+                                                    <button style="color: white;" class="uk-button uk-align-center uk-margin-remove-bottom" type="submit">
+                                                    <h2 class="uk-margin-small-top">อัพเดท</h2></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                </form>
+                            </div>
+                            <div class="order uk-width-1-1 uk-margin-remove-top" id="order">
+                                <h4 class="title uk-heading-bullet">ออเดอร์ของฉัน</h4>
+                                   <hr class="divide">
+                                <table class="uk-table uk-table-hover uk-table-divider  uk-table-justify">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%"><p>No.</p></th>
+                                            <th style="width: 20%;"><p>ร้าน</p></th>
+                                            <th style="width: 45%;"><p>เมนู</p></th>
+                                      
+                                            <th style="width:30%;"><p>วันที่</p></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     {% for order in order_list %}
+                                  
+                                        <tr>
+                                            <td><p>{{order.id}}</p></td>
+                                            <td><p>{{order.name_s}}</p></td>
+                                            <td>
+                                              <div>
+                                                {% for ma in order.menu_amount %}
+                                        
+                                                    <img  src="../{{ma.menu.image.url}}" style="width: 50px; height: auto" >
+
+                                                    <span>x{{ma.amount}}</span>
+
+
+                                               
+                                                      
+                                                   {% endfor %}
+                                              </div>
+                                            </td>
+                                        
+                                             <td><p>{{order.date}}</p></td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="review uk-width-1-1 uk-margin-remove-top" id="review">
+                                <h4 class="title uk-heading-bullet ">รีวิวของฉัน</h4>
+                                   <hr class="divide  " style="margin-top: -47px;">
+                                   {% if out|length <= 0 %}
+                                        <div uk-alert style="">
+                                            <!-- <a class="uk-alert-close" uk-close></a> -->
+                                            <h4 class="uk-margin-remove">คุณยังไม่ได้รีวิว</h4>
+                                         
+                                        </div>
+                                   {% endif %}
+                                {% for review,rate,picture in out reversed %}
+                                    
+                                    
+                                    <div class="uk-card uk-card-default uk-card-body uk-margin ">
+                                        <article class="uk-comment">
+                                            <header class="uk-comment-header uk-grid-medium uk-flex-middle " uk-grid>
+                                                <div class="uk-width-auto">
+                                                    <img class="uk-comment-avatar " src="../{{picture}}" style="object-fit: cover;" alt="">
+                                                </div>
+                                                <div class="uk-width-expand">
+                                                    <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
+                                                    
+                                                    <a href=" "></a>
+                                                    <div class="uk-margin-remove-top">
+                                                        {% for value in rate.rating_color|times %}
+                                                            <i class="fa fa-star star-color"> </i>
+                                                        {% endfor %}
+                                                        {% for value in rate.rating_no_color|times %}
+                                                            <i class="fa fa-star"> </i>
+                                                        {% endfor %}
+                                                    {{rate.rating_color}}</div>
+                                                    </h4>
+                                                    <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{review.store}}</b></a></h4>
+                                                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                        <li><a href="#">{{review.created_at | timesince }}</a></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </header>
+                                            <div class="uk-comment-body">
+                                                <p class="comment"> {{review.comment}}!</p>
+                                            </div>
+                                        </article>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="love uk-width-1-1 uk-margin-remove-top" id="love">
+                                <h4 class="title uk-heading-bullet">ร้านอาหารโปรด</h4>
+                                   <hr class="divide">
+                                <table class="uk-table uk-table-hover uk-table-divider">
+                                     {% if love_list|length <= 0 %}
+                                        <div  uk-alert>
+                                            <!-- <a class="uk-alert-close" uk-close></a> -->
+                                            <h4 class="uk-margin-remove-top">ไม่มีร้านในรายการโปรด</h4>
+                                         
+                                        </div>
+                                   {% endif %}
+                                    <tbody>
+                                        {% for love in love_list %}
+                                            <tr>
+                                                
+                                                <td>
+                                                    <img class="" src="../{{love.img.url}}" style="width: 100px;height: auto;" />
+                                                    
+                                                </td>
+                                                
+                                                <td class="uk-text-middle"><a href="/store/{{love.name}}">{{love.name}}</a></td>
+                                                
+                                                
+                                            </tr>
+                                            
+                                        {% endfor %}
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                             <div class="add uk-width-1-1 uk-margin-remove-top" id="add">
+                                  <h4 class="title uk-heading-bullet">เพิ่มร้านค้า</h4>
+                                   <!-- <hr class="divide"> -->
+
+                                   dgdfgdfg
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="profile-mobile ">
+            <br>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body uk-margin-remove">
+                    <h2 class="uk-heading-bullet" style="color: black">บัญชีของฉัน</h2>
+                    <div uk-grid>
+                        <div class="uk-width-1-3@m uk-text-center">
+                            <div class="uk-margin-top">
+                                <ul class="uk-nav-primary uk-list-divider uk-text-left icon" uk-nav>
+                                    <li class="uk-parent">
+                                        <a class="uk-link-reset icon-click " href=""> ข้อมูลส่วนตัว
+                                        <i class="fa fa-angle-left " style="float: right"></i></a>
+                                        <ul class="uk-nav-sub">
+                                            <li>
+                                                
+                                                <form method="post" enctype='multipart/form-data'>
+                                                    {% csrf_token %}
+                                                    <table class="uk-table ">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <label class="uk-align-right">อีเมล</label>
+                                                                </td>
+                                                                <td>{{person.email}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label class="uk-align-right" for="">ชื่อผู้ใช้ </label>
+                                                                </td>
+                                                                <td> {{form.name|add_class:"uk-input"}} {% if form.errors.username %}
+                                                                    <p style="margin-bottom: 10px">{{ form.errors.username }}
+                                                                    <br> </p>
+                                                                {% else %}
+                                                                <br> {% endif %}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label class="uk-align-right">ภาพโปรไฟล์</label>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="imgCrop">
+                                                                        <div> <img src=" ../{{person.picture.url}}" style="width: 150px;height: 140px;" class="inImg" /></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label class="uk-align-right">เลือกรูปภาพโปรไฟล์ </label>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="" uk-margin>
+                                                                        <div uk-form-custom="target: true">
+                                                                            {{form.image|add_class:"uk-input"}}
+                                                                            <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label class="uk-align-right" for="">เบอร์โทรศัพท์ </label>
+                                                                </td>
+                                                                <td>{{form.phone|add_class:"uk-input"}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label class="uk-align-right" for="">ที่อยู่ปัจจุบัน </label>
+                                                                </td>
+                                                                <td>{{form.address|add_class:"uk-input"}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> </td>
+                                                                <td>
+                                                                    <button style="color: white;" class="uk-button uk-width-1-1@s uk-margin-remove-bottom" type="submit">
+                                                                    <h2>อัพเดท</h2></button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                            </li>
+                                            
+                                        </ul>
+                                    </li>
+                                    <li class="uk-parent ">
+                                        <a class="uk-link-reset icon-click " href=""> ร้านอาหารโปรด
+                                        <i class="fa fa-angle-left " style="float: right"></i></a>
+                                        <ul class="uk-nav-sub">
+                                        {% if love_list|length <= 0 %}
+                                        <div  uk-alert>
+                                            <!-- <a class="uk-alert-close" uk-close></a> -->
+                                            <h4 class="uk-margin-remove-top">ไม่มีร้านในรายการโปรด</h4>
+                                         
+                                        </div>
+                                   {% endif %}
+                                            <table class="uk-table uk-table-hover uk-table-divider">
+                                                
+                                                <tbody>
+                                                    {% for love in love_list %}
+                                                        <tr>
+                                                            
+                                                            <td>
+                                                                <img class="" src="../{{love.img.url}}" style="width: 100px;height: auto;" />
+                                                                
+                                                            </td>
+                                                            
+                                                            <td class="uk-text-middle"><a href="{% url 'shop' string='{{love.name}}' %}">{{love.name}}</a></td>
+                                                            
+                                                            
+                                                        </tr>
+                                                        
+                                                    {% endfor %}
+                                                    
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </ul>
+                                    </li>
+                                    <li class="uk-parent ">
+                                        <a class="uk-link-reset icon-click " href=""> รีวิวของฉัน
+                                        <i class="fa fa-angle-left " style="float: right"></i></a>
+                                        <ul class="uk-nav-sub">
+                                        {% if out|length <= 0 %}
+                                        <div  uk-alert>
+                                            <!-- <a class="uk-alert-close" uk-close></a> -->
+                                            <h4 class="uk-margin-remove-top">คุณยังไม่ได้รีวิว</h4>
+                                         
+                                        </div>
+                                   {% endif %}
+                                            {% for review,rate,picture in mobile_out reversed %}
+                                    
+                                       <li>
+                                    <div class="uk-card uk-card-default uk-card-body uk-margin ">
+                                        <article class="uk-comment">
+                                            <header class="uk-comment-header uk-grid-medium uk-flex-middle " uk-grid>
+                                                <div class="uk-width-auto">
+                                                    <img class="uk-comment-avatar " src="../{{picture}}" style="object-fit: cover;" alt="">
+                                                </div>
+                                                <div class="uk-width-expand">
+                                                    <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
+                                                    
+                                                    <a href=" "></a>
+                                                    <div class="uk-margin-remove-top">
+                                                        {% for value in rate.rating_color|times %}
+                                                            <i class="fa fa-star star-color"> </i>
+                                                        {% endfor %}
+                                                        {% for value in rate.rating_no_color|times %}
+                                                            <i class="fa fa-star"> </i>
+                                                        {% endfor %}
+                                                    {{rate.rating_color}}</div>
+                                                    </h4>
+                                                    <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{review.store}}</b></a></h4>
+                                                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                        <li><a href="#">{{review.created_at | timesince }}</a></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </header>
+                                            <div class="uk-comment-body">
+                                                <p class="comment"> {{review.comment}}!</p>
+                                            </div>
+                                        </article>
+                                    </div>
+                                {% endfor %}
+                                           </li>
+                                           
+                                        </ul>
+                                    </li>
+                                    
+                                    <li class="uk-parent ">
+                                        <a class="uk-link-reset icon-click" href=""> ออเดอร์ของฉัน
+                                        <i class="fa fa-angle-left " style="float: right"></i></a>
+                                        
+                                        <ul class="uk-nav-sub">
+                                            <li><a href="#">Sub item</a></li>
+                                            <li><a href="#">Sub item</a></li>
+                                            <li><a href="#">Sub item</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="uk-parent ">
+                                        <a class="uk-link-reset icon-click" href=""> ประวัติความหิว
+                                        <i class="fa fa-angle-left " style="float: right"></i></a>
+                                        <ul class="uk-nav-sub">
+                                            <li><a href="#">Sub item</a></li>
+                                            <li><a href="#">Sub item</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li>
+                                        <a class="uk-link-reset " href="{% url 'logout' %}"> ออกจากระบบ
+                                        <i class="fa  fa-sign-out " style="float: right"></i></a>
+                                        
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <script type="text/javascript">
+            $("#love").hide();
+            $("#order").hide();
+            $("#review").hide();
+            $("#about").show();
+            $("#add").hide();
+            $(".click-about").addClass( "active" );
+            $(".click-love").removeClass("active");
+            $(".click-review").removeClass("active");
+            $(".click-order").removeClass("active");
+            $(".click-add").removeClass("active");
+
+    $(document).ready(function() {
+        $('.icon-click').click(function() {
+        $("i", this).toggleClass("fa-angle-left fa-angle-down");
+        });
+
+       
+        $(".click-about").click(function(){
+            $("#love").hide();
+            $("#order").hide();
+            $("#review").hide();
+            $("#about").show();
+            $("#add").hide();
+            
+            $(".click-about").addClass( "active" );
+            $(".click-love").removeClass("active");
+            $(".click-review").removeClass("active");
+            $(".click-order").removeClass("active");
+             $(".click-add").removeClass("active");
+
+        });
+
+        $(".click-love").click(function(){
+            $("#love").show();
+            $("#order").hide();
+            $("#review").hide();
+            $("#about").hide();
+            $("#add").hide();
+            $(".click-love").addClass( "active" );
+            $(".click-about").removeClass("active");
+            $(".click-review").removeClass("active");
+            $(".click-order").removeClass("active");
+             $(".click-add").removeClass("active");
+
+        });
+
+        $(".click-order").click(function(){
+            $("#love").hide();
+            $("#order").show();
+            $("#review").hide();
+            $("#about").hide();
+            $("#add").hide();
+            $(".click-order").addClass( "active" );
+            $(".click-about").removeClass("active");
+            $(".click-review").removeClass("active");
+            $(".click-love").removeClass("active");
+             $(".click-add").removeClass("active");
+
+        });
+
+        $(".click-review").click(function(){
+            $("#love").hide();
+            $("#order").hide();
+            $("#review").show();
+            $("#about").hide();
+             $("#add").hide();
+            $(".click-review").addClass( "active" );
+            $(".click-about").removeClass("active");
+            $(".click-order").removeClass("active");
+            $(".click-love").removeClass("active");
+             $(".click-add").removeClass("active");
+
+        });
+
+        $(".click-add").click(function(){
+            $("#add").show();
+            $("#love").hide();
+            $("#order").hide();
+            $("#review").hide();
+            $("#about").hide();
+            $(".click-add").addClass( "active" );
+            $(".click-about").removeClass("active");
+            $(".click-order").removeClass("active");
+            $(".click-love").removeClass("active");
+             $(".click-review").removeClass("active");
+
+        });
+
+    });
+    </script>
+{% endblock %}

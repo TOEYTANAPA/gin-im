@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}กินด้วย{% endblock %}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+
+        <script type='text/javascript' src="{% static 'js/PureSlider.min.js' %}"></script>
+
+        <script type='text/javascript' src="{% static 'js/hammer.min.js' %}"></script>
+        <script type='text/javascript' src="{% static 'js/jquery.flexisel.js' %}"></script>
+        <script type='text/javascript' src="{% static 'js/js_uikit/uikit.js' %}"></script>
+        <script type='text/javascript' src="{% static 'js/js_uikit/uikit.min.js' %}"></script>
+        <script type='text/javascript' src="{% static 'js/js_uikit/uikit-icons.js' %}"></script>
+        <script type='text/javascript' src="{% static 'js/js_uikit/uikit-icons.min.js' %}"></script>
+        <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.27/js/uikit.min.js"></script>
+        <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.27/js/uikit-icons.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- carousial -->
+        <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
+        <script src="{% static 'js/jquery.carouFredSel-6.0.4-packed.js' %}" type="text/javascript"></script>
+
+
+            <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css'>
+            <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link href='//fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='texts'>
+
+            <link href="{% static 'css/css_uikit/uikit.css' %}" rel="stylesheet">
+            <link href="{% static 'css/css_uikit/uikit.min.css' %}" rel="stylesheet">
+            <link href="{% static 'css/css_home/style.css' %}" rel="stylesheet">
+            <link href="{% static 'css/css_home/responsive.css' %}" rel="stylesheet">
+            <!-- <link href="{% static 'css/css_home/base.css' %}" rel="stylesheet"> -->
+            <link href="{% static 'css/css_home/pure_slide.min.css' %}" rel="stylesheet">
+
+            <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+            <link href="{% static 'css/style.css' %}" rel="stylesheet">
+            <!-- <link href="{% static 'css/style2.css' %}" rel="stylesheet"> -->
+            <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+            <link href="{% static 'css/easy-responsive-tabs.css' %}" rel="stylesheet">
+            <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+            <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
+            <link href='https://fonts.googleapis.com/css?family=Neucha' rel='stylesheet' type='text/css'>
+            <link href="https://fonts.googleapis.com/css?family=Kanit:300" rel="stylesheet">
+
+        </head>
+        <body>
+
+            <style>
+
+
+        .agile-login {
+            float: right;
+            width: 40%;
+            text-align: center;
+            padding: 9px 0;
+        }
+
+        .agile-login ul li {
+            display: inline-block;
+            padding: 0em 1em;
+        }
+
+        .agile-login ul li a {
+            font-size: 1em;
+            text-transform: capitalize;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .agileits_header {
+            padding: 12px 0 8px;
+        }
+
+        .agileits_header {
+            background: white;
+            padding: 12px 0;
+        }
+
+        .product_list_header {
+            float: right;
+        }
+
+        .navigation {
+            /*background: #1e1e1e;*/
+            text-align: center;
+        }
+
+        .navbar .navbar-nav {
+            display: inline-block;
+            float: none;
+            vertical-align: top;
+        }
+
+        .item.container {
+            margin: 0 auto;
+            max-width: 1280px;
+            width: 70%;
+        }
+        /*@media only screen and (min-width: 601px) .item.container {
+                width: 85%;
+                }
+                @media only screen and (min-width: 993px) .item.container {
+                width: 70%;
+                }
+                */
+        /*
+                .navbar .navbar-collapse {
+                text-align: center;
+                }*/
+
+
+        .social-contact {}
+
+        .social-contact ul {
+            list-style: none;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .social-contact ul li {
+            text-align: center;
+            padding: 20px 10px;
+            display: inline;
+        }
+
+        .social-contact ul li a {
+            color: #191919;
+            transition: .2s all ease-in-out;
+        }
+
+
+        .social-contact ul li a:hover {
+            color: #fe9126;
+        }
+            /*--flexisel--*/
+            .flex-slider{
+            background:#222227;
+            padding: 70px 0 165px 0;
+            }
+            .opportunity{
+            background:#28282e;
+            margin:0px 20px;
+            padding:80px 0;
+            position:relative;
+            }
+            #flexiselDemo1 {
+            display: none;
+            }
+            .nbs-flexisel-container {
+            position: relative;
+            max-width: 100%;
+            }
+            .nbs-flexisel-ul {
+            position: relative;
+            width: 9999px;
+            margin: 0px;
+            padding: 0px;
+            list-style-type: none;
+            text-align: center;
+            }
+            .nbs-flexisel-inner {
+            overflow: hidden;
+            margin: 0px auto;
+            padding-top:80px;
+            }
+            .nbs-flexisel-item {
+            float: left;
+            margin: 0;
+            padding: 0px;
+            cursor: pointer;
+            position: relative;
+            line-height: 0px;
+            }
+            .nbs-flexisel-item > img {
+            cursor: pointer;
+            position: relative;
+            }
+            /*---- Nav ---*/
+            .nbs-flexisel-nav-left, .nbs-flexisel-nav-right {
+            width:60px;
+            height:115px;
+            position: absolute;
+            cursor: pointer;
+            z-index: 100;
+            }
+            .nbs-flexisel-nav-left {
+            left: -4%;
+            top: 15% !important;
+            }
+            .nbs-flexisel-nav-right {
+            right: -4%;
+            top: 15% !important;
+            }
+            /*--//flexisel--*/
+            h1,h2,h3,h4,h5,p,a,li,a,span,button,label,b{
+            font-family: 'Kanit', sans-serif;
+            }
+            
+            body{
+        font-size: 150%;
+        }
+        
+       
+
+        p,a,ul li a,li{
+        font-size: 1.0em;
+        }
+
+
+         .textBreadCrum{
+            font-size: 0.9em;
+        }
+
+         #text-tab{
+            font-size: 1.5em; 
+    }
+       
+        h1, h1 a { font-size: 2.0em; }
+        h2,h2 a { font-size: 1.5em; }
+        h3 ,h3 a { font-size: 1.17em; }
+        h4{ font-size: 1.12em; }
+        h4 a{
+            font-size: 1.30em;
+        }
+        h5 { font-size: 0.83em; }
+        h6 { font-size: 0.75em; }
+
+            .banner-new{
+            background: url('{% static "images/menu.jpg" %}') no-repeat 0px 0px;
+            background-size: cover;
+            /*background-attachment: fixed;*/
+            }
+            .agileinfo-dot{
+            background: url('{% static "images/dott.png" %}')repeat 0px 0px;
+            background-size: 2px;
+            -webkit-background-size: 2px;
+            -moz-background-size: 2px;
+            -o-background-size: 2px;
+            -ms-background-size: 2px;
+            padding: 1em 0;
+            }
+            .jarallax {
+            position: relative;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            }
+            .container{
+            width: 70%;
+            }
+            .imgCrop{
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position:  relative;
+            }
+            .imgCrop-search{
+
+            width: 100%;
+            height: 130px;
+            overflow: hidden;
+            position:  relative;
+            }
+            .inImg-search{
+             position: absolute;
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            }
+            .inImg{
+            position: absolute;
+
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            }
+            button{
+               background-color:#FFBF00;
+               color: white;
+               border-color: #FFBF00;
+               }
+           
+            
+                img.bg {
+                  /* Set rules to fill background */
+                  min-height: 100%;
+                  min-width: 1024px;
+                    
+                  /* Set up proportionate scaling */
+                  width: 100%;
+                  height: auto;
+                    
+                  /* Set up positioning */
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                }
+
+                .img-logo{
+                     width:70%; 
+                     height:auto;
+                     margin-top: 20px;
+                }
+
+                 /* Extra small devices (phones, less than 768px) */
+        @media (max-width: 479px) {
+              .container{
+                width: 98%;
+            }
+             img.bg {
+            left: 50%;
+            margin-left: -512px;   /* 50% */
+          }
+            .img-logo{
+                     width:50%; 
+                     height:auto;
+                    
+                }
+             
+
+        }
+        @media (min-width: 480px) and (max-width: 767px) {
+              .container{
+                width: 98%;
+            }
+             img.bg {
+            left: 50%;
+            margin-left: -512px;   /* 50% */
+          }
+           .img-logo{
+                     width:50%; 
+                     height:auto;
+                    
+                }
+             
+             
+        }
+        /* Small devices (tablets, 768px and up) */
+        @media (min-width: 768px) and (max-width: 992px) {
+              .container{
+                width: 95%;
+            }
+             img.bg {
+            left: 50%;
+            margin-left: -512px;   /* 50% */
+          }
+
+           .img-logo{
+                     width:30%; 
+                     height:auto;
+                    
+                }
+             
+               
+        }
+        
+        /* Medium devices (desktops, 992px and up) */
+        @media (min-width: 993px) and (max-width: 1200px) {
+            img.bg {
+            left: 50%;
+            margin-left: -512px;   /* 50% */
+          }
+        
+        
+        }
+        /* Large devices (large desktops, 1200px and up) */
+        @media (min-width: 1201px) {
+        
+        
+        }
+            </style>
+            <main>
+<!-- banner -->
+
+                {% block content %} {% endblock %}
+            </main>
+        </body>
+    </html>

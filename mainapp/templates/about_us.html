@@ -1,0 +1,59 @@
+{% extends 'base.html' %} {% load static %}{% load widget_tweaks %}
+{% block content %}
+  <style>
+  
+  .container{
+  width: 80%;
+  }
+  /* body,html{
+  background-color: #EEEEEE;
+  }
+  */
+  input[type=text],input[type=password],input[type=email]{
+  background-color: #FAFFBD;
+  }
+  .uk-button-default:hover{
+  background-color: #FFBF00;
+  color: white;
+  }
+  .uk-button-default{
+  color: #FFBF00;
+  }
+  .inImg{
+  position: absolute;
+  
+  width: 100%;
+  height: 90%;
+  object-fit: cover;
+  }
+  .imgCrop{
+  width: 100%;
+  height: 90%;
+  overflow: hidden;
+  position:  relative;
+  }
+  </style>
+  <div class="container ">
+    <br>
+    <div class="" >
+      <br>
+      <h2 class=" uk-margin-remove-bottom " style="color: black">เกี่ยวกับ<b style="color: #FFD200">กินอิ่ม </b></h2>
+      
+      <div uk-grid>
+        <div class="uk-width-1-2@m ">
+          
+          <br>
+        </div>
+        <div class="uk-width-1-2@m ">
+          <div class="imgCrop" >
+          <img class="uk-align-center uk-margin-medium-top " src="../../static/images/brain.jpg" style="width:100%; height:90%"" alt="">
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <br>
+</div>
+{% endblock %}

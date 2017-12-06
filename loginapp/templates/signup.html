@@ -1,0 +1,99 @@
+{% extends 'base2.html' %} {% load static %}{% load widget_tweaks %} {% block content %}
+<style>
+
+
+
+
+.errorlist {
+    color: #EF5350;
+}
+
+input[type=text],
+input[type=password],
+input[type=email] {
+    background-color: #FAFFBD;
+}
+
+.uk-button-default:hover {
+    background-color: #FFBF00;
+    color: white;
+}
+
+.uk-button-default {
+    color: #FFBF00;
+}
+</style>
+<img class="bg"  src="{% static "images/loginbg.jpeg"%}">
+<div class="container ">
+  <br>
+    <div class="uk-card uk-card-default">
+      <br>
+        <h2 class="uk-text-center uk-margin-remove-bottom " style="color: black">สมัครบัญชี<b style="color: #FFD200"> กินอิ่ม </b>ของคุณ</h2>
+     
+            <div class="uk-child-width-1-2@m  uk-child-width-1-1@s uk-padding " uk-grid>
+              
+                <div >
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <fieldset class="uk-fieldset ">
+                            <div>
+                                <label class="uk-margin-top " for=" ">Username</label>
+                                {{form.username|add_class:"uk-input "}}
+                            </div>
+                            {% if form.errors.username %}
+                            <p style="margin-bottom: 10px ">{{ form.errors.username }}
+                                <br> </p>
+                            {% else %}
+                            <br> {% endif %}
+                            <div>
+                                <label class=" uk-text-left " for=" ">Email</label>
+                                {{form.email|add_class:"uk-input "}}
+                            </div>
+                            {% if form.errors.email %}
+                            <p>{{ form.errors.email }}
+                                <br> </p>
+                            {% else %}
+                            <br> {% endif %}
+                            <div>
+                                <label class=" " for=" ">Password</label>
+                                {{form.password1|add_class:"uk-input "}}
+                            </div>
+                            <br>
+                            <div>
+                                <label for=" ">{{form.password2.label}} </label>
+                                {{form.password2|add_class:"uk-input "}}
+                            </div>
+                            {% if form.errors.password2 %}
+                            <p> {{ form.errors.password2 }}
+                                <br> </p>
+                            {% else %}
+                            <br> {% endif %}
+                            <label for=" ">Profile picture</label>
+                            <div class=" " uk-margin>
+                                <div uk-form-custom="target: true ">
+                                    {{form.image|add_class:"uk-input "}}
+                                    <input class="uk-input uk-form-width-medium" type="text" name="image" placeholder="Select file " disabled>
+                                </div>
+                            </div>
+                            <button style="color: white; " class="uk-width-1-1@s uk-width-1-3@m uk-button uk-align-center uk-margin-remove-bottom " type="submit ">
+                                <h2 class="uk-margin-small-top">Sign up</h2></button>
+                        </fieldset>
+                    </form>
+                </div>
+
+                  <div>
+                    <img class="img-logo uk-margin" src="../../static/images/logo3.png" >
+                    <h4>สมัครบัญชีผู้ใช้ของคุณ</h4>
+                    <p>เพื่อค้นหาร้านอาหารบริเวณมหาวิทยาลัยธรรมคาสตร์</p>
+                    <p>สามารถดูรายการอาหารได้โดยไม่ต้องไปถึงหน้าร้าน</p>
+                    <br>
+                    <h4 style="color: #EF5B2B ">สิทธิพิเศษสำหรับสมาชิก</h4>
+                    <p> 1. สามารถสั่งอาหารผ่านทางเว็บไซต์ได้</p>
+                    <p> 2. โปรโมชั่นเพิ่มเติมจากร้านค้าที่ร่วมรายการ</p>
+                </div>
+            </div>
+        
+    </div>
+
+</div>
+{% endblock %}

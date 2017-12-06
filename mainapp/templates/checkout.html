@@ -1,0 +1,156 @@
+{% extends 'base.html' %}{% load static %} {% block content %}
+    <style>
+    .banner-new {
+    background: url('{% static "images/fork.jpg" %}') no-repeat 0px 0px;
+    background-size: cover;
+    /*background-attachment: fixed;*/
+    
+    }
+
+    /*  .center {
+    text-align: center;
+    }
+    .merge-bottom-input {
+    width: 67px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    }
+    .merge-top-left-button {
+    border-top-left-radius: 0;
+    }
+    .merge-top-right-button {
+    border-top-right-radius: 0;
+    }*/
+    .imgCrop-desktop{
+    width: 150px;
+    height:100px;
+    overflow: hidden;
+    position:  relative;
+    }
+    .inImg-desktop{
+    position: absolute;
+    
+    width: 150px;
+    height:100px;
+    object-fit: cover;
+    }
+
+    .imgCrop-mobile{
+    width: 100px;
+    height:90px;
+    overflow: hidden;
+    position:  relative;
+    }
+    .inImg-mobile{
+    position: absolute;
+    
+    width: 130px;
+    height:90px;
+    object-fit: cover;
+    }
+
+    
+    </style>
+    <!-- banner -->
+    
+    <!-- end banner -->
+    <!-- <br>     -->
+    <hr class="uk-box-shadow-medium "> {% csrf_token %}
+    <div class="container uk-margin-medium-top" id="home">
+        <div class=" uk-margin-medium-bottom">
+            
+               <h2 class="uk-heading-bullet">ตรวจสอบรายการ</h2>
+            <hr>
+            <table class="uk-table uk-table-divider uk-margin-remove-bottom  ">
+                
+                <tbody>
+                    {% for order in output %}
+                        
+                        <tr>
+                            <td class="uk-width-small"  >
+                            <div class="image-desktop">
+                                 <div class="imgCrop-desktop"><img src="../{{order.url_pic}}" class="inImg-desktop" alt="" ></div>
+                            </div>
+                            <div class="image-mobile">
+                                 <div class="imgCrop-mobile"><img src="../{{order.url_pic}}" class="inImg-mobile" alt="" ></div>
+                            </div>
+                               
+                                
+                            </td>
+                            <td class="uk-width-small"> <h4>{{order.amount}} x {{order.name}}</h4></td>
+                            <td class="uk-width-small">  <h4> {{order.price}} บาท</h4></td>
+                        </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+            <hr>
+            <table class="uk-table" style="margin-top: -20px">
+                
+                <tbody class=" uk-margin-remove-top ">
+                    
+                    
+                    <tr style="font-weight: bold;color: black">
+                        <td class="uk-width-small ">   <h3 >รวม</h3></td>
+                        <td class="uk-width-small"> </td>
+                        <td class="uk-width-small">  <h3> {{total}} บาท</h3></td>
+                        
+                    </tr>
+                    
+                    
+                </tbody>
+            </table>
+             <h2 class="uk-heading-bullet">ที่อยู่จัดส่ง</h2>
+
+              <div class="uk-margin">
+            <textarea id="myTextarea" class="uk-textarea" rows="5" placeholder="{{delivery_address}}"></textarea>
+        </div>
+                <button  class="uk-margin-top uk-button uk-align-center" id="order" style="color: white;"><h1 class="uk-margin-small-top">ยืนยันการสั่งซื้อ</h1></button>
+         
+        </div>
+        
+    </div>
+{% block javascript %}
+  <script type="text/javascript"> 
+        $(document).ready(function(){
+
+            $("#order").click(function() {
+              
+                  
+                var address =  document.getElementById("myTextarea").value;
+                if (!address){
+                   address=  document.getElementById("myTextarea").placeholder;
+                }
+                console.log(address);
+                var data = JSON.stringify({{output|safe}});
+                var data2= JSON.stringify(address);
+               
+                $.ajax({
+                    url: '/delivery/',
+                    type: 'GET',
+                    data: {'data':data,'address':data2,
+                        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+                    },
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(data) {
+              
+                      var a = "{% url 'success' order_id=112233 %}".replace("112233", data.order_id);
+                      window.location.href = a;
+                    
+                    },
+                    error: function(data) {
+                        alert("การสั่งซื้อผิดพลาด กรุณาลองใหม่ภายหลัง");
+                    }
+                });
+    });
+            
+
+
+        });
+    </script>
+
+
+{% endblock %}
+  
+{% endblock %}

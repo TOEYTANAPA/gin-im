@@ -1,0 +1,464 @@
+{% extends 'base.html' %}{% load static %} {% block content %} {% load my_filter_range %}
+<style type="text/css">
+
+
+
+body a:hover {
+    text-decoration: none;
+}
+
+body a:focus,
+a:hover {
+    text-decoration: none;
+}
+
+input[type="button"],
+input[type="submit"] {
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+}
+
+
+
+
+
+
+
+/*search*/
+
+#custom-search-input {
+    margin-left: 25%;
+    /*padding: 3px;*/
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+    width: 50%;
+}
+
+#custom-search-input input {
+    border: 0;
+    box-shadow: none;
+    height: 40%
+}
+
+#custom-search-input button {
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover {
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search {
+    font-size: 23px;
+}
+
+.circular-square {
+    border-radius: 50%;
+    width: 20%;
+    height: 20%;
+    /*background-image: url('http://strawberry-fest.org/wp-content/uploads/2012/01/Coca-Cola-logo.jpg');*/
+    background-size: cover;
+    display: block;
+    box-shadow: 0 0 0 5px #f66;
+}
+
+
+.holder {
+    /*position: absolute;*/
+}
+
+img.user {
+    height: 150px;
+    width: 150px;
+    background-color: #f66;
+    /*box-shadow: 0 0 0 1px #f66;*/
+    border-radius: 50%;
+}
+
+
+.item {
+    position: relative;
+
+    margin: 2%;
+    overflow: hidden;
+}
+
+.item img {
+    max-width: 100%;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.item:hover img {
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.text-on-pic {
+    font-size: 18px;
+    color: white;
+}
+
+
+
+
+/*search*/
+</style>
+<!-- banner -->
+
+<hr class="uk-box-shadow-medium ">
+    <div class="banner-img">
+        <div class="ps-slider uk-margin-remove-button " id="slider2" >
+            <div class="ps-slides " id="slides2">
+               
+                 <div  id="slide1" class="ps-slide " data-slide-laps="4" 
+                style="background-image: url('{% static "images/banner3.jpg" %}'); width: 100%; height:auto;"></div>
+                <div id="slide2" class="ps-slide " data-slide-laps="4" 
+                style="background-image: url('{% static "images/banner1.jpg" %}');"></div>
+                 <div id="slide3" class="ps-slide " data-slide-laps="4" 
+                style="background-image: url('{% static "images/banner2.jpg" %}');"></div>
+              
+              
+            </div>
+        </div>    
+    </div>
+
+<script>
+    var ps = new PureSlider(
+            {
+                autoplay: true,
+                showNav: true, showBtn:true,
+                direction: 'forward',
+                laps: 2000,
+                onBeforeStartCb: function (ps) {
+                    //console.log('start');
+                },
+                onBeforeSlideChangeCb: function (ps) {
+                    //console.log('before slide change');
+                },
+                onAfterSlideChangeCb: function (ps) {
+                    //console.log('after slide change');
+                    //console.log(ps.vars.currentSlide);
+                },
+                onBeforeStopCb: function (ps) {
+                    //console.log(ps.vars.interval);
+                },
+                onAfterStopCb: function (ps) {
+                    //console.log(ps.vars.interval);
+                }
+            }
+            );
+    ps.init(document.querySelector('#slider2'));
+</script>
+
+<!-- end banner -->
+<div class="container uk-margin-remove-top" id="home" style="margin-top: -50px;">
+
+    <!-- <img class="circular-square" src="{% static "images/steak2.jpg" %}" /> -->
+    <div class="uk-section uk-section-default ">
+    
+    <h1 class="uk-heading-bullet">ค้นหาอย่างรวดเร็ว</h1>
+        <!-- <h3 class="uk-text-center"> <img src="{% static "images/find_banner.png" %}" /></h3> -->
+      <!--   <p>ค้นหาร้านค้ากว่า 800 ร้าน</p> -->
+        <ul class="uk-subnav uk-subnav-divider" >
+            <li><a href="{% url 'search_cate' cate='Delivery'  %}"  style="font-size: 15px; font-family: 'Kanit', sans-serif;">Delivery</a></li>
+            <li ><a href="{% url 'search_cate' cate='all' %}"  style="font-size: 15px; font-family: 'Kanit', sans-serif;">ค้นหาทั้งหมด</a> </li>
+           
+        </ul>
+  
+        <div class="search-cate-desktop uk-grid-collapse uk-child-width-1-4@m  uk-child-width-1-4@s" uk-grid>
+            
+            <div>
+                <a href="{% url 'search_cate' cate='สเต็ก' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/steak.jpg" %}" style="  " />
+                        <div class="uk-position-center">
+                            <p class="text-on-pic">สเต็ก</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='ปิ้งย่าง' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/grill.jpg" %}" class="" />
+                        <div class="text-on-pic  uk-position-center">
+                            <p>ปิ้งย่าง</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='ชาบู' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/shabu.jpg" %}" class="" />
+                        <div class=" text-on-pic uk-position-center">
+                            <p>ชาบู</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='อาหารไทย' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/thai.jpg" %}" class="" />
+                        <div class="text-on-pic uk-position-center">
+                            <p>อาหารไทย</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='อาหารญี่ปุ่น' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/sushi.jpg" %}" class="" />
+                        <div class=" text-on-pic uk-position-center">
+                            <p>อาหารญี่ปุ่น</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='อาหารเกาหลี' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/korean.jpg" %}" class="" />
+                        <div class="text-on-pic uk-position-center">
+                            <p>อาหารเกาหลี</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='ของหวาน' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/bingso.jpg" %}" class="" />
+                        <div class="text-on-pic uk-position-center">
+                            <p>ของหวาน</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='เครื่องดื่ม' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/coffee.jpg" %}" class="" />
+                        <div class="text-on-pic uk-position-center">
+                            <p>เครื่องดื่ม</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+           
+        </div>
+      <!--   <div class="uk-margin uk-grid-match uk-child-width-1-4@m" uk-grid>
+            
+            
+          
+        </div> -->
+
+        <div class="search-cate-mobile">
+             <div>
+                <a href="{% url 'search_cate' cate='สเต็ก' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/steak.jpg" %}" style="  " />
+                        <div class="uk-position-center">
+                            <p class="text-on-pic">สเต็ก</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='ปิ้งย่าง' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/grill.jpg" %}" class="" />
+                        <div class="text-on-pic  uk-position-center">
+                            <p>ปิ้งย่าง</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='ชาบู' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/shabu.jpg" %}" class="" />
+                        <div class=" text-on-pic uk-position-center">
+                            <p>ชาบู</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='อาหารไทย' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/thai.jpg" %}" class="" />
+                        <div class="text-on-pic uk-position-center">
+                            <p>อาหารไทย</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='อาหารญี่ปุ่น' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/sushi.jpg" %}" class="" />
+                        <div class=" text-on-pic uk-position-center">
+                            <p>อาหารญี่ปุ่น</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='อาหารเกาหลี' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/korean.jpg" %}" class="" />
+                        <div class="text-on-pic uk-position-center">
+                            <p>อาหารเกาหลี</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='ของหวาน' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/bingso.jpg" %}" class="" />
+                        <div class="text-on-pic uk-position-center">
+                            <p>ของหวาน</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'search_cate' cate='เครื่องดื่ม' %}">
+                    <div class="uk-inline uk-light item">
+                        <img src="{% static "images/coffee.jpg" %}" class="" />
+                        <div class="text-on-pic uk-position-center">
+                            <p>เครื่องดื่ม</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+  
+       
+          
+     
+    
+    </div>
+
+    
+</div>
+<div class="uk-background-muted">
+ {% csrf_token %}
+    <div class="review-desktop">
+        <div class="container" id="home">
+            <h1 class="uk-heading-bullet">รีวิวล่าสุด</h1>
+             {% if out|length <= 0 %}
+                                <div  uk-alert>
+                                            <!-- <a class="uk-alert-close" uk-close></a> -->
+                                <h4 class="uk-margin-remove-top">อ่านรีวิวล่าสุด เร็ว ๆนี้</h4>
+                                         
+                            </div>
+            {% endif %}
+    {% for review,rate,picture in out reversed %} 
+       
+         
+               <div class="uk-card uk-card-default uk-card-body uk-margin"> 
+                   <article class="uk-comment">
+                    <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                               <img class="uk-comment-avatar " src="{{picture}}" style="object-fit: cover;" alt="">
+                        </div>
+                        <div class="uk-width-expand">
+                               <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
+                           
+                                <a href=" "></a>
+                                <div class="uk-margin-remove-top">  
+                                {% for value in rate.rating_color|times %}
+                                    <i class="fa fa-star star-color"> </i>
+                                {% endfor %}
+                                {% for value in rate.rating_no_color|times %}
+                                    <i class="fa fa-star"> </i>
+                                {% endfor %}
+                            {{rate.rating_color}}</div>
+                            </h4>
+                             <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{review.store}}</b></a></h4>
+                            <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                <li><a href="#">{{review.created_at | timesince }}</a></li>
+              
+                            </ul>
+                        </div>
+                    </header>
+                    <div class="uk-comment-body">
+                                     <p class="comment"> {{review.comment}}!</p>
+                    </div>
+                </article>  
+    <!-- <br> -->
+            </div>
+                {% endfor %}
+        </div>
+          
+          
+    </div>
+    <div class="review-mobile">
+            <br>
+            <h1 class="uk-heading-bullet uk-margin-remove-top">รีวิวล่าสุด</h1>
+
+                   {% for review,rate,picture in mobile_out reversed %} 
+       
+         
+               <div class="uk-card uk-card-default uk-card-body uk-margin">
+                   <article class="uk-comment">
+                    <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">   <img class="uk-comment-avatar " src="{{picture}}" style="object-fit: cover;" alt="">
+                        </div>
+                        <div class="uk-width-expand">
+                               <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
+                           
+                                <a href=" "></a>
+                                <div class="uk-margin-remove-top">  
+                                {% for value in rate.rating_color|times %}
+                                    <i class="fa fa-star star-color"> </i>
+                                {% endfor %}
+                                {% for value in rate.rating_no_color|times %}
+                                    <i class="fa fa-star"> </i>
+                                {% endfor %}
+                            {{rate.rating_color}}</div>
+                            </h4>
+                             <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{review.store}}</b></a></h4>
+                            <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                <li><a href="#">{{review.created_at | timesince }}</a></li>
+              
+                            </ul>
+                        </div>
+                    </header>
+                    <div class="uk-comment-body">
+                                     <p class="comment"> {{review.comment}}!</p>
+                    </div>
+                </article>
+            </div>
+              {% endfor %}
+        </div>
+          
+          
+
+         
+    </div>
+     
+    
+ </div>
+
+{% endblock %}
