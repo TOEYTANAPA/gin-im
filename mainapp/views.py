@@ -351,7 +351,7 @@ def searchAll(request):
 	return render(request, 'search_input.html',{'stores':stores_list,'category':cate})
 
 
-def outoforder(request):
+def outofstock(request):
     print("earn")
     store = StoreByUser.objects.get(user = request.user).store
     print(store)
@@ -369,7 +369,7 @@ def outoforder(request):
     #         store.likes.remove(user)
     #     else:
     #         store.likes.add(user)
-    return render(request, 'outoforder.html',{'menues':reversed(menulist),'store':store,})
+    return render(request, 'outofstock.html',{'menues':reversed(menulist),'store':store,})
 
 def collect_session(request,act,val):
 	if request.user.is_authenticated():

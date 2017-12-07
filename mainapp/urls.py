@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^order/?$',views.order, name='order'),
     url(r'^like/$', views.like_button, name='like_button'),
     url(r'^checkIsSell/$', views.checkIsSell, name='checkIsSell'),
-    url(r'^edit/store/$', views.outoforder, name='outoforder'),
+    url(r'^edit/store/$', views.outofstock, name='outofstock'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
