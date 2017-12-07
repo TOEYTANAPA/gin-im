@@ -436,19 +436,23 @@ input.cmn-toggle-round-flat:checked + label:after
                                 </div>
                                 <div  class="">
                       
-                                               <div uk-grid>
+               <div uk-grid>
     <div class="uk-width-1-2"> <p  >{{menu.name}}</p></div>
     <div class="uk-width-1-2">     
-   
+         {% if menu.isSell %}
         <div class="switch">
         <input id="{{menu.id}}" class="cmn-toggle cmn-toggle-round-flat" type="checkbox" checked="checked">
-        <label for="{{menu.id}}"></label>
-   
-
-        </div>
+        <label for="{{menu.id}}"></label> 
+    </div>
+    {% else %}
+      <div class="switch">
+        <input id="{{menu.id}}" class="cmn-toggle cmn-toggle-round-flat" type="checkbox" >
+        <label for="{{menu.id}}"></label> 
+    </div>
+       
+          {% endif %}
      </div>
-</div>
-                                    
+</div>                           
                                 
                                        <br>
                                        <br>
