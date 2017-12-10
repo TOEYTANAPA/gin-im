@@ -56,6 +56,7 @@ class Profile(models.Model):
 	phone_number = models.CharField(max_length=20)
 	address = models.CharField(max_length=1000,blank=True,null=True)
 	picture=models.FileField(upload_to="profilePicture/",default="")
+	person_type =  models.CharField(max_length=100,blank=True,null=True)
 
 class StoreByUser(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
@@ -81,7 +82,28 @@ class Anonymous_session(models.Model):
 	value = models.CharField(max_length=100,blank=True,null=True)
 	created_at = models.DateTimeField(auto_now_add=True,null=True,)
 
+class hungerHistory(models.Model):
+	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+	sex = models.CharField(max_length=10,blank=True,null=True)
+	age = models.CharField(max_length=10,blank=True,null=True)
+	salary = models.IntegerField(default=0)
+	created_at = models.DateTimeField(auto_now_add=True,null=True,)
 
+class userValueStore(models.Model):
+	store = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
+	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+	frequency = models.IntegerField(default=0)
+
+class userValueDelivery(models.Model):
+	store = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
+	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+	cumulative_purchase = models.IntegerField(default=0)
+
+class userValueStoreAndDelivery(models.Model):
+	store = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
+	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+	frequency = models.IntegerField(default=0)
+	cumulative_purchase = models.IntegerField(default=0)
 
 # class Review(models.Model):
 #     RATING_CHOICES = (
