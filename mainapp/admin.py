@@ -29,3 +29,23 @@ admin.site.register(Order, OrderAdmin)
 class StoreByUserAdmin(admin.ModelAdmin):
 	list_display=[f.name for f in StoreByUser._meta.fields]
 admin.site.register(StoreByUser, StoreByUserAdmin)
+
+class HungerHistoryAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in HungerHistory._meta.fields]
+admin.site.register(HungerHistory, HungerHistoryAdmin)
+
+class UserValueStoreAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in UserValueStore._meta.fields]
+admin.site.register(UserValueStore, UserValueStoreAdmin)
+
+class UserValueDeliveryAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in UserValueDelivery._meta.fields]
+admin.site.register(UserValueDelivery, UserValueDeliveryAdmin)
+
+class UserValueStoreAndDeliveryAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in UserValueStoreAndDelivery._meta.fields]
+admin.site.register(UserValueStoreAndDelivery, UserValueStoreAndDeliveryAdmin)
+
+class QMatrixAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in QMatrix._meta.fields]
+admin.site.register(QMatrix, QMatrixAdmin)
