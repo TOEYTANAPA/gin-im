@@ -110,6 +110,7 @@ class QMatrix(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
 	frequency = models.IntegerField(default=0)
 	amount = ArrayField(models.IntegerField(default=0), blank=True,null=True)
+	reward = ArrayField(models.IntegerField(default=0), blank=True,null=True)
 	
 
 
