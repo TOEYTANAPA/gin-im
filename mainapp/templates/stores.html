@@ -235,18 +235,15 @@
     </div>
     
 </div>
-
 </div>
 <br>
 <!--  <div class="uk-section uk-section-muted   uk-padding " > -->
 <div class="container menu-desktop" id="home">
-
 <ul class="uk-tab  uk-margin-remove-top" >
     <li class="uk-active " ><a href="#" id="text-tab"> เมนู </a></li>
     <li><a href="#review"  id="text-tab">รีวิว</a></li>
     
 </ul>
-
 <br>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -293,7 +290,6 @@
                                     
                                     
                                 </div>
-
                             {% endif %}
                             
                         </div>
@@ -398,7 +394,6 @@
     {% endif %}
     <br>
 </div>
-
 <div id="modal-sections"  uk-modal>
     <div class="uk-modal-dialog" style="width: 400px">
         <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -437,6 +432,16 @@
         </div>
     </div>
 </div>
+<form class="checkout-form" name="checkoutForm" method="POST" action="/checkout">
+    <script type="text/javascript" src="https://cdn.omise.co/omise.js"
+    data-key="YOUR_PUCLIC_KEY"
+    data-frame-label="Merchant site name"
+    data-frame-description="Merchant site description"
+    data-amount="10025"
+    data-currency="thb">
+    </script>
+</form>
+<script src="https://cdn.omise.co/omise.js.gz"></script>
 <div class="container"  id="home">
     <ul class="uk-tab uk-margin-top " uk-margin>
         <li class="uk-active" ><a href="#" id="text-tab">รีวิว</a></li>
@@ -529,9 +534,7 @@
     </div>
     
 </div>
-
 <!-- </div> -->
-
 <script>
 function initMap() {}
 $(document).ready(function(){
@@ -565,17 +568,12 @@ btn.closest('.number-spinner').find('input').val(newVal);
 });
 });
 $(document).ready(function(){
-
 // alert("earn");
 $(".like").on("click", function() {
-
 var pk = $(this).attr('name');
 var love_btn = $(this);
 var id = $(this).attr('id');
-
 love_btn.toggleClass("pop");
-
-
 $.ajax({
 type: "POST",
 url: "{% url 'like_button' %}",
@@ -583,7 +581,6 @@ data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
 dataType: "json",
 success: function(response) {
 love_btn.html(" "+response.likes_count+" อยากกิน");
-
 }
 });
 });
