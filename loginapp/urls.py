@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^oauth/', include('social_django.urls', namespace='social')),  # <--
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^settings/$', views.profile, name="profile"),
+    url(r'^password/$', views.change_password, name='change_password'),
+    # url(r'^success/$',  name='change_password_success'),
 
     # url(r'^password/$', views.change_password, name='change_password'),
     # url(r'import_rule/', views.import_rule, name='import_rule'),
