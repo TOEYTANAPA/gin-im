@@ -59,7 +59,9 @@ def addStore(request):
 		           place = addForm.cleaned_data['place'],
 		           phone = addForm.cleaned_data['phone'],
 		           category = addForm.cleaned_data['category'],
+		           day_open =  addForm.cleaned_data['day_open'],
 		           time_open= addForm.cleaned_data['time_open'],
+		           time_close= addForm.cleaned_data['time_close'],
 		           tags= tag,
 		           image =request.FILES['store_image'],
 		           created_by= request.user)

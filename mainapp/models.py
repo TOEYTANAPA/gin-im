@@ -10,6 +10,7 @@ class Store(models.Model):
 	name = models.CharField(max_length=200)
 	place = models.CharField(max_length=1000)
 	image=models.ImageField(upload_to='images')
+	day_open = models.CharField(max_length=200,null=True, blank=True)
 	time_open = models.TimeField(null=True, blank=True)
 	time_close = models.TimeField(null=True, blank=True)
 	phone = models.CharField(max_length=20,blank=True,null=True)

@@ -195,7 +195,8 @@
                         <div class=" ">
                             <cite><p  style="color:#ABABAB">" {{store.quote}} "</p></cite>
                             
-                            <p ><span class="uk-text-muted"> <i class="fa fa-clock-o" aria-hidden="true"></i> เวลาเปิด :</span> <span class="">{{store.time_open}}  </span>
+                            <p ><span class="uk-text-muted"> <i class="fa fa-calendar" aria-hidden="true"></i> เปิดให้บริการ :</span><span class="">{{store.day_open}}  </span> </p>
+                             <p ><span class="uk-text-muted"> <i class="fa fa-clock-o" aria-hidden="true"></i> เวลาเปิด - ปิด :</span><span class="">{{store.time_open}}  - </span> <span class="">{{store.time_close}}  </span></p>
                             
                             <p> <span class="uk-text-muted"> <i class="fa fa-phone" aria-hidden="true"></i> ติดต่อเรา :</span> <span class=""> {{store.phone}}  </span></p>
                             
@@ -370,11 +371,11 @@
                                 <p>ราคา {{menu.price}} ฿</p>
                                 <p class="sellOnlyShop">ขายที่ร้านเท่านั้น</p>
                             {% endif %}
-                  
+
                         
                         
                         
-                        {% if delivery and menu.isSell%}
+                        {% if delivery and menu.isSell %}
                             <div class="input-group number-spinner uk-text-center uk-margin-top "  >
                                 
                                 

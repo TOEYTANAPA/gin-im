@@ -2,8 +2,9 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import extras
-from .models import Profile,Review
 
+from .models import Profile,Review
+# from django.forms.extras.widgets import SelectDateWidget
 
 class ProfileForm(forms.Form):
     age =  forms.CharField(max_length=10, required=False, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
@@ -20,6 +21,12 @@ class ReviewForm(forms.Form):
     # phone= forms.CharField(max_length=20, required=False, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
 
 class StoreForm(forms.Form):
+    TRUE_FALSE_CHOICES = (
+    (True, 'มีบริการส่ง'),
+    (False, 'ไม่มีบริการส่ง')
+    )
+    DAY_OPEN = (('วันจันทร์', 'วันจันทร์'),('วันอังคาร', 'วันอังคาร'),('วันพุธ', 'วันพุธ'),('วันพฤหัสบดี', 'วันพฤหัสบดี'),('วันศุกร์.', 'วันศุกร์'),('วันเสาร์.', 'วันเสาร์'),('SUN.', 'วันอาทิตย์'),
+        ('วันจันทร์ - วันศุกร์', 'วันจันทร์ - วันศุกร์'),('วันเสาร์ - วันอาทิตย์', 'วันเสาร์ - วันอาทิตย์'),('ทุกวัน', 'ทุกวัน'))
     store_name =  forms.CharField(max_length=200, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
     place =  forms.CharField(max_length=1000, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
     store_image = forms.FileField()
@@ -27,10 +34,9 @@ class StoreForm(forms.Form):
     # tags =  forms.CharField(max_length=1000, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
     category =  forms.CharField(max_length=50, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
     time_open = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
-    TRUE_FALSE_CHOICES = (
-    (True, 'Yes'),
-    (False, 'No')
-    )
+    time_close = forms.TimeField(widget=forms.TimeInput(format='%H:%M'),required = False)
+    # time_open = forms.DateField(widget=extras.SelectDateWidget)
+    day_open = forms.ChoiceField(choices = DAY_OPEN, label="",initial='', widget=forms.Select(), required=True)
     delivery = forms.ChoiceField(choices = TRUE_FALSE_CHOICES, label="", 
                               initial='', widget=forms.Select(), required=True)
 

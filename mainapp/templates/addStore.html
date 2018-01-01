@@ -81,13 +81,21 @@
           <label class=" "  for=" ">ประเภทร้านค้า</label>
           {{ addStoreForm.category |add_class:"uk-input"|attr:"placeholder:ตัวอย่าง ปิ้งย่าง ชาบู อาหารญี่ปุ่น"}}
         </div>
+          <div  class="uk-margin-bottom ">
+          <label class=" "  for=" ">วันเปิดให้บริการ</label>
+          {{ addStoreForm.day_open |add_class:"uk-select"}}
+        </div>
         <div  class="uk-margin-bottom ">
           <label class=" "  for=" ">เวลาเปิด</label>
           {{ addStoreForm.time_open |add_class:"uk-input"|attr:"placeholder:ตัวอย่าง 17:00 "}}
         </div>
         <div  class="uk-margin-bottom ">
+          <label class=" "  for=" ">เวลาปิด</label>
+          {{ addStoreForm.time_close |add_class:"uk-input"|attr:"placeholder:ตัวอย่าง 17:00 "}}
+        </div>
+        <div  class="uk-margin-bottom ">
           <label class=" "  for=" ">บริการส่ง</label>
-          {{ addStoreForm.delivery |add_class:"uk-input"}}
+          {{ addStoreForm.delivery |add_class:"uk-select"}}
         </div>
         
         <div class="form-group">
