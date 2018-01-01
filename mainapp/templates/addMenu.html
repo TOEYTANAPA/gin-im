@@ -1,0 +1,119 @@
+{% extends 'base.html' %} {% load static %}{% load widget_tweaks %}
+{% block content %}
+  <style>
+  
+  .container{
+  width: 80%;
+  }
+  /* body,html{
+  background-color: #EEEEEE;
+  }
+  */
+  input[type=text],input[type=password],input[type=email]{
+  /*background-color: #FAFFBD;*/
+  }
+  .uk-button-default:hover{
+  background-color: #FFBF00;
+  color: white;
+  }
+  .uk-button-default{
+  color: #FFBF00;
+  }
+  .inImg{
+  position: absolute;
+  
+  width: 100%;
+  height: 90%;
+  object-fit: cover;
+  }
+  .imgCrop{
+  width: 100%;
+  height: 90%;
+  overflow: hidden;
+  position:  relative;
+  }
+  </style>
+  <hr class="uk-box-shadow-medium ">
+  <div class="container " id="home">
+    
+    <h2 class=" uk-margin-remove-bottom  uk-heading-bullet " style="color: black">เพิ่มเมนูอาหารของร้านค้า <b style="color: #FFD200">{{store_name}} </b>
+    </h2>
+    <p>คุณสามารถเพิ่มเมนูอาหารของร้านค้าได้ที่นี่</p>
+    <!-- <div class="panel-body uk-text-left"> -->
+    <div class="uk-margin-top" uk-grid>
+      <form id="" role="form" autocomplete="off" enctype='multipart/form-data' class="form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          
+          <!-- <div class="input-group"> -->
+          <!--   <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+          <input id="email" name="email" placeholder="email address" class="form-control"  type="email">
+        </div> -->
+        <!--      store_name =  forms.CharField(max_length=200, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
+        place =  forms.CharField(max_length=1000, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
+        store_image = forms.FileField()
+        phone =  forms.CharField(max_length=20, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
+        tags =  forms.CharField(max_length=1000, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
+        category =  forms.CharField(max_length=50, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
+        time_open = forms.TimeField(widget=forms.TimeInput(format='%H:%M')) -->
+        <div  class="uk-margin-bottom ">
+          <label  for=" ">ชื่ออาหาร</label>
+          {{ menuForm.menu_name |add_class:"uk-input "}}
+        </div>
+        <div  class="uk-margin-bottom ">
+          <label class=" "  for=" ">ราคา</label>
+          {{ menuForm.menu_price |add_class:"uk-input "}}
+        </div>
+        <div  class="uk-margin-bottom ">
+          <label class=""  for=" ">รูปอาหาร</label>
+          <div class="" uk-margin>
+            <div uk-form-custom="target: true">
+              {{menuForm.menu_image|add_class:"uk-input"}}
+              <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+            </div>
+          </div>
+        </div>
+    
+        
+        <div class="form-group">
+          <!-- <button type="submit"></button> -->
+          <button name=""  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top">เพิ่มเมนูอาหาร</h2> </button>
+        </div>
+        
+        <input type="hidden" class="hide" name="token" id="token" value="">
+{% for i in addStoreForm.errors %}
+{{i}}
+{% endfor %}
+{% if addStoreForm.errors %}
+error!
+{% endif %}
+      </form>
+    </div>
+    <!-- </div> -->
+    <!--    <div uk-grid>
+      <div class="uk-width-1-1@m ">
+        <h4 class="uk-margin-medium-top">มองหาพื้นที่โปรโมทร้านค้าของคุณอยู่รึเปล่า?</h4>
+        
+        <p></p>
+        <h4 class="uk-margin-top">ติดต่อได้ที่: <b>คุณเอิน ศศลักษณ์</b></h4>
+        <h4>อีเมล: <b>earnlune@gmail.com</b></h4>
+        <h4>เบอร์โทรศัพท์มือถือ: <b>095-863-4627</b></h4>
+        <h3 style="color: #EA0D0D; font-weight: bold;">ลงโฆษณาฟรี !</h3>
+        <h4 style="color: black" class="uk-margin-medium-top">ประโยชน์ที่ร้านค้าจะได้รับ</h4>
+        <h4  class="uk-margin-top">1. ได้โฆษณาร้านค้าของตนเองบนเว็บไซต์</h4>
+        <h4>2. ได้รับรายงานการคลิกเข้าชมของทางร้าน</h4>
+        <h4>3. ได้รับกาารวิเคราะห์ข้อมูลร้านค้าผ่านเทคโนโลยี <b style="color: #FFD200">Machine Learning</b></h4>
+        <br>
+        <a href="/main/about-ginim "  ><h4>ทำไมเทคโยโลยี Machine Learning ถึงสำคัญกับร้านค้า ?</h4></a>
+        <br>
+      </div>
+      <div class="uk-width-1-2@m ">
+        
+        
+      </div>
+    </div> -->
+    
+  </div>
+  <br>
+</div>
+{% endblock %}

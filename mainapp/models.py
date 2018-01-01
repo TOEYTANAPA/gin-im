@@ -20,7 +20,9 @@ class Store(models.Model):
 	latitude=models.FloatField(default=14.073565,null=True, blank=True)
 	longtitude=models.FloatField(default=100.607963,null=True, blank=True)
 	social = models.CharField(max_length=100,blank=True,null=True)
-	likes = models.ManyToManyField(User, related_name="likes")
+	likes = models.ManyToManyField(User, related_name="likes",blank=True,null=True)
+	created_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+
 
 	def __str__(self):
 		return self.name
@@ -35,6 +37,8 @@ class Menu(models.Model):
 	price = models.CharField(max_length=50)
 	image=models.ImageField(upload_to='images')
 	isSell = models.BooleanField(default=True)
+	created_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+
 	def __str__(self):
 		return self.name
 

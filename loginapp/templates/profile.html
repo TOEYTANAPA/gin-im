@@ -34,7 +34,10 @@
     text-decoration: none;
     }
     li>a {
-    color: #9E9E9E;
+    /*color: #9E9E9E;*/
+    /*color: #FFD043;*/
+    color: black;
+    /*font-weight: bold;*/
     }
     .divide {
     display: block;
@@ -63,8 +66,9 @@
                                     <li class="click-about"><a class="uk-link-reset " href=""><span>&#8226;</span> ข้อมูลส่วนตัว</a></li>
                                     <li><a class="click-review" ><span>&#8226;</span> รีวิวของฉัน</a></li>
                                     <li><a class="click-love" ><span>&#8226;</span> ร้านอาหารโปรด</a></li>
-                                    <li><a class="click-order" ><span>&#8226;</span> ออเดอร์ของฉัน</a></li>                                    
+                                    <li><a class="click-order" ><span>&#8226;</span> ออเร์ดอร์ของฉัน</a></li>                                    
                                     <li><a class="" ><span>&#8226;</span> ประวัติความหิว</a></li>
+                                    <li><a href="{% url 'mainapp:add_store' %}" ><span>&#8226;</span> เพิ่มร้านค้าที่คุณรู้จัก</a></li>
                                     <li><a href="{% url 'change_password' %}" class="" ><span>&#8226;</span> เปลี่ยนพาสเวิร์ด</a></li>
                                     <li><a href="{% url 'logout' %}"><span>&#8226;</span> ออกจากระบบ </a></li>
                                 </ul>

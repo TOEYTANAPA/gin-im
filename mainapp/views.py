@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import ProfileForm,ReviewForm
+from .forms import *
 from .models import *
 from django.http import HttpResponseRedirect,HttpResponse,Http404
 from django.contrib.postgres.search import SearchVector,TrigramSimilarity,SearchQuery,SearchRank
@@ -40,6 +40,57 @@ def home(request):
 	
 	
 	return response
+
+@login_required
+def addStore(request):
+	addForm = StoreForm()
+	if request.method == 'POST':
+		addForm = StoreForm(request.POST, request.FILES)
+		if addForm.is_valid():
+			print("is valid")
+			tag=addForm.cleaned_data['category']
+			delivery= addForm.cleaned_data['delivery'],
+			if delivery:
+				tag += ",delivery"
+			print(tag)
+			create_store = Store.objects.create(
+		           # user = request.user,
+		           name = addForm.cleaned_data['store_name'],
+		           place = addForm.cleaned_data['place'],
+		           phone = addForm.cleaned_data['phone'],
+		           category = addForm.cleaned_data['category'],
+		           time_open= addForm.cleaned_data['time_open'],
+		           tags= tag,
+		           image =request.FILES['store_image'],
+		           created_by= request.user)
+			next_page = "/store/"+str(create_store.id)
+			return HttpResponseRedirect(next_page)
+
+	return render(request, 'addStore.html', {'addStoreForm':addForm,})
+    # return redirect('loginapp.add_store')
+
+@login_required
+def addMenu(request,pk):
+	menuForm = MenuForm()
+	try:
+		store = Store.objects.get(id=pk)
+		if request.method == 'POST':
+			menuForm = MenuForm(request.POST, request.FILES)
+			if menuForm.is_valid():
+				print("is valid")
+				create_menu = Menu.objects.create(
+					store = store,
+		          	name = menuForm.cleaned_data['menu_name'],
+		          	price = menuForm.cleaned_data['menu_price'],
+		          	image =request.FILES['menu_image'],
+		          	created_by= request.user)
+				next_page = "/store/"+str(pk)
+				return HttpResponseRedirect(next_page)
+	except Store.DoesNotExist:
+		return HttpResponseRedirect('home')	
+	
+				# return render() go to some page that tell error not have tihs store 
+	return render(request, 'addMenu.html', {'menuForm':menuForm,'store_name':store.name})
 
 def set_cookie(request,template,dicts):
 	response = render(request, template, dicts)
@@ -120,15 +171,16 @@ def order(request):
 
 
 
-# @login_required
-def shop(request, string):
 
-	collect_session(request,"enter_store",string)
+# @login_required
+def shop(request, pk):
+
+	collect_session(request,"enter_store",pk)
 
 	temp = { 'rating_color': 0,'rating_no_color': 0, }
 	reviewForm = ReviewForm()
-	print("name:", string)
-	store = Store.objects.get(name=string)
+	# print("name:", string)
+	store = Store.objects.get(id=pk)
 	delivery = False
 	if "delivery" in store.tags :
 		delivery = True
@@ -142,7 +194,7 @@ def shop(request, string):
 	store_loved_color = None
 	if request.user.is_authenticated():
 		user = request.user
-		store = get_object_or_404(Store, name=string)
+		store = get_object_or_404(Store, id=pk)
 		if store.likes.filter(id=user.id).exists():
 			store_loved_color= True
 		else:
@@ -182,14 +234,17 @@ def shop(request, string):
 			a = {"orderlist": [], "price": [], "url_pic": [], "amount": []}
 			for m in menues2:
 				temp = {'name': '', 'url_pic' : '', 'amount': 0,"store":store}
-
-				if request.POST.get(m.name) is  None:
+				print("id",m.id)
+				if request.POST.get(str(m.id)) is  None:
+					# print("none")
 					pass
 				else:
-					a = request.POST.get(m.name)
-					print (m.name,a)
-					temp['name'] = m.name
-					temp['url_pic'] = m.image.url,
+					a = request.POST.get(str(m.id))
+					name = Menu.objects.get(id=m.id).name
+					# print("earrn")
+					# print (name,a)
+					# temp['name'] = m.name
+					# temp['url_pic'] = m.image.url,
 					if int(a) > 0:
 						if " " in m.price:
 							size,price= m.price.split(" ")
@@ -199,10 +254,10 @@ def shop(request, string):
 
 						price_per_menu = int(price)*int(a)
 						total += price_per_menu
-						temp['amount'] = a
+						# temp['amount'] = a
 						
 						# output.append(temp)
-						output.append({"name":m.name,
+						output.append({"name":name,
 							"price":price_per_menu,
 							"url_pic":m.image.url,
 							"amount":a,
@@ -216,6 +271,7 @@ def shop(request, string):
 
 	return render(request,'stores.html',{'reviewForm':reviewForm,'username':request.user.username,'menues':reversed(menues2),'mobile_menues':reversed(menues2),
 		'reviews':reviews,'out':out,'store':store,'delivery':delivery,'category':cate,'store_loved_color':store_loved_color})
+
 
 
 
