@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^like/$', views.like_button, name='like_button'),
     url(r'^checkIsSell/$', views.checkIsSell, name='checkIsSell'),
     url(r'^edit/store/$', views.outofstock, name='outofstock'),
+    url(r'^inf$', views.fill_in, name='inf'),
+    url(r'^inf-complete$', views.fill_in_complete, name='inf-complete'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

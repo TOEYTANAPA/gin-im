@@ -45,31 +45,18 @@ class MenuForm(forms.Form):
     menu_price =  forms.CharField(max_length=20, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
     menu_image = forms.FileField()
     # time_close = models.TimeField(null=True, blank=True)
-    # phone = models.CharField(max_length=20,blank=True,null=True)
-    # tags = models.CharField(max_length=1000,blank=True,null=True)
-    # qrcode = models.ImageField(upload_to='qrcodes',blank=True,null=True)
-    # category = models.CharField(max_length=30,blank=True,null=True)
-    # quote = models.CharField(max_length=1000,blank=True,null=True)
-    # latitude=models.FloatField(default=14.073565,null=True, blank=True)
-    # longtitude=models.FloatField(default=100.607963,null=True, blank=True)
-    # social = moฝdels.CharField(max_length=100,blank=True,null=True)
-    # likes = models.MฝanyToManyField(User, related_name="likes")
-
-    # sex = forms.CharField(max_length=10, required=False, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
-    # birthdate = forms.DateField(widget=extras.SelectDateWidget(years = range(2022, 1930, -1)))
-    # phone= forms.CharField(max_length=20, required=False, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
-
-
-# class ReviewForm(forms.Form):
-#     class Meta:
-#         model = Review
-#         fields = [ 'picDR','comment']
-#         widgets = {
-            
-#             'comment': Textarea(attrs={'cols': 5, 'rows': 5,'placeholder': "Comment and Share your happy dog's photo."}),
-#             'picDR': FileInput(attrs={'id': 'imgInp'}),
-#         }
-    # class Meta:
-    
-    #     model = Profile
-    #     fields = ('age','sex', 'birthdate', 'phone', )
+class InformationsForm(forms.Form):
+    # age = forms.IntegerField(required=True)
+    # gender = (('Male','male'),('Female','female'))
+    birthdate = forms.DateField(widget=extras.SelectDateWidget)
+    sex = forms.ChoiceField(choices=(('Male','male'),('Female','female')),required=True, 
+        widget=forms.RadioSelect(attrs={'class' : '',}))
+    size = forms.ChoiceField(choices = (('thin','ผอม'),('fit','หุ่นดี/ทั่วไป'),('chubby','อวบ'),('fat','อ้วน')), 
+        required=True, help_text='',widget=forms.CheckboxSelectMultiple)
+    salary = forms.ChoiceField(choices=(('น้อยกว่า 10,000','น้อยกว่า 10,000' ),('10,000-19,000','10,000-19,000')
+        ,('20,000-29,999','20,000-29,999'),('30,000-39,000','30,000-39,000'),('40,000-49,000','40,000-49,000')
+        ,('50,000 ขึ้นไป','50,000 ขึ้นไป')), required=True)
+    meal = forms.ChoiceField(choices=(('มื้อเช้า','มื้อเช้า'),('มื้อเที่ยง','มื้อเที่ยง'),('มื้อเย็น','มื้อเย็น'),('มื้อดึก','มื้อดึก')), required=True)
+    reason = forms.ChoiceField(choices=(('รสชาติ','รสชาติ'), ('ราคา','ราคา'),('บริการ','บริการ') ,('ความสะอาด','ความสะอาด'), ('บรรยากาศ','บรรยากาศ'), ('สถานที่ตั้ง','สถานที่ตั้ง')), required=True)
+    # favorites = models.CharField(max_length=200,blank=False,null=False)
+    social_media = forms.ChoiceField(choices=(('Facebook','facebook'), ('Twitter','twitter'),('Line','line') ,('Instagram','instagram')), required=True)

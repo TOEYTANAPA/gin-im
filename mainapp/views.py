@@ -438,6 +438,185 @@ def collect_session(request,act,val):
 			Anonymous_session.objects.create(name=name,action=act,value=val)
 
 
+@login_required
+def fill_in(request):
+	form = InformationsForm()
+	# print(form)
+	return render(request, 'informations.html',{'form':form})
+
+
+def calculate_age(day,month,year):
+	today = date.today()
+	year = int(year)
+	month = int(month)
+	day = int(day)
+	print(type(year))
+	return today.year - year - ((today.month, today.day) < (month, day))
+
+@login_required
+def fill_in_complete(request):
+	if request.method == 'POST':
+	
+		list_meal = request.POST.getlist('meal')
+		if not list_meal :
+			print("mobile")
+			list_meal = request.POST.getlist('meal-mobile')
+			list_reason = request.POST.getlist('reason-mobile')
+			list_size = request.POST['size-mobile']
+			list_social = request.POST.getlist('social-mobile')
+			list_fav = request.POST.getlist('fav-mobile')
+
+		else :
+			print("desktop")
+			list_meal = request.POST.getlist('meal')
+			list_reason = request.POST.getlist('reason')
+			list_size = request.POST['size']
+			list_social = request.POST.getlist('social')
+			list_fav = request.POST.getlist('fav')
+
+		gender = request.POST['sex']
+		day = request.POST['day']
+		month = request.POST['month']
+		year = request.POST['year']
+		salary = request.POST['salary']
+
+		try :
+
+			age = calculate_age(day,month,year)
+
+			if 'bf' in list_meal :
+				bf = True
+			else :
+				bf = False
+			if 'lunch' in list_meal :
+				lunch = True
+			else :
+				lunch = False	
+			if 'dinner' in list_meal :
+				dinner = True
+			else :
+				dinner = False
+			if 'late' in list_meal :
+				late = True
+			else :
+				late = False
+
+
+			if 'taste' in list_reason :
+				taste = True
+			else :
+				taste = False
+			if 'price' in list_reason :
+				price = True
+			else :
+				price = False
+			if 'service' in list_reason :
+				service = True
+			else :
+				service = False
+			if 'clean' in list_reason :
+				clean = True
+			else :
+				clean = False
+			if 'at' in list_reason :
+				at = True
+			else :
+				at = False
+			if 'location' in list_reason :
+				location = True
+			else :
+				location = False
+
+				
+			if 'facebook' in list_social :
+				facebook = True
+			else :
+				facebook = False
+			if 'twitter' in list_social :
+				twitter = True
+			else :
+				twitter = False
+			if 'instagram' in list_social :
+				instagram = True
+			else :
+				instagram = False
+			if 'line' in list_social :
+				line = True
+			else :
+				line = False
+
+
+			if 'japan' in list_fav :
+				japan = True
+			else :
+				japan = False
+			if 'shabu' in list_fav :
+				shabu = True
+			else :
+				shabu = False
+			if 'grill' in list_fav :
+				grill = True
+			else :
+				grill = False
+			if 'steak' in list_fav :
+				steak = True
+			else :
+				steak = False
+			if 'fastfood' in list_fav :
+				fastfood = True
+			else :
+				fastfood = False
+			if 'diet' in list_fav :
+				diet = True
+			else :
+				diet = False
+			if 'thai' in list_fav :
+				thai = True
+			else :
+				thai = False
+			if 'cake' in list_fav :
+				cake = True
+			else :
+				cake = False
+			if 'dessert' in list_fav :
+				dessert = True
+			else :
+				dessert = False
+			if 'juice' in list_fav :
+				juice = True
+			else :
+				juice = False
+			if 'coffee' in list_fav :
+				coffee = True
+			else :
+				coffee = False
+
+
+			print(age)
+			obj, created = Informations.objects.update_or_create(
+				user=request.user, defaults={'age': age,'birthdate':date(year=int(year), month=int(month), day=int(day)),
+				'sex':gender,'salary':salary,'size':list_size,'breakfast':bf,'lunch':lunch,'dinner':dinner,'late':late,
+				'taste':taste,'price':price,'service':service,'clean':clean,'at':at,'location':location,
+				'thai':thai,'diet':diet,'shabu':shabu,'grill':grill,'steak':steak,'fastfood':fastfood,'cake':cake,
+				'dessert':dessert,'coffee':coffee,'juice':juice,'facebook':facebook,'twitter':twitter,'instagram':instagram,'line':line},
+			)
+
+			# Informations.objects.create(user=request.user,age=age,birthdate=date(year=int(year), month=int(month), day=int(day)),
+			# 	sex=gender,salary=salary,size=list_size,breakfast=bf,lunch=lunch,dinner=dinner,late=late,
+			# 	taste=taste,price=price,price=service,clean=clean,at=at,location=location,
+			# 	facebook=facebook,twitter=twitter,instagram=instagram,line=line,japanese=japan,
+			# 	thai=thai,diet=diet,shabu=shabu,grill=grill,steak=steak,fastfood=fastfood,
+			# 	cake=cake,dessert=dessert,coffee=coffee,juice=juice)
+
+
+	
+		except:
+			raise
+
+		
+	
+	return render(request, 'informations_complete.html')
+
 def checkIsSell(request):
     # print("earn")
     if request.method == 'POST':

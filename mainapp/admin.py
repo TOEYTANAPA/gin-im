@@ -49,3 +49,7 @@ admin.site.register(UserValueStoreAndDelivery, UserValueStoreAndDeliveryAdmin)
 class QMatrixAdmin(admin.ModelAdmin):
 	list_display=[f.name for f in QMatrix._meta.fields]
 admin.site.register(QMatrix, QMatrixAdmin)
+
+class InformationsAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in Informations._meta.fields]
+admin.site.register(Informations, InformationsAdmin)
