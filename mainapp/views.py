@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.contrib.sessions.models import Session
-
+from datetime import date
 
 
 def home(request):
@@ -440,10 +440,21 @@ def collect_session(request,act,val):
 
 @login_required
 def fill_in(request):
-	form = InformationsForm()
-	# print(form)
-	return render(request, 'informations.html',{'form':form})
+	# form = InformationsForm()
+	# # print(form)
+	return render(request, 'informations.html')
 
+
+@login_required
+def fill_in_edit(request):
+	try:
+		if Informations.objects.filter(user=request.user).exists():
+			return render(request, 'informations_complete.html') 
+		else :
+			return render(request, 'informations.html') 
+		
+	except:
+		raise
 
 def calculate_age(day,month,year):
 	today = date.today()

@@ -1,0 +1,48 @@
+
+{% load static %}
+
+<div class="order uk-width-1-1 uk-margin-remove-top" id="order">
+                                <h4 class="title uk-heading-bullet">ออเดอร์ของฉัน</h4>
+                                   <hr class="divide">
+                                   <!-- {% include "change_password.html" %} -->
+                                <table class="uk-table uk-table-hover uk-table-divider  uk-table-justify">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%"><p>No.</p></th>
+                                            <th style="width: 20%;"><p>ร้าน</p></th>
+                                            <th style="width: 45%;"><p>เมนู</p></th>
+                                      
+                                            <th style="width:30%;"><p>วันที่</p></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     {% for order in order_list %}
+                                  
+                                        <tr>
+                                            <td><p>{{order.id}}</p></td>
+                                            <td><p>{{order.name_s}}</p></td>
+                                            <td>
+                                              <div>
+                                                {% for ma in order.menu_amount %}
+                                        
+                                                    <img  src="../{{ma.menu.image.url}}" style="width: 50px; height: auto" >
+
+                                                    <span>x{{ma.amount}}</span>
+
+
+                                               
+                                                      
+                                                   {% endfor %}
+                                              </div>
+                                            </td>
+                                        
+                                             <td><p>{{order.date}}</p></td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+<!-- </div> -->
+
