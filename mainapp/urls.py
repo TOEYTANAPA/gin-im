@@ -1,9 +1,14 @@
 from django.conf.urls import url,include
 from . import views
 from django.utils.encoding import python_2_unicode_compatible
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
+import os
 from django.conf.urls.static import static
+
+
+import os
+
 urlpatterns = [
 
     url(r'^$', views.home, name='home'),
@@ -27,6 +32,7 @@ urlpatterns = [
     url(r'^inf-complete$', views.fill_in_complete, name='inf-complete'),
     url(r'^inf-edit$', views.fill_in_edit, name='is_inf'),
 
-
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# if settings.DEBUG404: :
+#     urlpatterns += staticfiles_urlpatterns()
