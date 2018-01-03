@@ -113,9 +113,10 @@ def set_cookie(request,template,dicts):
 
 	return response
     
+    
 @login_required
-def graph(request):
-    return render(request, 'graph.html')
+def report(request):
+    return render(request, 'report.html')
 
 def about_us(request):
     return render(request, 'about_us.html')
