@@ -1,7 +1,6 @@
 {% extends 'base2.html' %} {% load static %} {% block content %}{% load widget_tweaks %}
 	<style>
 	
-
 	input{
 		background-color: #FAFFBD;
 	}
@@ -16,60 +15,139 @@
 	hr{
 		color: #FFBF00;
 	}
-
-
+	.login-icon{
+	width: 25px;
+	height: auto;
+	margin-top: 7px;
+	/*max-width: 100%;*/
+	}
+	.uk-button-facebook {
+	background-color: #3B5998;
+	color:white;
+	}
+	.uk-button-facebook:hover{
+		color: white;
+		background-color: #0079c2;
+	}
+	.uk-button-google {
+		background-color: #d9534f;
+		color:white;
+	}
+	.uk-button-google:hover{
+		color: white;
+		background-color: #ef2121;
+	}
+	.uk-button-login{
+		color: white;
+		background-color: #FFBF00;
+	}
+	.uk-button-login:hover{
+		color: white;
+		background-color: #FFCA28;
+	}
+		
+	.strike {
+	display: block;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	}
+	.strike > span {
+	position: relative;
+	display: inline-block;
+	}
+	
+	.strike > span:before,
+	.strike > span:after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	width: 9999px;
+	height: 1px;
+	background: #c6c6c6;
+	}
+	.strike > span:before {
+	right: 100%;
+	margin-right: 15px;
+	}
+	.strike > span:after {
+	left: 100%;
+	margin-left: 15px;
+	}
 	</style>
 	<img class="bg"  src="{% static "images/loginbg.jpeg"%}">
 	<div class="container ">
-	
+		
 		<div class="uk-card uk-card-default uk-margin-large-top" >
 			<br>
 			<h2 class="uk-text-center " style="color: black">เข้าสู่ระบบ<b style="color: #FFD200"> กินอิ่ม </b></h2>
-					<div class="uk-child-width-1-2@m  uk-child-width-1-2@s uk-padding" uk-grid>
-						<div class="uk-align-center">	
-							<form method="post">
-							{% csrf_token %}
-							
-							
-							
-							<input type="hidden" name="next" value="{{ next }}" />
-							<p>
-								<div class="form-group ">
-									{{form.username |add_class:"uk-input"|attr:"placeholder:username or email"}}
-									
-								</div>
-								<div class="form-group ">
-									{{form.password |add_class:"uk-input"|attr:"placeholder:password " }}
-									
-								</div>
-								{% if form.errors %}
-									<p style="color: #EF5350;font-weight: bold;">Your username and password didn't match. Please try again.</p>
-								{% endif %}
-							</p>
-							<button class="uk-button uk-align-center log-btn " type="submit"  style="color: white;width: 100%" ><h1 class="uk-margin-small-top">Log in</h1></button>
-
-					
-							</form>
+			<div class="uk-child-width-1-2@m  uk-child-width-1-2@s uk-padding" uk-grid>
+				
+				<div class="uk-align-center">
+					<div class="nav-mobile">
+					<div class="uk-text-center" uk-grid>
+						<div class="uk-width-1-2@m uk-width-1-1@s">
+							<div class="uk-margin-small">
+								<a href="{% url 'social:begin' 'facebook' %}" class="uk-width-1-1 uk-button uk-button-facebook" href="#facebook"  >
+								<img class="pull-left login-icon " src="{% static "images/facebook.png" %}"/> Facebook</a>
+							</div>
 						</div>
-					
-					<div >
-						
-						
-						
-						<h3 class="uk-margin-remove-top uk-text-center" style="color: black">	คุณยังไม่มีบัญชีผู้ใช้ใช่ไหม ?</h3>
-						
-						<p class="uk-text-center">สมัครบัญชีผู้ใช้ของคุณที่นี่	</p>
-						<form method="get" action="/accounts/signup">
-							<button   style="border-color: #FFBF00;width: 100%" class="uk-button-default uk-align-center uk-margin-remove-bottom" type="submit"><h4>Sign up</h4></button>
-						</form>
-						
+						<div class="uk-width-1-2@m uk-width-1-1@s">
+							<div class="uk-margin-small">
+								<a href="{% url 'social:begin' 'google-oauth2' %}" class="uk-width-1-1 uk-button uk-button-google" >
+								<img class="pull-left login-icon " src="{% static "images/google.png" %}"/>Google</a>
+							</div>
+						</div>
 					</div>
+					</div>
+					<br>
+					<div class="strike">
+						<span>OR</span>
+					</div>
+					<!-- <div class="fancy " style="color:#c6c6c6 "><span>OR</span></div> -->
+					<br>
+					<form method="post">
+						{% csrf_token %}
+						
+						
+						
+						<input type="hidden" name="next" value="{{ next }}" />
+						<p>
+							<div class="form-group ">
+								{{form.username |add_class:"uk-input"|attr:"placeholder:username or email"}}
+								
+							</div>
+							<div class="form-group ">
+								{{form.password |add_class:"uk-input"|attr:"placeholder:password " }}
+								
+							</div>
+							{% if form.errors %}
+								<p style="color: #EF5350;font-weight: bold;">Your username and password didn't match. Please try again.</p>
+							{% endif %}
+						</p>
+						<button class="uk-button uk-button-login uk-align-center log-btn " type="submit"  style="width: 100%" ><h1 class="uk-margin-small-top">Log in</h1></button>
+						
+					</form>
+				</div>
+				
+				<div >
+					
+					
+					
+					<h3 class="uk-margin-remove-top uk-text-center" style="color: black">	คุณยังไม่มีบัญชีผู้ใช้ใช่ไหม ?</h3>
+					
+					<p class="uk-text-center">สมัครบัญชีผู้ใช้ของคุณที่นี่	</p>
+					<form method="get" action="/accounts/signup">
+						<button   style="border-color: #FFBF00;width: 100%" class="uk-button-default uk-align-center uk-margin-remove-bottom" type="submit"><h4>Sign up</h4></button>
+					</form>
+					
+				</div>
 				
 			</div>
-		
-		
+			
+			
+		</div>
 	</div>
-</div>
 	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 	<script src="{% static 'js/index.js' %}"></script>
 {% endblock %}
