@@ -52,6 +52,12 @@
     color: #9E9E9E;
     }
 
+    #btn-inline,#p-inline{
+         display: inline-block;
+          vertical-align: middle;
+          margin: 10px 0;
+    }
+
 
     </style>
     <hr class="uk-box-shadow-medium ">
@@ -300,11 +306,30 @@
                                             <canvas width="600" height="400"></canvas>
                                         </div>
                                         <div>
-                                            <div class="uk-card-body">
-                                                <h3 class="uk-card-title">Media Left</h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                                            <div class="uk-card-body uk-padding-small">
+                                                <h3 class="uk-card-title uk-text-bold " style="color: #ffbf00">กินอิ่มนอนอุ่น</h3>
+                                                <p>รับฟรี กระดาษทิชชู่! </p>
+                                                <br>
+                                                    <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
+                                                    <p id="p-inline" class="uk-text-muted">เหลือ 4</p>
                                             </div>
                                         </div>
+
+
+                    
+                            <!-- This is the modal -->
+                            <div id="modal-example"  uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
+                                    <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
+                                    <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
+                                    <br>
+                                    <p class="uk-text-right">
+                                        <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
+                                        <button class="uk-button uk-button-primary" type="button"><h2 class="uk-margin-small-top">ใช้</h2></button>
+                                    </p>
+                                </div>
+                            </div>
+
                                     </div>
                             </div>
                            
@@ -527,6 +552,50 @@
                                         </table>
                                         </ul>
                                     </li>
+
+                                    <li class="uk-parent ">
+                                        <a class="uk-link-reset icon-click" href=""> คูปองของฉัน
+                                        <i class="fa fa-angle-left " style="float: right"></i></a>
+                                        
+                                        <ul class="uk-nav-sub">
+                                            <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+                                                <div class="uk-card-media-left uk-cover-container">
+                                                    <img src="{% static "images/informations/japan.jpg" %}" alt="" uk-cover>
+                                                    <canvas width="300" height="150"></canvas>
+                                                </div>
+                                                <div>
+                                                    <div class="uk-card-body uk-padding-small">
+                                                        <h3 class="uk-card-title uk-text-bold " style="color: #ffbf00">กินอิ่มนอนอุ่น</h3>
+                                                        <p>รับฟรี กระดาษทิชชู่! </p>
+                                                        <br>
+                                                            <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
+                                                            <p id="p-inline" class="uk-text-muted">เหลือ 4</p>
+                                                    </div>
+                                                </div>
+
+
+                            
+                                                <!-- This is the modal -->
+                                                <div id="modal-example"  uk-modal>
+                                                    <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
+                                                        <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
+                                                        <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
+                                                        <br>
+                                                        <p class="uk-text-right">
+                                                            <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
+                                                            <button class="uk-button uk-button-primary" type="button"><h2 class="uk-margin-small-top">ใช้</h2></button>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </ul>
+                                    </li>
+
+
+                              
+
+
                                     <li  >
                                         <a class="uk-link-reset" href="{% url 'is_inf' %}"> ประวัติความหิว</a>
                                         
