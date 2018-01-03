@@ -51,6 +51,14 @@
     font-size: 14px;
     color: #9E9E9E;
     }
+
+    #btn-inline,#p-inline{
+         display: inline-block;
+          vertical-align: middle;
+          margin: 10px 0;
+    }
+
+
     </style>
     <hr class="uk-box-shadow-medium ">
     <div class="uk-background-muted" style="margin-top: -20px;">
@@ -60,14 +68,16 @@
                 <div class="uk-card-body uk-margin-remove">
                     <h2 class="uk-heading-bullet" style="color: black">บัญชีของฉัน</h2>
                     <div uk-grid>
+
                         <div class="uk-width-1-3@m uk-text-center">
                             <div class="uk-margin-top">
                                 <ul class=" uk-list-divider uk-list  uk-text-left" style="width: 70%">
                                     <li class="click-about"><a class="uk-link-reset " href=""><span>&#8226;</span> ข้อมูลส่วนตัว</a></li>
                                     <li><a class="click-review" ><span>&#8226;</span> รีวิวของฉัน</a></li>
                                     <li><a class="click-love" ><span>&#8226;</span> ร้านอาหารโปรด</a></li>
-                                    <li><a class="click-order" ><span>&#8226;</span> ออเร์ดอร์ของฉัน</a></li>                                    
-                                    <li><a class="" ><span>&#8226;</span> ประวัติความหิว</a></li>
+                                    <li><a class="click-order" ><span>&#8226;</span> ออเดอร์ของฉัน</a></li>
+                                    <li><a class="click-coupon" ><span>&#8226;</span> คูปองของฉัน</a></li>                                       
+                                    <li><a href="{% url 'is_inf' %}"><span>&#8226;</span> ประวัติความหิว</a></li>
                                     <li><a href="{% url 'mainapp:add_store' %}" ><span>&#8226;</span> เพิ่มร้านค้าที่คุณรู้จัก</a></li>
                                     <li><a href="{% url 'change_password' %}" class="" ><span>&#8226;</span> เปลี่ยนพาสเวิร์ด</a></li>
                                     <li><a href="{% url 'logout' %}"><span>&#8226;</span> ออกจากระบบ </a></li>
@@ -84,6 +94,12 @@
                                     <hr class="divide">
                                     <table class="uk-table ">
                                         <tbody>
+                                         <tr>
+                                                <td>
+                                                    <label class="uk-align-right">สถานะ</label>
+                                                </td>
+                                                <td>  <p class="uk-text-muted">ผู้ใช้</p></td>
+                                            </tr>
                                             <tr>
                                                 <td>
                                                     <label class="uk-align-right">อีเมล</label>
@@ -151,50 +167,9 @@
                                     
                                 </form>
                             </div>
-                            <div class="order uk-width-1-1 uk-margin-remove-top" id="order">
-                                <h4 class="title uk-heading-bullet">ออเดอร์ของฉัน</h4>
-                                   <hr class="divide">
-                                <table class="uk-table uk-table-hover uk-table-divider  uk-table-justify">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 5%"><p>No.</p></th>
-                                            <th style="width: 20%;"><p>ร้าน</p></th>
-                                            <th style="width: 45%;"><p>เมนู</p></th>
-                                      
-                                            <th style="width:30%;"><p>วันที่</p></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                     {% for order in order_list %}
-                                  
-                                        <tr>
-                                            <td><p>{{order.id}}</p></td>
-                                            <td><p>{{order.name_s}}</p></td>
-                                            <td>
-                                              <div>
-                                                {% for ma in order.menu_amount %}
-                                        
-                                                    <img  src="../{{ma.menu.image.url}}" style="width: 50px; height: auto" >
-
-                                                    <span>x{{ma.amount}}</span>
-
-
-                                               
-                                                      
-                                                   {% endfor %}
-                                              </div>
-                                            </td>
-                                        
-                                             <td><p>{{order.date}}</p></td>
-                                        </tr>
-                                    {% endfor %}
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="review uk-width-1-1 uk-margin-remove-top" id="review">
+                                  <div class="review uk-width-1-1 uk-margin-remove-top" id="review">
                                 <h4 class="title uk-heading-bullet ">รีวิวของฉัน</h4>
-                                   <hr class="divide  " style="margin-top: -47px;">
+                                   <hr class="divide " >
                                    {% if out|length <= 0 %}
                                         <div uk-alert style="">
                                             <!-- <a class="uk-alert-close" uk-close></a> -->
@@ -238,6 +213,49 @@
                                     </div>
                                 {% endfor %}
                             </div>
+                            <div class="order uk-margin-remove-top" id="order">
+                                <h4 class="title uk-heading-bullet">ออเดอร์ของฉัน</h4>
+                                   <hr class="divide">
+
+                                <table class="uk-table uk-table-responsive uk-table-hover uk-table-divider  uk-table-justify">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%"><p>No.</p></th>
+                                            <th style="width: 20%;"><p>ร้าน</p></th>
+                                            <th style="width: 45%;"><p>เมนู</p></th>
+                                      
+                                            <th style="width:30%;"><p>วันที่</p></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     {% for order in order_list %}
+                                  
+                                        <tr>
+                                            <td><p>{{order.id}}</p></td>
+                                            <td><p>{{order.name_s}}</p></td>
+                                            <td>
+                                              <div>
+                                                {% for ma in order.menu_amount %}
+                                        
+                                                    <img  src="../{{ma.menu.image.url}}" style="width: 50px; height: auto" >
+
+                                                    <span>x{{ma.amount}}</span>
+
+
+                                               
+                                                      
+                                                   {% endfor %}
+                                              </div>
+                                            </td>
+                                        
+                                             <td><p>{{order.date}}</p></td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                      
                             
                             <div class="love uk-width-1-1 uk-margin-remove-top" id="love">
                                 <h4 class="title uk-heading-bullet">ร้านอาหารโปรด</h4>
@@ -270,12 +288,51 @@
                                     </tbody>
                                 </table>
                             </div>
-                             <div class="add uk-width-1-1 uk-margin-remove-top" id="add">
-                                  <h4 class="title uk-heading-bullet">เพิ่มร้านค้า</h4>
-                                   <!-- <hr class="divide"> -->
 
-                                   dgdfgdfg
-                             </div>
+                            <div class="coupon uk-width-1-1 " id="coupon">
+                                <h4 class="title uk-heading-bullet uk-margin-remove-top">คูปองของฉัน</h4>
+                                   <hr class="divide">
+<!--                                     <div class="uk-child-width-1-2@s uk-grid-match" uk-grid>
+                                        <div>
+                                            <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-padding-small">
+                                                <h3 class="uk-card-title">กินอิ่มนอนอุ่น</h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+                                        <div class="uk-card-media-left uk-cover-container">
+                                            <img src="{% static "images/informations/japan.jpg" %}" alt="" uk-cover>
+                                            <canvas width="600" height="400"></canvas>
+                                        </div>
+                                        <div>
+                                            <div class="uk-card-body uk-padding-small">
+                                                <h3 class="uk-card-title uk-text-bold " style="color: #ffbf00">กินอิ่มนอนอุ่น</h3>
+                                                <p>รับฟรี กระดาษทิชชู่! </p>
+                                                <br>
+                                                    <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
+                                                    <p id="p-inline" class="uk-text-muted">เหลือ 4</p>
+                                            </div>
+                                        </div>
+
+
+                    
+                            <!-- This is the modal -->
+                            <div id="modal-example"  uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
+                                    <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
+                                    <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
+                                    <br>
+                                    <p class="uk-text-right">
+                                        <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
+                                        <button class="uk-button uk-button-primary" type="button"><h2 class="uk-margin-small-top">ใช้</h2></button>
+                                    </p>
+                                </div>
+                            </div>
+
+                                    </div>
+                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -456,18 +513,92 @@
                                         <i class="fa fa-angle-left " style="float: right"></i></a>
                                         
                                         <ul class="uk-nav-sub">
-                                            <li><a href="#">Sub item</a></li>
-                                            <li><a href="#">Sub item</a></li>
-                                            <li><a href="#">Sub item</a></li>
+                                        <table class="uk-table uk-table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 5%"><p>No.</p></th>
+                                                    <th style="width: 20%;"><p>ร้าน</p></th>
+                                                    <th style="width: 45%;"><p>เมนู</p></th>
+                                              
+                                                    <th style="width:30%;"><p>วันที่</p></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                             {% for order in order_list %}
+                                          
+                                                <tr>
+                                                    <td><p>{{order.id}}</p></td>
+                                                    <td><p>{{order.name_s}}</p></td>
+                                                    <td>
+                                                      <div>
+                                                        {% for ma in order.menu_amount %}
+                                                
+                                                            <img  src="../{{ma.menu.image.url}}" style="width: 50px; height: auto" >
+
+                                                            <span>x{{ma.amount}}</span>
+
+
+                                                       
+                                                              
+                                                           {% endfor %}
+                                                      </div>
+                                                    </td>
+                                                
+                                                     <td><p>{{order.date}}</p></td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
                                         </ul>
                                     </li>
+
                                     <li class="uk-parent ">
-                                        <a class="uk-link-reset icon-click" href=""> ประวัติความหิว
+                                        <a class="uk-link-reset icon-click" href=""> คูปองของฉัน
                                         <i class="fa fa-angle-left " style="float: right"></i></a>
+                                        
                                         <ul class="uk-nav-sub">
-                                            <li><a href="#">Sub item</a></li>
-                                            <li><a href="#">Sub item</a></li>
+                                            <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+                                                <div class="uk-card-media-left uk-cover-container">
+                                                    <img src="{% static "images/informations/japan.jpg" %}" alt="" uk-cover>
+                                                    <canvas width="300" height="150"></canvas>
+                                                </div>
+                                                <div>
+                                                    <div class="uk-card-body uk-padding-small">
+                                                        <h3 class="uk-card-title uk-text-bold " style="color: #ffbf00">กินอิ่มนอนอุ่น</h3>
+                                                        <p>รับฟรี กระดาษทิชชู่! </p>
+                                                        <br>
+                                                            <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
+                                                            <p id="p-inline" class="uk-text-muted">เหลือ 4</p>
+                                                    </div>
+                                                </div>
+
+
+                            
+                                                <!-- This is the modal -->
+                                                <div id="modal-example"  uk-modal>
+                                                    <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
+                                                        <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
+                                                        <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
+                                                        <br>
+                                                        <p class="uk-text-right">
+                                                            <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
+                                                            <button class="uk-button uk-button-primary" type="button"><h2 class="uk-margin-small-top">ใช้</h2></button>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </ul>
+                                    </li>
+
+
+                              
+
+
+                                    <li  >
+                                        <a class="uk-link-reset" href="{% url 'is_inf' %}"> ประวัติความหิว</a>
+                                        
                                     </li>
                                     
                                     <li>
@@ -485,16 +616,20 @@
         </div>
     </div>
     <script type="text/javascript">
-            $("#love").hide();
-            $("#order").hide();
-            $("#review").hide();
-            $("#about").show();
-            $("#add").hide();
+            $("#love").css("display", "none");
+            $("#order").css("display", "none");
+            $("#review").css("display", "none");
+            // $("#add").css("display", "none");
+            $("#about").css("display", "block");
+            $("#coupon").css("display", "none");
+            
+
             $(".click-about").addClass( "active" );
             $(".click-love").removeClass("active");
+            $(".click-coupon").removeClass("active");
             $(".click-review").removeClass("active");
             $(".click-order").removeClass("active");
-            $(".click-add").removeClass("active");
+            // $(".click-add").removeClass("active");
 
     $(document).ready(function() {
         $('.icon-click').click(function() {
@@ -503,75 +638,106 @@
 
        
         $(".click-about").click(function(){
-            $("#love").hide();
-            $("#order").hide();
-            $("#review").hide();
-            $("#about").show();
-            $("#add").hide();
-            
+          
+
+            $("#love").css("display", "none");
+            $("#order").css("display", "none");
+            $("#review").css("display", "none");
+            // $("#add").css("display", "block");
+            $("#about").css("display", "none");
+            $("#coupon").css("display", "none");
             $(".click-about").addClass( "active" );
             $(".click-love").removeClass("active");
             $(".click-review").removeClass("active");
             $(".click-order").removeClass("active");
-             $(".click-add").removeClass("active");
+             // $(".click-add").removeClass("active");
+             $(".click-coupon").removeClass("active");
 
         });
 
         $(".click-love").click(function(){
-            $("#love").show();
-            $("#order").hide();
-            $("#review").hide();
-            $("#about").hide();
-            $("#add").hide();
+      
+            $("#love").css("display", "block");
+            $("#order").css("display", "none");
+            $("#review").css("display", "none");
+            // $("#add").css("display", "none");
+            $("#about").css("display", "none");
+            $("#coupon").css("display", "none");
+
             $(".click-love").addClass( "active" );
             $(".click-about").removeClass("active");
             $(".click-review").removeClass("active");
             $(".click-order").removeClass("active");
-             $(".click-add").removeClass("active");
+             // $(".click-add").removeClass("active");
+             $(".click-coupon").removeClass("active");
 
         });
 
         $(".click-order").click(function(){
-            $("#love").hide();
-            $("#order").show();
-            $("#review").hide();
-            $("#about").hide();
-            $("#add").hide();
+            $("#love").css("display", "none");
+            $("#order").css("display", "block");
+            $("#review").css("display", "none");
+            // $("#add").css("display", "none");
+            $("#about").css("display", "none");
+            $("#coupon").css("display", "none");
             $(".click-order").addClass( "active" );
             $(".click-about").removeClass("active");
             $(".click-review").removeClass("active");
             $(".click-love").removeClass("active");
-             $(".click-add").removeClass("active");
+             // $(".click-add").removeClass("active");
+             $(".click-coupon").removeClass("active");
 
         });
 
         $(".click-review").click(function(){
-            $("#love").hide();
-            $("#order").hide();
-            $("#review").show();
-            $("#about").hide();
-             $("#add").hide();
+            $("#love").css("display", "none");
+            $("#order").css("display", "none");
+            $("#review").css("display", "block");
+            // $("#add").css("display", "none");
+            $("#about").css("display", "none");
+            $("#coupon").css("display", "none");
             $(".click-review").addClass( "active" );
             $(".click-about").removeClass("active");
             $(".click-order").removeClass("active");
             $(".click-love").removeClass("active");
-             $(".click-add").removeClass("active");
+             // $(".click-add").removeClass("active");
+             $(".click-coupon").removeClass("active");
 
         });
 
         $(".click-add").click(function(){
-            $("#add").show();
-            $("#love").hide();
-            $("#order").hide();
-            $("#review").hide();
-            $("#about").hide();
-            $(".click-add").addClass( "active" );
+            $("#love").css("display", "none");
+            $("#order").css("display", "none");
+            $("#review").css("display", "none");
+            // $("#add").css("display", "block");
+            $("#about").css("display", "none");
+            $("#coupon").css("display", "none");
+            // $(".click-add").addClass( "active" );
             $(".click-about").removeClass("active");
             $(".click-order").removeClass("active");
             $(".click-love").removeClass("active");
              $(".click-review").removeClass("active");
+             $(".click-coupon").removeClass("active");
 
         });
+
+
+        $(".click-coupon").click(function(){
+            $("#love").css("display", "none");
+            $("#order").css("display", "none");
+            $("#review").css("display", "none");
+            // $("#add").css("display", "none");
+            $("#about").css("display", "none");
+            $("#coupon").css("display", "block");
+            // $(".click-add").removeClass( "active" );
+            $(".click-about").removeClass("active");
+            $(".click-order").removeClass("active");
+            $(".click-love").removeClass("active");
+             $(".click-review").removeClass("active");
+             $(".click-coupon").addClass("active");
+
+        });
+
 
     });
     </script>
