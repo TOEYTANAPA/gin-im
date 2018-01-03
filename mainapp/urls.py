@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^inf-complete$', views.fill_in_complete, name='inf-complete'),
     url(r'^inf-edit$', views.fill_in_edit, name='is_inf'),
 
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
