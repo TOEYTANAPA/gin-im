@@ -62,6 +62,7 @@ class Profile(models.Model):
 	address = models.CharField(max_length=1000,blank=True,null=True)
 	picture=models.FileField(upload_to="profilePicture/",default="")
 	person_type =  models.CharField(max_length=100,blank=True,null=True)
+	status = models.CharField(max_length=10,blank=True,null=True,default="user")
 
 class StoreByUser(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
