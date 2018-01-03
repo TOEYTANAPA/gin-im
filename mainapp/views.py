@@ -133,9 +133,12 @@ def delivery(request):
 
 	if request.is_ajax():
 		address = request.GET.get('address',False)
+		phone_number = request.GET.get('phone_number',False)
+
 		order = request.GET.get('data',False)
 		order = json.loads(order)
 		print(address)
+		print(phone_number)
 		menu_list = []
 		amount_list = []
 
@@ -230,17 +233,27 @@ def shop(request, pk):
 				next_page = "/main/"+store.name
 				return HttpResponseRedirect(next_page)
 		elif "order" in request.POST:
+			print("order post")
 			output = []
 			total=0
 			price_per_menu = 0;
 			a = {"orderlist": [], "price": [], "url_pic": [], "amount": []}
 			for m in menues2:
 				temp = {'name': '', 'url_pic' : '', 'amount': 0,"store":store}
-				print("id",m.id)
+				# print("id",m.id)
 				if request.POST.get(str(m.id)) is  None:
-					# print("none")
-					pass
+					next_page = "/store/"+str(pk)
+					return HttpResponseRedirect(next_page)
+					# pass
+
 				else:
+					p = Profile.objects.get(user=request.user)
+					delivery_address = p.address 
+					delivery_phone = p.phone_number
+					print(p)
+					print(p.address)
+					print(p.name)
+					
 					a = request.POST.get(str(m.id))
 					name = Menu.objects.get(id=m.id).name
 					# print("earrn")
@@ -266,9 +279,9 @@ def shop(request, pk):
 							"store":store.id
 							})
 						# Order.objects.create(user=request.user,menu=m)
-
-		
-			return  render(request,'checkout.html',{'username':request.user.username,'data':json.dumps(output),'output':output,'total':total})
+						print("go to checkout")
+			return  render(request,'checkout.html',{'username':request.user.username,'data':json.dumps(output),
+				'output':output,'total':total,'delivery_address':delivery_address,'delivery_phone':delivery_phone})
 
 
 	return render(request,'stores.html',{'reviewForm':reviewForm,'username':request.user.username,'menues':reversed(menues2),'mobile_menues':reversed(menues2),
@@ -427,7 +440,7 @@ def outofstock(request):
     #         store.likes.remove(user)
     #     else:
     #         store.likes.add(user)
-    return render(request, 'outofstock.html',{'menues':reversed(menulist),'store':store,})
+    return render(request, 'outofstock.html',{'menues':reversed(menulist),'store':store,'mobile_menues':reversed(menulist)})
 
 def collect_session(request,act,val):
 	if request.user.is_authenticated():

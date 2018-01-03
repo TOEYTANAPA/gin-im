@@ -240,196 +240,160 @@
 </div>
 <br>
 <!--  <div class="uk-section uk-section-muted   uk-padding " > -->
-<div class="container menu-desktop" id="home">
-<ul class="uk-tab  uk-margin-remove-top" >
-    <li class="uk-active " ><a href="#" id="text-tab"> เมนู </a></li>
-    <li><a href="#review"  id="text-tab">รีวิว</a></li>
-    
-</ul>
-<br>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="uk-child-width-1-4@m uk-child-width-1-4@s  uk-grid-collapse uk-grid-match" uk-grid>
-        {% for menu in menues %}
-            <div >
-                <div class="uk-card-default uk-card uk-card-hover  " >
-                    <div class="uk-card-media-top" uk-lightbox >
-                        <a href="../{{menu.image.url}}">
-                            <div class="imgCrop">
-                                <img src=" ../{{menu.image.url}}" class="inImg" alt="{{menu.name}}" />
+        <div class="container menu-desktop" id="home">
+            
+            <ul class="uk-tab  uk-margin-remove-top" >
+                <li class="uk-active " ><a href="#" id="text-tab"> เมนู </a></li>
+                <li><a href="#review"  id="text-tab">รีวิว</a></li>
+                
+            </ul>
+            
+            <br>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="uk-child-width-1-4@m uk-child-width-1-4@s  uk-grid-collapse uk-grid-match" uk-grid>
+                    {% for menu in menues %}
+                        <div >
+                            <div class="uk-card-default uk-card uk-card-hover  " >
+                                <div class="uk-card-media-top" uk-lightbox >
+
+                                    <a href="../{{menu.image.url}}">
+                                    <div class="imgCrop">
+                                        <img src=" ../{{menu.image.url}}" class="inImg" alt="{{menu.name}}" />
+                                    </div>
+                                    </a>
+                                </div>
+                                <div class="uk-card-body uk-padding-small"  >
+                    
+                                    <p  >{{menu.name}}</p>
+                                    <p>ราคา {{menu.price}} ฿</p>
+                               
+                                    {% if delivery %}
+                                          <div class="input-group number-spinner uk-text-center uk-margin-top order"  >
+                                        
+                                        
+                                        
+                                        <button   type="button" class="uk-button uk-button-default uk-button-small " data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                                        
+                                        
+                                        <input style="font-weight: bold ; width: 30%; height: 30px" type="text" class="uk-input uk-form-medium uk-text-center" name="{{menu.id}}" value="0">
+                                   
+                                        <!-- <span> -->
+                                        <button  type="button" class="uk-button uk-button-default  uk-button-small " data-dir="up" style="height: 30px"><span class="glyphicon glyphicon-plus"></span></button>
+                                        <!-- </span> -->
+                                        
+                                        
+                                    </div>
+                    
+                                    {% endif %}
+                                    
+
+                                </div>
+
+                                 
                             </div>
-                        </a>
-                    </div>
-                    <div class="uk-card-body uk-padding-small"  >
-                        {% if menu.isSell %}
-                            <p  >{{menu.name}}</p>
-                            <p>ราคา {{menu.price}} ฿</p>
-                        {% else %}
-                            
-                            <!-- <div class=".uk-column-1-2@s">    </div> -->
-                            <!-- <div uk-grid>
-                                <div>  <p>{{menu.name}}  </p></div>
-                                <div>  <p class="sellOnlyShop">ขายที่ร้านเท่านั้น</p></div>
-                                </div> --><p>{{menu.name}}  </p>
-                                <p>ราคา {{menu.price}} ฿</p>
-                                <p class="sellOnlyShop">ขายที่ร้านเท่านั้น</p>
-                            {% endif %}
-                            
-                            
-                            {% if delivery and menu.isSell %}
-                                <div class="input-group number-spinner uk-text-center uk-margin-top order"  >
+                        </div>
+                        
+                    {% endfor %}
+                    
+                </div>
+           
+
+                 {% if delivery and user.is_authenticated %}
+                <div class="uk-text-center">
+                    <button type="submit" name="order"  class="uk-margin-top uk-button  " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
+                </div>
+                 {% endif %}
+               
+                
+            </form>
+                      {% if delivery and user.is_anonymous %}
+                <div class="uk-text-center">
+               
+                      <a href="#modal-sections" uk-toggle><button name="order"  class="uk-margin-top uk-button " style="color: white;"><h2 class="uk-margin-small-top">Log in เพื่อสั่งอาหาร</h2> </button></a>
+                </div>
+                 {% endif %}
+                  <br>
+        </div>
+     <div class="container menu-mobile" id="home">
+            
+            <ul class="uk-tab  uk-margin-remove-top" >
+                <li class="uk-active " ><a href="#" id="text-tab"> เมนู </a></li>
+                <li><a href="#review"  id="text-tab">รีวิว</a></li>
+                
+            </ul>
+            
+            <br>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="uk-child-width-1-1@m  uk-grid-collapse" uk-grid>
+                    {% for menu in mobile_menues %}
+                        <div class="uk-card uk-card-default uk-card-body uk-padding-small">
+                            <div class="uk-column-1-2" >
+                                <div class="uk-width-1-1 " uk-lightbox>
+                                        <a href="../{{menu.image.url}}">
+                                    <div class="imgCrop-mobile">
+                                             <img src="../{{menu.image.url}}"  class="uk-inline inImg-mobile" alt="{{menu.name}}" />
+                                    </div>
+                                        </a>
+                                       
+                                    
+                                </div>
+                                <div  class="">
+                      
+                                    <p  >{{menu.name}}</p>
+                                    <p>ราคา {{menu.price}} ฿</p>
+        
                                     
                                     
                                     
-                                    <button   type="button" class="uk-button uk-button-default uk-button-small " data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
-                                    
-                                    
-                                    <input style="font-weight: bold ; width: 30%; height: 30px" type="text" class="uk-input uk-form-medium uk-text-center" name="{{menu.name}}" value="0">
-                                    
-                                    <!-- <span> -->
-                                    <button  type="button" class="uk-button uk-button-default  uk-button-small " data-dir="up" style="height: 30px"><span class="glyphicon glyphicon-plus"></span></button>
-                                    <!-- </span> -->
+                                     {% if delivery %}
+                                          <div class="input-group number-spinner uk-text-center uk-margin-top "  >
+                                        
+                                        
+                                        
+                                        <button   type="button" class="uk-button uk-button-default uk-button-small  " data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                                        
+                                        
+                                        <input style="font-weight: bold ; width: 30%; height: 30px" type="text" class="uk-input uk-form-medium uk-text-center" name="{{menu.id}}" value="0">
+                                        
+                                        <!-- <span> -->
+                                        <button  type="button" class="uk-button uk-button-default  uk-button-small " data-dir="up" style="height: 30px"><span class="glyphicon glyphicon-plus"></span></button>
+                                        <!-- </span> -->
+                                        
+                                        
+                                    </div>
+                    
+                                    {% endif %}
+                                       <br>
+                                       <br>
                                     
                                     
                                 </div>
-                            {% endif %}
-                            
+                              
+                            </div>
                         </div>
-                        
-                    </div>
-                </div>
-                
-            {% endfor %}
-            <div >
-                <div class="uk-card-default uk-card uk-card-hover uk-text-center  uk-text-middle" >
-                   
-                    <div class="uk-card-body uk-padding-small uk-margin-large-top"  >
-                        <h2 class=""><i class="fa fa-plus-circle" aria-hidden="true"></i> เพิ่มเมนูอาหาร</h2>
-                        <a href="{% url 'add_menu' store.id %}" class=" uk-button uk-button-text  "
-                        > <h2>คลิกที่นี่</h2></a>
-                    </div>
+                    {% endfor %}
                     
                 </div>
-            </div>
- 
-        </div>
-        <!-- end card -->
-        
-    </div>
-    <!-- end section -->
-    {% if delivery and user.is_authenticated %}
-        <div class="uk-text-center">
-            <button type="submit" name="order"  class="uk-margin-top uk-button  " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
-        </div>
-    {% endif %}
-    
-    
-</form>
-{% if delivery and user.is_anonymous %}
-    <div class="uk-text-center">
-        
-        <a href="#modal-sections" uk-toggle><button name="order"  class="uk-margin-top uk-button " style="color: white;"><h2 class="uk-margin-small-top">Log in เพื่อสั่งอาหาร</h2> </button></a>
-    </div>
-{% endif %}
-<br>
-</div>
-<div class="container menu-mobile" id="home">
-
-<ul class="uk-tab  uk-margin-remove-top" >
-    <li class="uk-active " ><a href="#" id="text-tab"> เมนู </a></li>
-    <li><a href="#review"  id="text-tab">รีวิว</a></li>
-    
-</ul>
-
-<br>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="uk-child-width-1-1@m  uk-grid-collapse" uk-grid>
-        {% for menu in mobile_menues %}
-            <div class="uk-card uk-card-default uk-card-body uk-padding-small">
-                <div class="uk-column-1-2" >
-                    <div class="uk-width-1-1 " uk-lightbox>
-                        <a href="../{{menu.image.url}}">
-                            <div class="imgCrop-mobile">
-                                <img src="../{{menu.image.url}}"  class="uk-inline inImg-mobile" alt="{{menu.name}}" />
-                            </div>
-                        </a>
-                        
-                        
-                    </div>
-                    <div  class="">
-                         {% if menu.isSell %}
-                            <p  >{{menu.name}}</p>
-                            <p>ราคา {{menu.price}} ฿</p>
-                        {% else %}
-                            
-                            <!-- <div class=".uk-column-1-2@s">    </div> -->
-                            <!-- <div uk-grid>
-                                <div>  <p>{{menu.name}}  </p></div>
-                                <div>  <p class="sellOnlyShop">ขายที่ร้านเท่านั้น</p></div>
-                                </div> --><p>{{menu.name}}  </p>
-                                <p>ราคา {{menu.price}} ฿</p>
-                                <p class="sellOnlyShop">ขายที่ร้านเท่านั้น</p>
-                            {% endif %}
-
-                        
-                        
-                        
-                        {% if delivery and menu.isSell %}
-                            <div class="input-group number-spinner uk-text-center uk-margin-top "  >
-                                
-                                
-                                
-                                <button   type="button" class="uk-button uk-button-default uk-button-small  " data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
-                                
-                                
-                                <input style="font-weight: bold ; width: 30%; height: 30px" type="text" class="uk-input uk-form-medium uk-text-center" name="{{menu.name}}" value="0">
-                                
-                                <!-- <span> -->
-                                <button  type="button" class="uk-button uk-button-default  uk-button-small " data-dir="up" style="height: 30px"><span class="glyphicon glyphicon-plus"></span></button>
-                                <!-- </span> -->
-                                
-                                
-                            </div>
-                            
-                        {% endif %}
-                        <br>
-                        <br>
-                        
-                        
-                    </div>
                     
+                 {% if delivery and user.is_authenticated %}
+                <div class="uk-text-center">
+                    <button type="submit" name="order"  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
                 </div>
-            </div>
-        {% endfor %}
-          <div >
-                <div class="uk-card-default uk-card uk-card-hover uk-text-center  uk-text-middle" >
-                   
-                    <div class="uk-card-body uk-padding-small uk-margin-large-top"  >
-                        <h2 class=""><i class="fa fa-plus-circle" aria-hidden="true"></i> เพิ่มเมนูอาหาร</h2>
-                        <a href="{% url 'add_menu' store.id %}" class=" uk-button uk-button-text  "
-                        > <h2>คลิกที่นี่</h2></a>
-                    </div>
-                    
+                 {% endif %}
+            </form>
+                    {% if delivery and user.is_anonymous %}
+                <div class="uk-text-center">
+               
+                      <a href="#modal-sections" uk-toggle><button name="order"  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top">Log in เพื่อสั่งอาหาร</h2> </button></a>
+
+                     
+
                 </div>
-            </div>
-    </div>
-    
-    {% if delivery and user.is_authenticated %}
-        <div class="uk-text-center">
-            <button type="submit" name="order"  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
+                 {% endif %}
+            <br>
         </div>
-    {% endif %}
-</form>
-{% if delivery and user.is_anonymous %}
-    <div class="uk-text-center">
-        
-        <a href="#modal-sections" uk-toggle><button name="order"  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top">Log in เพื่อสั่งอาหาร</h2> </button></a>
-        
-    </div>
-{% endif %}
-<br>
-</div>
 <div id="modal-sections"  uk-modal>
 <div class="uk-modal-dialog" style="width: 400px">
     <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -438,18 +402,15 @@
     </div>
     <div class="uk-modal-body">
         <div class="uk-container">
-            <div class="uk-margin-small">
-                <a class="uk-width-1-1 uk-button uk-button-default" href="#facebook" uk-toggle style="background-color: #3B5998;color:white">
+           <div class="uk-margin-small">
+                <a href="{% url 'social:begin' 'facebook' %}" class="uk-width-1-1 uk-button uk-button-default" href="#facebook"  style="background-color: #3B5998;color:white">
                 <img class="pull-left login-icon " src="{% static "images/facebook.png" %}"/>Facebook</a>
             </div>
             <div class="uk-margin-small">
-                <a class="uk-width-1-1 uk-button uk-button-default" href="#gmail" uk-toggle style="background-color: #d9534f;color:white" >
+                <a href="{% url 'social:begin' 'google-oauth2' %}" class="uk-width-1-1 uk-button uk-button-default" style="background-color: #d9534f;color:white" >
                 <img class="pull-left login-icon " src="{% static "images/google.png" %}"/>Google</a>
             </div>
-            <div class="uk-margin-small">
-                <a class="uk-width-1-1 uk-button uk-button-default" href="#line" uk-toggle style="background-color: #00c139;color:white">
-                <img class="pull-left login-icon " src="{% static "images/line.png" %}"/>Line</a>
-            </div>
+          
             <div class="uk-margin-small ">
                 <ul class="uk-subnav uk-subnav-divider uk-margin-left" >
                     <li><a href="{% url 'login'   %}"  class="uk-button-text" ><h2>เข้าสู่ระบบ</h2></a></li>

@@ -48,7 +48,9 @@
     height:90px;
     object-fit: cover;
     }
-
+ input[type=text],.uk-textarea{
+  background-color: #EEEEEE;  
+ }
     
     </style>
     <!-- banner -->
@@ -56,12 +58,19 @@
     <!-- end banner -->
     <!-- <br>     -->
     <hr class="uk-box-shadow-medium "> {% csrf_token %}
-    <div class="container uk-margin-medium-top" id="home">
-        <div class=" uk-margin-medium-bottom">
+
+      <div class="uk-background-muted" style="margin-top: -20px;">
+        <div class="container profile-desktop " id="home">
+            <br>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body uk-margin-remove">
+   <!--  <div class="container uk-margin-medium-top" id="home" style="background-color: #F8F8F8">
+        <div class=" uk-margin-medium-bottom"> -->
             
                <h2 class="uk-heading-bullet">ตรวจสอบรายการ</h2>
             <hr>
-            <table class="uk-table uk-table-divider uk-margin-remove-bottom  ">
+            <!-- <br> -->
+            <table class="uk-table uk-table-divider  uk-margin-remove-bottom  ">
                 
                 <tbody>
                     {% for order in output %}
@@ -81,36 +90,44 @@
                             <td class="uk-width-small">  <h4> {{order.price}} บาท</h4></td>
                         </tr>
                     {% endfor %}
-                    
-                </tbody>
-            </table>
-            <hr>
-            <table class="uk-table" style="margin-top: -20px">
-                
-                <tbody class=" uk-margin-remove-top ">
-                    
-                    
-                    <tr style="font-weight: bold;color: black">
-                        <td class="uk-width-small ">   <h3 >รวม</h3></td>
+                     <tr style="font-weight: bold;color: black">
+                        <td class="uk-width-small uk-text-center">   <h3 >รวม</h3></td>
                         <td class="uk-width-small"> </td>
                         <td class="uk-width-small">  <h3> {{total}} บาท</h3></td>
                         
                     </tr>
+                </tbody>
+            </table>
+            <hr>
+        <!--     <table class="uk-table " style="margin-top: -20px">
+                
+                <tbody class=" uk-margin-remove-top ">
+                    
+                    
+                   
                     
                     
                 </tbody>
-            </table>
+            </table> -->
         <br>
+        <h2 class="uk-heading-bullet">เบอร์โทรศัพท์ที่สามารถติดต่อได้</h2>
+
+              <div class="uk-margin">
+          <input id="myPhoneNumbet" class="uk-input" type="text" placeholder="{{delivery_phone}}">
+        </div>
              <h2 class="uk-heading-bullet">ที่อยู่จัดส่ง</h2>
 
               <div class="uk-margin">
-            <textarea id="myTextarea" class="uk-textarea" rows="5" placeholder="{{delivery_address}}"></textarea>
+            <textarea id="myTextarea" class="uk-textarea" rows="3" placeholder="{{delivery_address}}"></textarea>
         </div>
                 <button  class="uk-margin-top uk-button uk-align-center" id="order" style="color: white;background-color: "><h1 class="uk-margin-small-top">ชำระเงิน</h1></button>
          
         </div>
+              </div>
         
     </div>
+    </div>
+    <br>
 {% block javascript %}
   <script type="text/javascript"> 
         $(document).ready(function(){
@@ -124,12 +141,13 @@
                 }
                 console.log(address);
                 var data = JSON.stringify({{output|safe}});
-                var data2= JSON.stringify(address);
+                var d_address= JSON.stringify(address);
+                var d_phone_number =  document.getElementById("myPhoneNumbet").value;
                
                 $.ajax({
                     url: '/delivery/',
                     type: 'GET',
-                    data: {'data':data,'address':data2,
+                    data: {'data':data,'address':d_address,'phone_number':d_phone_number,
                         csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
                     },
                     dataType: "json",
