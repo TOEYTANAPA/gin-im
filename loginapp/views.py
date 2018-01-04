@@ -266,194 +266,93 @@ def signup(request):
 def profile(request):
     check = Profile.objects.get(user=request.user)
     print(check.status)
-    if check.status == 'store' :
-        love_list = []
-        order_list =[]
-        try:
-            p = Profile.objects.get(user = request.user)
-            print (p.name)
-            print (p.picture.url)
-            form = ProfileForm(initial={'name': p.name,'image':p.picture.url,'phone':p.phone_number,'address':p.address})
-            form.fields['name'].widget.attrs['placeholder'] = p.name
+    love_list = []
+    order_list =[]
+    try:
+        p = Profile.objects.get(user = request.user)
+        print (p.name)
+        print (p.picture.url)
+        form = ProfileForm(initial={'name': p.name,'image':p.picture.url,'phone':p.phone_number,'address':p.address})
+        form.fields['name'].widget.attrs['placeholder'] = p.name
             # form.fields['image'].widget.attrs['placeholder'] = p.picture.url
-            form.fields['phone'].widget.attrs['placeholder'] = p.phone_number
-            form.fields['address'].widget.attrs['placeholder'] = p.address
+        form.fields['phone'].widget.attrs['placeholder'] = p.phone_number
+        form.fields['address'].widget.attrs['placeholder'] = p.address
 
-            if request.method == 'POST':
-                form = ProfileForm(request.POST, request.FILES)
-                if form.is_valid():
-                    print("Earn")
-                    profile_update = Profile.objects.filter(user=request.user).update(name=form.cleaned_data['name'],
-                        picture= request.FILES['image'],
-                        address=form.cleaned_data['address'],
-                         phone_number=form.cleaned_data['phone'])
-                    p = Profile.objects.get(user=request.user)
-                    p.picture = request.FILES['image']
-                    p.save()
-                    # form.save()
-                   
-                    # login(request, user)
-                    return redirect('profile')
-           
-            love = {'name' : '' , 'img':''}   
-          
-            user = request.user
-            store = Store.objects.filter(likes=user)
-            for l in store:
-                love['name'] = l.name
-                love['img'] = l.image
-                love_list.append(love)
-           
-
-            try :
-                reviews = Review.objects.filter(user=request.user)
-                temp = { 'rating_color': 0,'rating_no_color': 0, }
-                rate = []
-                profile_picture = []
-                for i in reviews:
-                    temp['rating_color'] = i.rating
-                    temp['rating_no_color'] = 5 - temp['rating_color']
-                    rate.append(temp)
-                    profile_picture.append(Profile.objects.get(user=i.user).picture.url)
-
-                out = zip(reviews,rate,profile_picture)
-                mobile_out = zip(reviews,rate,profile_picture)
-                # review
-
-            except Exception as ex:
-                messages.error(request, ex)
-                raise Http404()
-                # raise Http404(ex)
-
-            try :
-                orders = Order.objects.filter(user=request.user)
-                for i in orders:
-                    temp = {'id':0,'name_s':"",'menu_amount':[],'date':None}
-                    temp['id'] = i.id
-                    print(i.store.id)
-                    s = Store.objects.get(id=i.store.id) 
-                    temp['name_s'] = s.name
-                    temp['date'] = i.date
-
-                    menu_list = []
-                    amount_list = []
-                    keys = ['menu','amount']
-                    for m,a in zip(i.menu,i.amount):
-                        ma = {'menu':Menu.objects.get(id=m),'amount':a}
-                        temp['menu_amount'].append(ma)
-            #             menu_list.append(Menu.objects.get(id=m))
-            #             amount_list.append(a)
-                        
-            # { row.SITE_NAME : row.LOOKUP_TABLE for row in cursor }
-                    
-            #         temp['menu_amount'](dict(zip(menu_list, amount_list)))
+        if request.method == 'POST':
+            form = ProfileForm(request.POST, request.FILES)
+            if form.is_valid():
+              
+                profile_update = Profile.objects.filter(user=request.user).update(name=form.cleaned_data['name'],
+                picture= request.FILES['image'],
+                address=form.cleaned_data['address'],
+                phone_number=form.cleaned_data['phone'])
+                p = Profile.objects.get(user=request.user)
+                p.picture = request.FILES['image']
+                p.save()
                 
+                return redirect('profile')
+           
+        love = {'name' : '' , 'img':''}   
+          
+        user = request.user
+        store = Store.objects.filter(likes=user)
+        for l in store:
+            love['name'] = l.name
+            love['img'] = l.image
+            love_list.append(love)
+           
 
-                    order_list.append(temp)
+        try :
+            reviews = Review.objects.filter(user=request.user)
+            temp = { 'rating_color': 0,'rating_no_color': 0, }
+            rate = []
+            profile_picture = []
+            for i in reviews:
+                temp['rating_color'] = i.rating
+                temp['rating_no_color'] = 5 - temp['rating_color']
+                rate.append(temp)
+                profile_picture.append(Profile.objects.get(user=i.user).picture.url)
 
-            except :
-                raise
+            out = zip(reviews,rate,profile_picture)
+            mobile_out = zip(reviews,rate,profile_picture)
+              
+        except Exception as ex:
+            messages.error(request, ex)
+            raise Http404()
+         
+        try :
+            orders = Order.objects.filter(user=request.user)
+            for i in orders:
+                temp = {'id':0,'name_s':"",'menu_amount':[],'date':None}
+                temp['id'] = i.id
+                print(i.store.id)
+                s = Store.objects.get(id=i.store.id) 
+                temp['name_s'] = s.name
+                temp['date'] = i.date
+
+                menu_list = []
+                amount_list = []
+                keys = ['menu','amount']
+                for m,a in zip(i.menu,i.amount):
+                    ma = {'menu':Menu.objects.get(id=m),'amount':a}
+                    temp['menu_amount'].append(ma)
+   
+                order_list.append(temp)
+
+        except :
+            raise
 
 
-        except Profile.DoesNotExist:
-                raise
+    except Profile.DoesNotExist:
+            raise
 
-
+    if check.status == 'store' :
 
         return render(request, 'profile_store.html',{'form': form,'username': request.user.username,
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
             'mobile_out':mobile_out})
     else :
-        love_list = []
-        order_list =[]
-        try:
-            p = Profile.objects.get(user = request.user)
-            print (p.name)
-            print (p.picture.url)
-            form = ProfileForm(initial={'name': p.name,'image':p.picture.url,'phone':p.phone_number,'address':p.address})
-            form.fields['name'].widget.attrs['placeholder'] = p.name
-            # form.fields['image'].widget.attrs['placeholder'] = p.picture.url
-            form.fields['phone'].widget.attrs['placeholder'] = p.phone_number
-            form.fields['address'].widget.attrs['placeholder'] = p.address
-
-            if request.method == 'POST':
-                form = ProfileForm(request.POST, request.FILES)
-                if form.is_valid():
-                    print("Earn")
-                    profile_update = Profile.objects.filter(user=request.user).update(name=form.cleaned_data['name'],
-                        picture= request.FILES['image'],
-                        address=form.cleaned_data['address'],
-                         phone_number=form.cleaned_data['phone'])
-                    p = Profile.objects.get(user=request.user)
-                    p.picture = request.FILES['image']
-                    p.save()
-                    # form.save()
-                   
-                    # login(request, user)
-                    return redirect('profile')
-           
-            love = {'name' : '' , 'img':''}   
-          
-            user = request.user
-            store = Store.objects.filter(likes=user)
-            for l in store:
-                love['name'] = l.name
-                love['img'] = l.image
-                love_list.append(love)
-           
-
-            try :
-                reviews = Review.objects.filter(user=request.user)
-                temp = { 'rating_color': 0,'rating_no_color': 0, }
-                rate = []
-                profile_picture = []
-                for i in reviews:
-                    temp['rating_color'] = i.rating
-                    temp['rating_no_color'] = 5 - temp['rating_color']
-                    rate.append(temp)
-                    profile_picture.append(Profile.objects.get(user=i.user).picture.url)
-
-                out = zip(reviews,rate,profile_picture)
-                mobile_out = zip(reviews,rate,profile_picture)
-                # review
-
-            except :
-                raise
-
-            try :
-                orders = Order.objects.filter(user=request.user)
-                for i in orders:
-                    temp = {'id':0,'name_s':"",'menu_amount':[],'date':None}
-                    temp['id'] = i.id
-                    print(i.store.id)
-                    s = Store.objects.get(id=i.store.id) 
-                    temp['name_s'] = s.name
-                    temp['date'] = i.date
-
-                    menu_list = []
-                    amount_list = []
-                    keys = ['menu','amount']
-                    for m,a in zip(i.menu,i.amount):
-                        ma = {'menu':Menu.objects.get(id=m),'amount':a}
-                        temp['menu_amount'].append(ma)
-            #             menu_list.append(Menu.objects.get(id=m))
-            #             amount_list.append(a)
-                        
-            # { row.SITE_NAME : row.LOOKUP_TABLE for row in cursor }
-                    
-            #         temp['menu_amount'](dict(zip(menu_list, amount_list)))
-                
-
-                    order_list.append(temp)
-
-            except :
-                raise
-
-
-        except Profile.DoesNotExist:
-                raise
-
-
+    
 
         return render(request, 'profile.html',{'form': form,'username': request.user.username,
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
