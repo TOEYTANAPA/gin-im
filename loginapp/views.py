@@ -407,11 +407,3 @@ def profile(request):
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
             'mobile_out':mobile_out})
 
-    # return render(request, 'profile.html',{'user_order_list':user_order_list,'form': form,
-    #     'person':p,'love_list':love_list,'order_list':order_list,'out':out,
-    #     'mobile_out':mobile_out,'user_order_list_mobile':user_order_list})
-
-
-
-
-
