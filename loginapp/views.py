@@ -264,12 +264,6 @@ def signup(request):
 
 @login_required
 def profile(request):
-<<<<<<< HEAD
-    check = Profile.objects.get(user=request.user)
-    print(check.status)
-    love_list = []
-    order_list =[]
-=======
     # try:
     #     UserSocialAuth.objects.get(user_id=request.user.id)
     # except UserSocialAuth.DoesNotExist:
@@ -284,46 +278,19 @@ def profile(request):
     order_list =[]
 
     user_order_list=[]
->>>>>>> c186867f8ffb55f61885c01127dfa34fa197433d
     try:
         p = Profile.objects.get(user = request.user)
         print (p.name)
         print (p.picture.url)
         form = ProfileForm(initial={'name': p.name,'image':p.picture.url,'phone':p.phone_number,'address':p.address})
         form.fields['name'].widget.attrs['placeholder'] = p.name
-<<<<<<< HEAD
-            # form.fields['image'].widget.attrs['placeholder'] = p.picture.url
-=======
         # form.fields['image'].widget.attrs['placeholder'] = p.picture.url
->>>>>>> c186867f8ffb55f61885c01127dfa34fa197433d
         form.fields['phone'].widget.attrs['placeholder'] = p.phone_number
         form.fields['address'].widget.attrs['placeholder'] = p.address
 
         if request.method == 'POST':
             form = ProfileForm(request.POST, request.FILES)
             if form.is_valid():
-<<<<<<< HEAD
-              
-                profile_update = Profile.objects.filter(user=request.user).update(name=form.cleaned_data['name'],
-                picture= request.FILES['image'],
-                address=form.cleaned_data['address'],
-                phone_number=form.cleaned_data['phone'])
-                p = Profile.objects.get(user=request.user)
-                p.picture = request.FILES['image']
-                p.save()
-                
-                return redirect('profile')
-           
-        love = {'name' : '' , 'img':''}   
-          
-        user = request.user
-        store = Store.objects.filter(likes=user)
-        for l in store:
-            love['name'] = l.name
-            love['img'] = l.image
-            love_list.append(love)
-           
-=======
                 print("Earn",form.cleaned_data['name'])
                 profile_update = Profile.objects.filter(user=request.user).update(
                     name=form.cleaned_data['name'],
@@ -353,7 +320,6 @@ def profile(request):
             love['name'] = l.name
             love_list.append(love)
        
->>>>>>> c186867f8ffb55f61885c01127dfa34fa197433d
 
         try :
             reviews = Review.objects.filter(user=request.user)
@@ -368,19 +334,11 @@ def profile(request):
 
             out = zip(reviews,rate,profile_picture)
             mobile_out = zip(reviews,rate,profile_picture)
-<<<<<<< HEAD
-              
-        except Exception as ex:
-            messages.error(request, ex)
-            raise Http404()
-         
-=======
             # review
 
         except :
             raise
 
->>>>>>> c186867f8ffb55f61885c01127dfa34fa197433d
         try :
             orders = Order.objects.filter(user=request.user)
             for i in orders:
@@ -393,24 +351,6 @@ def profile(request):
 
                 menu_list = []
                 amount_list = []
-<<<<<<< HEAD
-                keys = ['menu','amount']
-                for m,a in zip(i.menu,i.amount):
-                    ma = {'menu':Menu.objects.get(id=m),'amount':a}
-                    temp['menu_amount'].append(ma)
-   
-                order_list.append(temp)
-
-        except :
-            raise
-
-
-    except Profile.DoesNotExist:
-            raise
-
-    if check.status == 'store' :
-
-=======
                 
                 for m,a in zip(i.menu,i.amount):
                     ma = {'menu':Menu.objects.get(id=m),'amount':a}
@@ -457,7 +397,6 @@ def profile(request):
     check = Profile.objects.get(user=request.user)
     if check.status == 'store' :
 
->>>>>>> c186867f8ffb55f61885c01127dfa34fa197433d
         return render(request, 'profile_store.html',{'form': form,'username': request.user.username,
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
             'mobile_out':mobile_out})
@@ -467,12 +406,4 @@ def profile(request):
         return render(request, 'profile.html',{'form': form,'username': request.user.username,
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
             'mobile_out':mobile_out})
-
-    # return render(request, 'profile.html',{'user_order_list':user_order_list,'form': form,
-    #     'person':p,'love_list':love_list,'order_list':order_list,'out':out,
-    #     'mobile_out':mobile_out,'user_order_list_mobile':user_order_list})
-
-
-
-
 
