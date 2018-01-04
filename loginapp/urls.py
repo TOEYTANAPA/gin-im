@@ -6,6 +6,14 @@ from django.contrib.auth import views as auth_views
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import (
+handler400, handler403, handler404, handler500
+)
+
+handler400 = 'mainapp.views.bad_request'
+handler403 = 'mainapp.views.permission_denied'
+handler404 = 'mainapp.views.page_not_found'
+handler500 = 'mainapp.views.server_error'
 
 urlpatterns = [
 

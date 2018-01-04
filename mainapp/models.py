@@ -165,3 +165,5 @@ class Informations(models.Model):
 #     comment = models.CharField(max_length=200)
 #     rating = models.IntegerField()
 #     picDR = models.ImageField(upload_to="documents/",default="")
+
+

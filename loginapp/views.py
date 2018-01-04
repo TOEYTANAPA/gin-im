@@ -8,7 +8,35 @@ from django.views.generic.edit import UpdateView
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.http import Http404
+def handler404(request):
+    print("404")
+    response = render_to_response('404.html',{},
+                                  context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
 
+
+def handler403(request):
+    print("403")
+    response = render_to_response('403.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 403
+    return response
+
+def handler400(request):
+    print("400")
+    response = render_to_response('400.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 400
+    return response
+
+def handler500(request):
+    print("500")
+    response = render_to_response('500.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
 
 def home(request):
     return render(request, 'home.html',{'username': request.user.username})
@@ -292,8 +320,10 @@ def profile(request):
                 mobile_out = zip(reviews,rate,profile_picture)
                 # review
 
-            except :
-                raise
+            except Exception as ex:
+                messages.error(request, ex)
+                raise Http404()
+                # raise Http404(ex)
 
             try :
                 orders = Order.objects.filter(user=request.user)
