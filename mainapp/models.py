@@ -22,7 +22,9 @@ class Store(models.Model):
 	longtitude=models.FloatField(default=100.607963,null=True, blank=True)
 	social = models.CharField(max_length=100,blank=True,null=True)
 	likes = models.ManyToManyField(User, related_name="likes",blank=True,null=True)
+	delivery_boundary = models.CharField(max_length=1000,blank=True,null=True)
 	created_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+
 
 
 	def __str__(self):
@@ -150,6 +152,12 @@ class Informations(models.Model):
 	dessert = models.BooleanField(default=False)
 	coffee = models.BooleanField(default=False)
 	juice = models.BooleanField(default=False)
+
+class Payment(models.Model):
+	store = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
+	pay = models.CharField(max_length=200,blank=True,null=True)
+	
+
 
 # class Review(models.Model):
 #     RATING_CHOICES = (

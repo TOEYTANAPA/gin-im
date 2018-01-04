@@ -51,7 +51,16 @@
  input[type=text],.uk-textarea,.uk-select{
   background-color: #EEEEEE;  
  }
-    
+    .imgCrop{
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position:  relative;
+        }
+  /*     .uk-button-order :hover{
+                color: white;
+        background-color: #FFCA28;
+    }*/
     </style>
     <!-- banner -->
     
@@ -116,6 +125,7 @@
           <input id="myPhoneNumbet" class="uk-input" type="text" placeholder="{{delivery_phone}}">
         </div>
              <h2 class="uk-heading-bullet">ที่อยู่จัดส่ง</h2>
+             <label for="">ขอบเขตที่ร้านค้าสามารถจัดส่งได้ {{store.delivery_boundary}} </label> 
 
               <div class="uk-margin">
             <textarea id="myTextarea" class="uk-textarea" rows="3" placeholder="{{delivery_address}}"></textarea>
@@ -128,8 +138,48 @@
                 <option>เงินสด</option>
             </select>
         </div>
+        <div id="promptpayBlock">
+               <img class="imgCrop" style="width: 150px;height: 150px"  src="https://promptpay.io/0958634627.png">
+        </div>
+     
+        <br>
+        <div class="">
+ <!-- <h2 class="uk-heading-bullet">เงื่อนไขและข้อตกลงในการใช้บริการ</h2> -->
+            <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center">
+<h3>เงื่อนไขและข้อตกลงในการใช้บริการ</h3>
+   <label>1. ขอบเขตการส่งอาหาร</label>
+         <p> กรณีที่ลูกค้าระบุตำแหน่งจัดส่งสินค้านอกเหนือจากขอบเขตที่ร้านค้ากำหนด ทางร้านค้าจะไม่จัดส่งอาหาร</p>
+          <label>2. เมื่อยืนยันการสั่งอาหารแล้วทางเราจะไม่รับผิดชอบใดๆทั้งสิ้น </label>
+        <!-- <p> กรณีที่</p> -->
+        <p> เมื่อยืนยันการสั่งอาหาร ลูกค้าติดต่อกับทางร้านค้าด้วยตนเอง</p>
+        <br>
+         <label class="" ><input id="conditionCheck" class="uk-checkbox " style="margin-top: -2px" type="checkbox"> ยอมรับเงื่อนไขและข้อตกลงในการใช้บริการ </label> 
+</div>
+           
 
-                <button  class="uk-margin-top uk-button uk-align-center" id="order" style="color: white;background-color: "><h1 class="uk-margin-small-top">ชำระเงิน</h1></button>
+
+
+   <!--        <label class="uk-text-center uk-text-middle" ><input id="conditionCheck" class="uk-checkbox " style="margin-top: -2px" type="checkbox"> <a href="#modal-example " uk-toggle>ยอมรับเงื่อนไขและข้อตกลงในการใช้บริการ </a></label>   --> 
+        </div>
+
+
+
+
+<!-- This is the modal -->
+<div id="modal-example" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title ">เงื่อนไขและข้อตกลงในการใช้บริการ</h2>
+       
+        
+        <p class="uk-text-right">
+            <!-- <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button> -->
+            <button class="uk-button uk-button-primary uk-modal-close" type="button">ตกลง</button>
+        </p>
+    </div>
+</div>
+
+
+                <button  class="uk-margin-top uk-button uk-button-order uk-align-center" id="orderBtn" style="color: white; " disabled><h1 class="uk-margin-small-top">ชำระเงิน</h1></button>
          
         </div>
               </div>
@@ -140,8 +190,31 @@
 {% block javascript %}
   <script type="text/javascript"> 
         $(document).ready(function(){
+// document.getElementById("orderBtn").disabled = true;
+            var ckbox = $('#conditionCheck');
 
-            $("#order").click(function() {
+    $('input').on('click',function () {
+        if (ckbox.is(':checked')) {
+            document.getElementById("orderBtn").disabled = false;
+        } else {
+            document.getElementById("orderBtn").disabled = true;
+        }
+    });
+
+        var select_index = document.getElementById("selectPayment").selectedIndex;
+        var y = document.getElementById("selectPayment").options;
+        var payment = y[select_index].text
+        var x = document.getElementById("promptpayBlock");
+        if (payment ==  "PromtPay") {
+              
+        x.style.display = "block";
+              }
+        else {
+           x.style.display = "none";
+        }
+       
+
+            $("#orderBtn").click(function() {
               
                   
                 var address =  document.getElementById("myTextarea").value;
@@ -152,7 +225,7 @@
                 var data = JSON.stringify({{output|safe}});
                 var d_address= JSON.stringify(address);
                 var d_phone_number =  document.getElementById("myPhoneNumbet").value;
-                var payment = document.getElementById("selectPayment").options.text;
+              
                 console.log(payment);
                 $.ajax({
                     url: '/delivery/',

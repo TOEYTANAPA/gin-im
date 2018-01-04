@@ -136,7 +136,6 @@ def delivery(request):
 		address = request.GET.get('address',False)
 		phone_number = request.GET.get('phone_number',False)
 		payment = request.GET.get('payment',False)
-
 		order = request.GET.get('data',False)
 		order = json.loads(order)
 		print(address)
@@ -284,7 +283,7 @@ def shop(request, pk):
 						# Order.objects.create(user=request.user,menu=m)
 						print("go to checkout")
 			return  render(request,'checkout.html',{'username':request.user.username,'data':json.dumps(output),
-				'output':output,'total':total,'delivery_address':delivery_address,'delivery_phone':delivery_phone})
+				'output':output,'total':total,'delivery_address':delivery_address,'delivery_phone':delivery_phone,'store':store})
 
 
 	return render(request,'stores.html',{'reviewForm':reviewForm,'username':request.user.username,'menues':reversed(menues2),'mobile_menues':reversed(menues2),
