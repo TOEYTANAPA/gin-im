@@ -53,3 +53,11 @@ admin.site.register(QMatrix, QMatrixAdmin)
 class InformationsAdmin(admin.ModelAdmin):
 	list_display=[f.name for f in Informations._meta.fields]
 admin.site.register(Informations, InformationsAdmin)
+
+class GetCouponAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in GetCoupon._meta.fields]
+admin.site.register(GetCoupon, GetCouponAdmin)
+
+class CouponAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in Coupon._meta.fields]
+admin.site.register(Coupon, CouponAdmin)

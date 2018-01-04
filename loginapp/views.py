@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import Http404
+from datetime import date
 def handler404(request):
     print("404")
     response = render_to_response('404.html',{},
@@ -264,18 +265,11 @@ def signup(request):
 
 @login_required
 def profile(request):
-    # try:
-    #     UserSocialAuth.objects.get(user_id=request.user.id)
-    # except UserSocialAuth.DoesNotExist:
-    #     print "user is logged in using the django default authentication"
-    # else:
-    #     print "user is logged in via social authentication"
-    #     p = Profile(user=request.user,name=request.user.first_name,email='')
-    #     p.save()
-
+    
 
     love_list = []
     order_list =[]
+    coupon_list =[]
 
     user_order_list=[]
     try:
@@ -318,6 +312,7 @@ def profile(request):
             love['id'] = l.id
             love['img'] = l.image
             love['name'] = l.name
+            print(love['id'] ," this is id")
             love_list.append(love)
        
 
@@ -363,31 +358,30 @@ def profile(request):
         except :
             pass
 
+        try :
+            coupon = GetCoupon.objects.filter(user=request.user)
+            for i in coupon :   
+                c = Coupon.objects.get(id=i.coupon.id)
+                # print("Is expired : ",date.today() !>  c.date_expire)
+                temp = {'id_coupon': 0,'id_store':0,'name':"",'msg':"",'amount':1,'date': None,'code':"-", 'image':""}
+                if i.amount > 0 and date.today() <  c.date_expire :            
+
+                    temp['id_coupon'] = c.id
+                    temp['name'] = c.store.name
+                    temp['id_store'] = c.store.id
+                    temp['msg'] = c.msg
+                    temp['amount'] = i.amount
+                    temp['date'] = c.date_expire
+                    temp['image'] = c.image
+                    if c.code != None :
+                        temp['code'] = c.code
+                    coupon_list.append(temp)
+        except :
+            raise
+
        
 
-        if user.groups.filter(name='stores').exists() :
-
-            try :
-                p = Store.objects.get(user = request.user)
-                user_order = Order.objects.filter(store__id=p.id)
-
-                for i in user_order:
-                    temp = {'id':0,'username':'','address':'','menu_amount':[],'date':None,'total':0}
-                    temp['id'] = i.id
-                    temp['username'] = i.user.username
-                    temp['address'] = i.address
-                    temp['total'] = i.total
-                    menu_list = []
-                    amount_list = []
-                    
-                    for m,a in zip(i.menu,i.amount):
-                        ma = {'menu':Menu.objects.get(id=m),'amount':a}
-                        temp['menu_amount'].append(ma)
-                    temp['date'] = i.date
-
-                    user_order_list.append(temp)
-            except :
-                raise
+        
 
     except Profile.DoesNotExist:
         form = ProfileForm()
@@ -396,14 +390,37 @@ def profile(request):
     
     check = Profile.objects.get(user=request.user)
     if check.status == 'store' :
+        try :
+            p = Store.objects.get(user = request.user)
+            user_order = Order.objects.filter(store__id=p.id)
+
+            for i in user_order:
+                temp = {'id':0,'username':'','address':'','menu_amount':[],'date':None,'total':0}
+                temp['id'] = i.id
+                temp['username'] = i.user.username
+                temp['address'] = i.address
+                temp['total'] = i.total
+                menu_list = []
+                amount_list = []
+                    
+                for m,a in zip(i.menu,i.amount):
+                    ma = {'menu':Menu.objects.get(id=m),'amount':a}
+                    temp['menu_amount'].append(ma)
+                temp['date'] = i.date
+
+                user_order_list.append(temp)
+        except :
+            raise
 
         return render(request, 'profile_store.html',{'form': form,'username': request.user.username,
-            'person':p,'love_list':love_list,'order_list':order_list,'out':out,
+            'person':p,'user_order_list_mobile':user_order_list,'out':out,
             'mobile_out':mobile_out})
     else :
+
+
     
 
         return render(request, 'profile.html',{'form': form,'username': request.user.username,
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
-            'mobile_out':mobile_out})
+            'mobile_out':mobile_out,'coupon_list':coupon_list,'coupon_list_mobile':coupon_list})
 

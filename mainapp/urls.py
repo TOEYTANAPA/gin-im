@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/addMenu/?$', views.addMenu, name='add_menu'),
     url(r'^store/(?P<pk>\d+)/?$', views.shop, name='shop'),
     url(r'^search/(?P<cate>.*)?$',views.searchBycate, name='search_cate'),
+    url(r'^usecoupon/(?P<coupon>\d+)?$',views.use_coupon, name='use_coupon'),
     url(r'^search/?$',views.searchAll, name='search_input'),
     url(r'^about-ginim/?$',views.about_us, name='about_us'),
     url(r'^contact/?$',views.contact, name='contact'),
