@@ -135,11 +135,13 @@ def delivery(request):
 	if request.is_ajax():
 		address = request.GET.get('address',False)
 		phone_number = request.GET.get('phone_number',False)
+		payment = request.GET.get('payment',False)
 
 		order = request.GET.get('data',False)
 		order = json.loads(order)
 		print(address)
 		print(phone_number)
+		print(payment)
 		menu_list = []
 		amount_list = []
 

@@ -48,7 +48,7 @@
     height:90px;
     object-fit: cover;
     }
- input[type=text],.uk-textarea{
+ input[type=text],.uk-textarea,.uk-select{
   background-color: #EEEEEE;  
  }
     
@@ -120,6 +120,15 @@
               <div class="uk-margin">
             <textarea id="myTextarea" class="uk-textarea" rows="3" placeholder="{{delivery_address}}"></textarea>
         </div>
+        <h2 class="uk-heading-bullet">วิธีการขำระเงิน</h2>
+
+              <div class="uk-margin uk-width-1-3@m">
+              <select id="selectPayment"  class="uk-select">
+                <option>PromtPay</option>
+                <option>เงินสด</option>
+            </select>
+        </div>
+
                 <button  class="uk-margin-top uk-button uk-align-center" id="order" style="color: white;background-color: "><h1 class="uk-margin-small-top">ชำระเงิน</h1></button>
          
         </div>
@@ -143,11 +152,12 @@
                 var data = JSON.stringify({{output|safe}});
                 var d_address= JSON.stringify(address);
                 var d_phone_number =  document.getElementById("myPhoneNumbet").value;
-               
+                var payment = document.getElementById("selectPayment").options.text;
+                console.log(payment);
                 $.ajax({
                     url: '/delivery/',
                     type: 'GET',
-                    data: {'data':data,'address':d_address,'phone_number':d_phone_number,
+                    data: {'data':data,'address':d_address,'phone_number':d_phone_number,'payment':payment,
                         csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
                     },
                     dataType: "json",
