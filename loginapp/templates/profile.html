@@ -280,7 +280,7 @@
                                                     
                                                 </td>
                                                 
-                                                <td class="uk-text-middle"><a href="/store/{{love.name}}">{{love.name}}</a></td>
+                                                <td class="uk-text-middle"><a href="../store/{{love.id}}">{{love.name}}</a></td>
                                                 
                                                 
                                             </tr>
@@ -295,45 +295,54 @@
                             <div class="coupon uk-width-1-1 " id="coupon">
                                 <h4 class="title uk-heading-bullet uk-margin-remove-top">คูปองของฉัน</h4>
                                    <hr class="divide">
-<!--                                     <div class="uk-child-width-1-2@s uk-grid-match" uk-grid>
-                                        <div>
-                                            <div class="uk-card uk-card-default uk-card-hover uk-card-body uk-padding-small">
-                                                <h3 class="uk-card-title">กินอิ่มนอนอุ่น</h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                        {% for coupon in coupon_list %}
                                     <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-                                        <div class="uk-card-media-left uk-cover-container">
-                                            <img src="{% static "images/informations/japan.jpg" %}" alt="" uk-cover>
-                                            <canvas width="600" height="400"></canvas>
-                                        </div>
-                                        <div>
-                                            <div class="uk-card-body uk-padding-small">
-                                                <h3 class="uk-card-title uk-text-bold " style="color: #ffbf00">กินอิ่มนอนอุ่น</h3>
-                                                <p>รับฟรี กระดาษทิชชู่! </p>
+                                            <div class="uk-card-media-left uk-cover-container">
+                                                <img src="../{{coupon.image.url}}" alt="" uk-cover>
+                                                <canvas width="600" height="400"></canvas>
+                                            </div>
+                                            <div>
+                                                <div class="uk-card-body uk-padding-small">
+                                                     <h3 >คูปองร้าน <a  href="../store/{{coupon.id_store}}" class="uk-card-title uk-text-bold " style="color: #ffbf00" >
+                                    {{coupon.name}}</a> </h3>
+
+                                                
+                                                 {% if coupon.code != "-" %} 
+
+                                                    <p class="uk-text-muted uk-text-small">เฉพาะบริการจัดส่ง</p>
+                                                  
+                                                    {% endif %}
+                                                    <p>{{coupon.msg}}</p>
+                                                    <p>กรอกโค้ด : {{coupon.code}}</p>
+                                                    <br>
+                                                     {% if coupon.code == "-" %} 
+                                                        <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
+                                                    {% endif %}
+                                                        <p id="p-inline" class="uk-text-muted">เหลือ {{coupon.amount}}      </p>
+                                                        <p class="uk-text-muted uk-text-small" id="p-inline"> หมดอายุ  {{coupon.date}}</p>
+                                                   
+                                                </div>
+                                            </div>
+                                            
+                                     
+                     {% if coupon.code == "-" %} 
+                                        <!-- This is the modal -->
+                                        <div id="modal-example"  uk-modal>
+                                            <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
+                                                <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
+                                                <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
                                                 <br>
-                                                    <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
-                                                    <p id="p-inline" class="uk-text-muted">เหลือ 4</p>
+                                                <p class="uk-text-center">
+                                                    <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
+                                                    <a class="uk-button uk-button-primary" type="button" style=" font-size: 1.0em;" href="{% url 'use_coupon' coupon.id_coupon %}">ใช้</a>
+                                                </p>
                                             </div>
                                         </div>
-
-
-                    
-                            <!-- This is the modal -->
-                            <div id="modal-example"  uk-modal>
-                                <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
-                                    <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
-                                    <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
-                                    <br>
-                                    <p class="uk-text-right">
-                                        <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
-                                        <button class="uk-button uk-button-primary" type="button"><h2 class="uk-margin-small-top">ใช้</h2></button>
-                                    </p>
-                                </div>
-                            </div>
-
+    {% endif %}
                                     </div>
+                                       {% endfor %}
+
+
                             </div>
                            
                         </div>
@@ -448,7 +457,7 @@
                                                                 
                                                             </td>
                                                             
-                                                            <td class="uk-text-middle"><a href="{% url 'shop' string='{{love.name}}' %}">{{love.name}}</a></td>
+                                                            <td class="uk-text-middle"><a href="../store/{{love.id}}">{{love.name}}</a></td>
                                                             
                                                             
                                                         </tr>
@@ -561,37 +570,53 @@
                                         <i class="fa fa-angle-left " style="float: right"></i></a>
                                         
                                         <ul class="uk-nav-sub">
-                                            <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-                                                <div class="uk-card-media-left uk-cover-container">
-                                                    <img src="{% static "images/informations/japan.jpg" %}" alt="" uk-cover>
-                                                    <canvas width="300" height="150"></canvas>
-                                                </div>
-                                                <div>
-                                                    <div class="uk-card-body uk-padding-small">
-                                                        <h3 class="uk-card-title uk-text-bold " style="color: #ffbf00">กินอิ่มนอนอุ่น</h3>
-                                                        <p>รับฟรี กระดาษทิชชู่! </p>
-                                                        <br>
-                                                            <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
-                                                            <p id="p-inline" class="uk-text-muted">เหลือ 4</p>
-                                                    </div>
-                                                </div>
-
-
-                            
-                                                <!-- This is the modal -->
-                                                <div id="modal-example"  uk-modal>
-                                                    <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
-                                                        <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
-                                                        <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
-                                                        <br>
-                                                        <p class="uk-text-right">
-                                                            <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
-                                                            <button class="uk-button uk-button-primary" type="button"><h2 class="uk-margin-small-top">ใช้</h2></button>
-                                                        </p>
-                                                    </div>
-                                                </div>
-
+                                     {% for coupon in coupon_list %}
+                                    <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+                                            <div class="uk-card-media-left uk-cover-container">
+                                                <img src="../{{coupon.image.url}}" alt="" uk-cover>
+                                                <canvas width="200" height="150"></canvas>
                                             </div>
+                                            <div>
+                                                <div class="uk-card-body uk-padding-small">
+                                                     <h3 >คูปองร้าน <a  href="../store/{{coupon.id_store}}" class="uk-card-title uk-text-bold " style="color: #ffbf00" >
+                                    {{coupon.name}}</a> </h3>
+
+                                                
+                                                 {% if coupon.code != "-" %} 
+
+                                                    <p class="uk-text-muted uk-text-small">เฉพาะบริการจัดส่ง</p>
+                                                  
+                                                    {% endif %}
+                                                    <p>{{coupon.msg}}</p>
+                                                    <p>กรอกโค้ด : {{coupon.code}}</p>
+                                                    <br>
+                                                     {% if coupon.code == "-" %} 
+                                                        <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
+                                                    {% endif %}
+                                                        <p id="p-inline" class="uk-text-muted">เหลือ {{coupon.amount}}      </p>
+                                                        <p class="uk-text-muted uk-text-small" id="p-inline"> หมดอายุ  {{coupon.date}}</p>
+                                                   
+                                                </div>
+                                            </div>
+                                            
+                                     
+                     {% if coupon.code == "-" %} 
+                                        <!-- This is the modal -->
+                                        <div id="modal-example"  uk-modal>
+                                            <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
+                                                <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
+                                                <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
+                                                <br>
+                                                <p class="uk-text-center">
+                                                    <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
+                                                    <a class="uk-button uk-button-primary" type="button" style=" font-size: 1.0em;" href="{% url 'use_coupon' coupon.id_coupon %}">ใช้</a>
+                                                </p>
+                                            </div>
+                                        </div>
+    {% endif %}
+                                    </div>
+                                       {% endfor %}
+
                                         </ul>
                                     </li>
 

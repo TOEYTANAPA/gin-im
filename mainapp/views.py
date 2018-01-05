@@ -12,7 +12,8 @@ import json
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.contrib.sessions.models import Session
 from datetime import date
-
+import datetime
+from django.core import serializers
 
 def home(request):
 	reviews_list = Review.objects.all()[:10]
@@ -618,7 +619,6 @@ def fill_in_complete(request):
 				coffee = False
 
 
-			print(age)
 			obj, created = Informations.objects.update_or_create(
 				user=request.user, defaults={'age': age,'birthdate':date(year=int(year), month=int(month), day=int(day)),
 				'sex':gender,'salary':salary,'size':list_size,'breakfast':bf,'lunch':lunch,'dinner':dinner,'late':late,
@@ -626,6 +626,14 @@ def fill_in_complete(request):
 				'thai':thai,'diet':diet,'shabu':shabu,'grill':grill,'steak':steak,'fastfood':fastfood,'cake':cake,
 				'dessert':dessert,'coffee':coffee,'juice':juice,'facebook':facebook,'twitter':twitter,'instagram':instagram,'line':line},
 			)
+
+			if created :
+				try:
+					c = Coupon.objects.all()
+					for i in c :
+						GetCoupon.objects.create(user=request.user,coupon=i,amount=i.amount)
+				except Exception as e:
+					raise
 
 			# Informations.objects.create(user=request.user,age=age,birthdate=date(year=int(year), month=int(month), day=int(day)),
 			# 	sex=gender,salary=salary,size=list_size,breakfast=bf,lunch=lunch,dinner=dinner,late=late,
@@ -683,3 +691,24 @@ def like_button(request):
     context = {'likes_count': store.total_likes}
     return HttpResponse(json.dumps(context), content_type='application/json')
 
+@login_required
+def use_coupon(request,coupon):
+	try :
+
+		print(coupon)
+		c = GetCoupon.objects.get(coupon__id=coupon,user=request.user)
+
+		c.amount -= 1
+		c.save()
+
+		cou = Coupon.objects.get(id=coupon)
+
+		
+		time = datetime.datetime.now()
+		add_time = time + datetime.timedelta(0,3600)
+
+		success_coupon = {'name':cou.store.name,'msg':cou.msg,'image':cou.image,'time':add_time}
+	
+		return render(request, 'use_coupon.html',{'coupon':success_coupon})
+	except : 	
+		raise

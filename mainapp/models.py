@@ -119,6 +119,25 @@ class QMatrix(models.Model):
 	frequency = models.IntegerField(default=0)
 	amount = ArrayField(models.IntegerField(default=0), blank=True,null=True)
 	reward = ArrayField(models.IntegerField(default=0), blank=True,null=True)
+
+class Coupon(models.Model):
+	store = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
+	msg = models.CharField(max_length=100,blank=True,null=True)
+	amount = models.IntegerField(default=1, blank=True,null=True)
+	date_expire = models.DateField(blank=True,null=True)
+	code = models.CharField(max_length=10,blank=True,null=True)
+	image=models.ImageField(upload_to='images',blank=True,null=True)
+	created_at = models.DateTimeField(auto_now_add=True,null=True,)
+	def __str__(self):
+		return self.store.name
+
+class GetCoupon(models.Model):
+	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+	coupon =  models.ForeignKey(Coupon, on_delete=models.SET_NULL,blank=True,null=True)
+	created_at = models.DateTimeField(auto_now_add=True,null=True,)
+	amount = models.IntegerField(default=1, blank=True,null=True)
+
+
 	
 class Informations(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
@@ -152,6 +171,7 @@ class Informations(models.Model):
 	dessert = models.BooleanField(default=False)
 	coffee = models.BooleanField(default=False)
 	juice = models.BooleanField(default=False)
+
 
 class Payment(models.Model):
 	store = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
