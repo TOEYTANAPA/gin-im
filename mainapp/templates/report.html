@@ -16,7 +16,8 @@
   height: 300px;
   }
   .summary-label{
-  font-size: 14px;
+  font-size: 15px;
+font-weight: bold;
   color: #9E9E9E;
   /*color: #AAB8C2;*/
   }
@@ -33,22 +34,27 @@
   function generatechartData() {
   var chartData = [];
   var firstDate = new Date();
-  firstDate.setDate( firstDate.getDate() - 150 );
-  var visits = -40;
-  var b = 0.6;
-  for ( var i = 0; i < 150; i++ ) {
+  firstDate.setDate( firstDate.getDate() -4 );
+  // var visits = -40;
+
+  for ( var i = 0; i < 4; i++ ) {
   // we create date objects here. In your data, you can have date strings
   // and then set format of your dates using chart.dataDateFormat property,
   // however when possible, use date objects, as this will speed up chart rendering.
   var newDate = new Date( firstDate );
   newDate.setDate( newDate.getDate() + i );
-  if(i > 80){
-  b = 0.4;
-  }
-  visits += Math.round((Math.random()<b?1:-1)*Math.random()*10);
+  // console.log(newDate);
+  var viewPerDay = {{viewer_list_per_day}};
+  // console.log(typeof(viewPerDay[0]));
+  // alert({{viewer_list_per_day}});
+  // if(i > 80){
+  // b = 0.4;
+  // }
+  // visits += Math.round((Math.random()<b?1:-1)*Math.random()*10);
+  visits ={{viewer}}
   chartData.push( {
   date: newDate,
-  visits: visits
+  visits: viewPerDay[i]
   } );
   }
   return chartData;
@@ -95,24 +101,24 @@
       <!-- <div><div id="chartdiv"></div></div> -->
       <!-- <div></div> -->
       <!-- </div>  -->
-      <div class="uk-width-1-4@m uk-margin-large-top">
-        <h4 class="uk-heading-divider summary-label ">พฤศจิกายน 2017</h4>
+      <div class="uk-width-1-4@m uk-margin-medium-top">
+        <h3 class="uk-heading-divider summary-label ">{{month}} {{year}}</h3>
         <div uk-grid>
           <div class="uk-width-1-2@m ">
             <p  class="summary-label uk-margin-remove-bottom">VIEWS</p>
-            <h1 class="uk-margin-remove-top uk-margin-bottom">10</h1>
+            <h1 class="uk-margin-remove-top uk-margin-bottom">{{viewer}}</h1>
             <!-- <label></label>  -->
             <hr>
             <p  class="summary-label uk-margin-remove-bottom">ORDERS</p>
-            <h1 class="uk-margin-remove-top">6</h1><hr>
+            <h1 class="uk-margin-remove-top">{{order_count}}</h1><hr>
           </div>
           <div class="uk-width-1-2@m ">
             <p  class="summary-label uk-margin-remove-bottom">LOVES</p>
-            <h1 class="uk-margin-remove-top uk-margin-bottom">5</h1>
+            <h1 class="uk-margin-remove-top uk-margin-bottom">{{store.total_likes}}</h1>
             <!-- <label></label>  -->
             <hr>
             <p  class="summary-label uk-margin-remove-bottom">REVIEWS</p>
-            <h1 class="uk-margin-remove-top">3</h1>
+            <h1 class="uk-margin-remove-top">{{reviews_count}}</h1>
             <hr>
           </div>
         </div>

@@ -14,6 +14,8 @@ from django.contrib.sessions.models import Session
 from datetime import date
 import datetime
 from django.core import serializers
+from datetime import  timedelta
+
 
 def home(request):
 	reviews_list = Review.objects.all()[:10]
@@ -117,7 +119,41 @@ def set_cookie(request,template,dicts):
     
 @login_required
 def report(request):
-    return render(request, 'report.html')
+	today =datetime.date.today()
+	today_name = today.strftime('%B')
+	month = today.strftime('%B')
+	year = today.strftime('%Y')
+	store = StoreByUser.objects.get(user = request.user).store
+	reviews_count = Review.objects.filter(store=store).count()
+	order_count = Order.objects.filter(store=store).count()
+	viewer = User_session.objects.filter(action="enter_store",value=store.id).count()
+	viewer_today =  User_session.objects.filter(created_at__gt=today).count()
+	print(viewer_today)
+	viewer_list_per_day = []
+	for i in reversed(range(4)):
+		print(i+1)
+		yesterday = datetime.date.today() - datetime.timedelta(days=i+1)
+		viewer_yesterday =  User_session.objects.filter(created_at__date=yesterday).count()
+		viewer_list_per_day.append(viewer_yesterday)
+	# viewer_list_per_day.append(viewer_today)
+	# d = datetime.date.today()- timedelta(days=days_to_subtract)
+	
+    # import datetime
+	# yesterday = datetime.date.today() - datetime.timedelta(days=4)
+	# print(today)
+	# print(yesterday)
+	# viewer_yesterday =  User_session.objects.filter(created_at__date=yesterday).count()
+	# print(viewer_yesterday)
+	# viewer_yesterday = User_session.objects.filter(date__gt=yesterday)
+	# print(view_yesterday)
+    # print(store.quote)
+   
+	# print(today.month)
+	# print(today.strftime('%Y'))
+	# print(today.strftime('%y'))
+	# print(today.strftime('%A'))
+	return render(request, 'report.html',{'month':month,'year':year,'store':store,
+		'reviews_count':reviews_count,'order_count':order_count,'viewer':viewer,'viewer_list_per_day':json.dumps(viewer_list_per_day)})
 
 def about_us(request):
     return render(request, 'about_us.html')
@@ -167,7 +203,7 @@ def delivery(request):
 
 @login_required
 def payment(request,pk):
-	print('Earmsdkfsdfsdfsdfd')
+	
 	try:
 		slipForm = SlipPaymentForm()
 		o = Order.objects.get(id=pk)

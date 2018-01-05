@@ -35,6 +35,7 @@ class Store(models.Model):
 	def total_likes(self):
 		return self.likes.count()
 
+
 class Menu(models.Model):
 	store = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
 	name = models.CharField(max_length=100)
