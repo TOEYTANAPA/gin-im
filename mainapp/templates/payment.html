@@ -1,0 +1,114 @@
+{% extends 'base.html' %}{% load static %} {% block content %}{% load widget_tweaks %}
+  <style
+  <style>
+  .title{
+  font-weight: bold;
+  }
+  .imgCrop{
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position:  relative;
+  }
+  </style>
+  <!-- banner -->
+  
+  <!-- end banner -->
+  <!-- <br>     -->
+  <hr class="uk-box-shadow-medium ">
+  <div class="uk-background-muted" style="margin-top: -20px;">
+    <div class="container  " id="home">
+      <br>
+      <div class="uk-card uk-card-default">
+        <div class="uk-card-body uk-margin-remove">
+          <!-- <div class="uk-section uk-section-default"> -->
+          <h2 class="uk-heading-bullet">วิธีการขำระเงิน</h2>
+          <div class="uk-margin uk-width-1-3@m">
+            <select id="selectPayment"  class="uk-select">
+              <option>PromtPay</option>
+              <option>จ่ายเงินปลายทาง</option>
+            </select>
+          </div>
+          <form id="" role="form" autocomplete="off" enctype='multipart/form-data' class="form" method="post">
+            {% csrf_token %}
+            <div class="uk-margin-left" id="promptpayBlock">
+              <!-- <label for="">ขั้นตอนการชำระเงิน</label> -->
+              <h3 class="title">  ขั้นตอนการชำระเงิน</h3>
+              <h3 class="title">1. เลือกวิธีการโอนเงิน</h3>
+              <h3 class="uk-margin-left">1.1 สแกน qrcode </h3><img class="imgCrop uk-margin-left" style="width: 200px;height: 200px"  src="https://promptpay.io/{{store.phone}}.png">
+              <p></p>
+              <h3 class="uk-margin-left">1.2 โอนผ่านบัญชีพร้อมเพย์ {{store.phone}}</h3>
+              <h3 class="title">2. อัพโหลดใบเสร็จ</h3>
+              <div class="uk-margin">
+                <div class="" uk-margin>
+                  <div uk-form-custom="target: true">
+                    {{slipForm.slip_image|add_class:"uk-input"}}
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file" disabled>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="">
+              <!-- <h2 class="uk-heading-bullet">เงื่อนไขและข้อตกลงในการใช้บริการ</h2> -->
+              <div class="uk-alert" uk-alert>
+                <h3>เงื่อนไขและข้อตกลงในการใช้บริการ</h3>
+                <div  class="uk-margin-left"> <label>1. ขอบเขตการส่งอาหาร</label>
+                <p class="uk-margin-left"> กรณีที่ลูกค้าระบุตำแหน่งจัดส่งสินค้านอกเหนือจากขอบเขตที่ร้านค้ากำหนด ทางร้านค้าจะไม่จัดส่งอาหาร</p>
+                <label>2. เมื่อยืนยันการสั่งอาหารแล้วทางเราจะไม่รับผิดชอบใดๆทั้งสิ้น </label>
+                
+                <p class="uk-margin-left"> เมื่อยืนยันการสั่งอาหาร ลูกค้าติดต่อกับทางร้านค้าด้วยตนเอง</p>
+                <label>3. ลูกค้าไม่สามารถยกเลิกรายการอาหารได้</label>
+                </div>
+               
+              
+              </div>
+                <label class="" ><input id="conditionCheck" class="uk-checkbox " style="margin-top: -2px" type="checkbox"> ยอมรับเงื่อนไขและข้อตกลงในการใช้บริการ </label>
+              
+              <!--        <label class="uk-text-center uk-text-middle" ><input id="conditionCheck" class="uk-checkbox " style="margin-top: -2px" type="checkbox"> <a href="#modal-example " uk-toggle>ยอมรับเงื่อนไขและข้อตกลงในการใช้บริการ </a></label>   -->
+            </div>
+            <button  class="uk-margin-top uk-button uk-button-order uk-align-center" id="orderBtn" type="submit" style="color: white; " ><h1 class="uk-margin-small-top" disabled>ยืนยันการสั่งซื้อ</h1></button>
+            
+          </form>
+          <!--          <div class="uk-container uk-text-center">
+            
+            <h1 class=" uk-text-center"> <i style="color:#2ECC71" class="fa fa-check-circle fa-3x" aria-hidden="true"></i></h1>
+            <h2 class="thai_font uk-text-center"> คุณได้สั่งซื้อเรียบร้อยแล้ว  </h2 >
+            <h3 class="thai_font uk-text-center">ทางร้านค้าจะติดต่อกลับผ่านทางเบอร์โทรศัพท์ที่คุณกรอกไว้</h3>
+            <a href="{% url 'home'  %}">กลับหน้าแรก</a>
+          </div> -->
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+    <br>
+    {% block javascript %}
+      <script>
+      $(document).ready(function(){
+      document.getElementById("orderBtn").disabled = true;
+      var ckbox = $('#conditionCheck');
+      $('input').on('click',function () {
+      if (ckbox.is(':checked')) {
+      document.getElementById("orderBtn").disabled = false;
+      } else {
+      document.getElementById("orderBtn").disabled = true;
+      }
+      });
+      var select_index = document.getElementById("selectPayment").selectedIndex;
+      var y = document.getElementById("selectPayment").options;
+      var payment = y[select_index].text
+      var x = document.getElementById("promptpayBlock");
+      
+      $("#selectPayment").change(function(){
+      
+      if ( $(this).val() == "PromtPay" ) {
+      x.style.display = "block";
+      }
+      else {
+      x.style.display = "none";
+      }
+      
+      });  });
+      </script>
+    {% endblock %}
+  {% endblock %}
