@@ -23,6 +23,7 @@ class Store(models.Model):
 	social = models.CharField(max_length=100,blank=True,null=True)
 	likes = models.ManyToManyField(User, related_name="likes",blank=True,null=True)
 	delivery_boundary = models.CharField(max_length=1000,blank=True,null=True)
+	delivery_payment = models.CharField(max_length=20,blank=True,null=True)
 	created_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
 
 
@@ -52,6 +53,8 @@ class Order(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
 	date = models.DateTimeField(default=datetime.now, blank=True)
 	address = models.CharField(max_length=1000,blank=True,null=True)
+	slip_payment =models.ImageField(upload_to='slip_payment/%Y/%m/%d',blank=True,null=True)
+	payment = models.CharField(max_length=200,blank=True,null=True)
 	
 class Profile(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)

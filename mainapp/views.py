@@ -136,12 +136,14 @@ def delivery(request):
 	if request.is_ajax():
 		address = request.GET.get('address',False)
 		phone_number = request.GET.get('phone_number',False)
-		payment = request.GET.get('payment',False)
+		# payment = request.GET.get('payment',False)
+		# slip = request.GET.get('slip',False)
 		order = request.GET.get('data',False)
 		order = json.loads(order)
 		print(address)
 		print(phone_number)
-		print(payment)
+		# print(payment)
+	
 		menu_list = []
 		amount_list = []
 
@@ -153,11 +155,48 @@ def delivery(request):
 			s = Store.objects.get(id=item['store'])
 		order = Order.objects.create(user=request.user,menu=menu_list,store=s,amount=amount_list,address =address)
 
-			# print("order_id : ",order.id)
+		# if (payment == "PromtPay"):
+		# 	next_page = "upload-slip"
+		# 	print(next_page)
+		# 	return JsonResponse({'next_page':next_page,'order_id':order.id},safe=False)
+		# 	# return HttpResponseRedirect(next_page)
+		# else:
+		# 	next_page = "success"
+		next_page = "select-payment"
+		return JsonResponse({'next_page':next_page,'order_id':order.id},safe=False)
 
-	return JsonResponse({'order_id':order.id},safe=False)
+@login_required
+def payment(request,pk):
+	print('Earmsdkfsdfsdfsdfd')
+	try:
+		slipForm = SlipPaymentForm()
+		o = Order.objects.get(id=pk)
+		order = Order.objects.filter(id=pk)
+		store=o.store
+		if request.method == 'POST':
+			slipForm = SlipPaymentForm(request.POST,request.FILES)
+			if slipForm.is_valid():
+				if slipForm.cleaned_data['slip_image'] is None:
+					order.update(payment="จ่ายเงินปลายทาง") 
+				else:
+					order.update(payment="พร้อมเพย์")
+					o.slip_payment = request.FILES['slip_image']
+					o.save()
 
- 
+				# print(slipForm.cleaned_data['slip_image'] )
+				# print(request.FILES['slip_image'])	
+				# o.slip_payment = request.FILES['slip_image']
+				# o.save()
+			
+				next_page = "/success/"+str(pk)
+				return HttpResponseRedirect(next_page)
+
+		return render(request, 'payment.html', {'slipForm':slipForm,'store':store})		
+	
+	except Order.DoesNotExist:
+		raise
+	
+
   
 
   
@@ -233,7 +272,7 @@ def shop(request, pk):
 		            store = store,
 		            comment = reviewForm.cleaned_data['comment'],
 		            rating = star,)
-				next_page = "/main/"+store.name
+				next_page = "/store/"+str(pk)
 				return HttpResponseRedirect(next_page)
 		elif "order" in request.POST:
 			print("order post")
@@ -283,8 +322,9 @@ def shop(request, pk):
 							})
 						# Order.objects.create(user=request.user,menu=m)
 						print("go to checkout")
+				
 			return  render(request,'checkout.html',{'username':request.user.username,'data':json.dumps(output),
-				'output':output,'total':total,'delivery_address':delivery_address,'delivery_phone':delivery_phone,'store':store})
+				'output':output,'total':total,'delivery_address':delivery_address,'delivery_phone':delivery_phone,'store':store,})
 
 
 	return render(request,'stores.html',{'reviewForm':reviewForm,'username':request.user.username,'menues':reversed(menues2),'mobile_menues':reversed(menues2),

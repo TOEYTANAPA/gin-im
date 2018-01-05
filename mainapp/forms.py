@@ -44,6 +44,9 @@ class MenuForm(forms.Form):
     menu_name =  forms.CharField(max_length=200, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
     menu_price =  forms.CharField(max_length=20, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
     menu_image = forms.FileField()
+
+class SlipPaymentForm(forms.Form):
+    slip_image = forms.FileField(required=False, ) 
     # time_close = models.TimeField(null=True, blank=True)
 class InformationsForm(forms.Form):
     # age = forms.IntegerField(required=True)
