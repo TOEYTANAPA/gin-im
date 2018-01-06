@@ -71,9 +71,9 @@ class Profile(models.Model):
 	person_type =  models.CharField(max_length=100,blank=True,null=True)
 	status = models.CharField(max_length=10,blank=True,null=True,default="user")
 
-class StoreByUser(models.Model):
-	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
-	store = models.ForeignKey(Store,on_delete=models.SET_NULL,blank=True,null=True)
+# class StoreByUser(models.Model):
+# 	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+# 	store = models.ForeignKey(Store,on_delete=models.SET_NULL,blank=True,null=True)
 	
 
 class Review(models.Model):
