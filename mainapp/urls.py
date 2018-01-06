@@ -34,6 +34,8 @@ urlpatterns = [
     url(r'^inf-complete$', views.fill_in_complete, name='inf-complete'),
     url(r'^inf-edit$', views.fill_in_edit, name='is_inf'),
     url(r'^code/$', views.use_code, name='code'),
+    url(r'^show-slip-(?P<pk>\d+)/$', views.showSlip, name='show-slip'),
+    # showSlip
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

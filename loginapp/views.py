@@ -262,7 +262,6 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
-
 @login_required
 def profile(request):
     
@@ -423,4 +422,3 @@ def profile(request):
         return render(request, 'profile.html',{'form': form,'username': request.user.username,
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
             'mobile_out':mobile_out,'coupon_list':coupon_list,'coupon_list_mobile':coupon_list})
-
