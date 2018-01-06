@@ -26,6 +26,9 @@ class OrderAdmin(admin.ModelAdmin):
 	list_display=[f.name for f in Order._meta.fields]
 admin.site.register(Order, OrderAdmin)
 
+class StoreByUserAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in StoreByUser._meta.fields]
+admin.site.register(StoreByUser, StoreByUserAdmin)
 
 class HungerHistoryAdmin(admin.ModelAdmin):
 	list_display=[f.name for f in HungerHistory._meta.fields]
