@@ -65,3 +65,7 @@ admin.site.register(Coupon, CouponAdmin)
 class CodeTypeAdmin(admin.ModelAdmin):
 	list_display=[f.name for f in CodeType._meta.fields]
 admin.site.register(CodeType, CodeTypeAdmin)
+
+class DeliveryTimeAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in DeliveryTime._meta.fields]
+admin.site.register(DeliveryTime, DeliveryTimeAdmin)

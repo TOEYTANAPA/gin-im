@@ -15,7 +15,7 @@ from datetime import date
 import datetime
 from django.core import serializers
 from datetime import  timedelta
-
+# import calendar
 
 def home(request):
 	reviews_list = Review.objects.all()[:10]
@@ -289,6 +289,80 @@ def shop(request, pk):
 	delivery = False
 	if "delivery" in store.tags :
 		delivery = True
+
+		time = DeliveryTime.objects.get(store=store)
+		# print(calendar.day_name[date.today().weekday()])
+		day = date.today().weekday()
+		time_now = datetime.datetime.now().time()
+		time_status = 0
+		if day == 0 :# monday
+			time_open = time.monday_open
+			time_close = time.monday_close
+			if time_open is None and time_close is None:
+				time_status = 0
+			else :
+				if time_now >= time_open and time_now <= time_close :
+					time_status = 1
+			
+		elif day == 1 :# tuesday
+			time_open = time.tuesday_open
+			time_close = time.tuesday_close
+			if time_open is None and time_close is None:
+				time_status = 0
+			else :
+				if time_now >= time_open and time_now <= time_close :
+					time_status = 1
+			
+		elif day == 2:	# wednesday
+			time_open = time.wednesday_open
+			time_close = time.wednesday_close
+			if time_open is None and time_close is None:
+				time_status = 0
+			else :
+				if time_now >= time_open and time_now <= time_close :
+					time_status = 1
+		
+		elif day == 3 :# thursday
+			time_open = time.thursday_open
+			time_close = time.thursday_close
+			if time_open is None and time_close is None:
+				time_status = 0
+			else :
+				if time_now >= time_open and time_now <= time_close :
+					time_status = 1
+			
+		elif day == 4:# friday
+			time_open = time.friday_open
+			time_close = time.friday_close
+			if time_open is None and time_close is None:
+				time_status = 0
+			else :
+				if time_now >= time_open and time_now <= time_close :
+					time_status = 1
+			
+		elif day == 5 :# saturday
+			time_open = time.saturday_open
+			time_close = time.saturday_close
+			if time_open is None and time_close is None:
+				time_status = 0
+			else :
+				if time_now >= time_open and time_now <= time_close :
+					time_status = 1
+			
+		elif day == 6:# sunday
+			time_open = time.sunday_open
+			time_close = time.sunday_close
+			# print(time_close)
+			# print(time_open)
+			if time_open is None and time_close is None:
+				time_status = 0
+				# print(None)
+			else :
+				if time_now >= time_open and time_now <= time_close :
+					time_status = 1
+			# print()
+			
+
 	cate = store.category
 	menues2 =  Menu.objects.filter(store=store).order_by('-id')[:]
 
@@ -396,7 +470,7 @@ def shop(request, pk):
 
 
 	return render(request,'stores.html',{'reviewForm':reviewForm,'username':request.user.username,'menues':reversed(menues2),'mobile_menues':reversed(menues2),
-		'reviews':reviews,'out':out,'store':store,'delivery':delivery,'category':cate,'store_loved_color':store_loved_color})
+		'reviews':reviews,'out':out,'store':store,'delivery':delivery,'category':cate,'store_loved_color':store_loved_color,'time_status':time_status})
 
 
 

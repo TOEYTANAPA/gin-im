@@ -188,3 +188,21 @@ class CodeType (models.Model):
 	coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL,blank=True,null=True)
 	code_type = models.CharField(max_length=10,blank=True,null=True)
 	value =  models.CharField(max_length=50,blank=True,null=True)
+
+class DeliveryTime (models.Model):
+	store = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
+	monday_open = models.TimeField(null=True, blank=True)
+	monday_close = models.TimeField(null=True, blank=True)
+	tuesday_open = models.TimeField(null=True, blank=True)
+	tuesday_close = models.TimeField(null=True, blank=True)
+	wednesday_open = models.TimeField(null=True, blank=True)
+	wednesday_close = models.TimeField(null=True, blank=True)
+	thursday_open = models.TimeField(null=True, blank=True)
+	thursday_close = models.TimeField(null=True, blank=True)
+	friday_open = models.TimeField(null=True, blank=True)
+	friday_close = models.TimeField(null=True, blank=True)
+	saturday_open = models.TimeField(null=True, blank=True)
+	saturday_close = models.TimeField(null=True, blank=True)
+	sunday_open = models.TimeField(null=True, blank=True)
+	sunday_close = models.TimeField(null=True, blank=True)
+
