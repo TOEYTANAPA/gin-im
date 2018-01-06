@@ -89,6 +89,7 @@ def addMenu(request,pk):
 		          	price = menuForm.cleaned_data['menu_price'],
 		          	image =request.FILES['menu_image'],
 		          	created_by= request.user)
+				collect_session(request,"เพิ่มเมนู",create_menu.id)
 				next_page = "/store/"+str(pk)
 				return HttpResponseRedirect(next_page)
 	except Store.DoesNotExist:
@@ -368,6 +369,7 @@ def shop(request, pk):
 
 						price_per_menu = int(price)*int(a)
 						total += price_per_menu
+
 						# temp['amount'] = a
 						
 						# output.append(temp)
@@ -379,9 +381,18 @@ def shop(request, pk):
 							})
 						# Order.objects.create(user=request.user,menu=m)
 						print("go to checkout")
-				
+			delivery_charge = 0
+			if(store.name == "กินอิ่มนอนอุ่น"):
+				if(total < 150):
+					delivery_charge = int(store.delivery_payment)
+
+				else:
+					delivery_charge = int(store.delivery_payment)
+				total+=delivery_charge
+
 			return  render(request,'checkout.html',{'username':request.user.username,'data':json.dumps(output),
-				'output':output,'total':total,'delivery_address':delivery_address,'delivery_phone':delivery_phone,'store':store,})
+				'output':output,'total':total,'delivery_address':delivery_address,
+				'delivery_phone':delivery_phone,'store':store,'delivery_charge':delivery_charge})
 
 
 	return render(request,'stores.html',{'reviewForm':reviewForm,'username':request.user.username,'menues':reversed(menues2),'mobile_menues':reversed(menues2),
