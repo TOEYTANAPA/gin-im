@@ -200,7 +200,7 @@
                 $.ajax({
                 url: '/delivery/',
                 type: 'GET',
-                data: {'data':data,'total':total_act,'address':d_address,'phone_number':d_phone_number,
+                data: {'data':data,'total':total_act,'address':d_address,'phone_number':d_phone_number,'total_act':total_act,
                 csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
                 },
                 dataType: "json",

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import extras
+from django.conf import settings
 
 from .models import Profile,Review
 # from django.forms.extras.widgets import SelectDateWidget
@@ -46,7 +47,9 @@ class MenuForm(forms.Form):
     menu_image = forms.FileField()
 
 class SlipPaymentForm(forms.Form):
-    slip_image = forms.FileField(required=False, ) 
+    # slip_image = forms.FileField( ) 
+
+    slip_image = forms.FileField() 
     # time_close = models.TimeField(null=True, blank=True)
 class InformationsForm(forms.Form):
     # age = forms.IntegerField(required=True)

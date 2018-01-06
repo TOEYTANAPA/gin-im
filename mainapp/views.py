@@ -174,6 +174,7 @@ def delivery(request):
 		phone_number = request.GET.get('phone_number',False)
 		# payment = request.GET.get('payment',False)
 		# slip = request.GET.get('slip',False)
+		total_price = request.GET.get('total_act',False)
 		order = request.GET.get('data',False)
 		order = json.loads(order)
 		print(address)
@@ -189,8 +190,8 @@ def delivery(request):
 			menu_list.append(m.id)
 			amount_list.append(item['amount'])
 			s = Store.objects.get(id=item['store'])
-		order = Order.objects.create(user=request.user,menu=menu_list,store=s,amount=amount_list,address =address)
-
+		order = Order.objects.create(user=request.user,menu=menu_list,store=s,amount=amount_list,
+			address =address,total=total_price,)
 		# if (payment == "PromtPay"):
 		# 	next_page = "upload-slip"
 		# 	print(next_page)
@@ -208,9 +209,14 @@ def payment(request,pk):
 		slipForm = SlipPaymentForm()
 		o = Order.objects.get(id=pk)
 		order = Order.objects.filter(id=pk)
+		total = o.total
 		store=o.store
 		if request.method == 'POST':
 			slipForm = SlipPaymentForm(request.POST,request.FILES)
+			if "byCash" in request.POST:
+				print("Earn")
+				slipForm.fields['slip_image'].required = False
+
 			if slipForm.is_valid():
 				if slipForm.cleaned_data['slip_image'] is None:
 					order.update(payment="จ่ายเงินปลายทาง") 
@@ -227,7 +233,22 @@ def payment(request,pk):
 				next_page = "/success/"+str(pk)
 				return HttpResponseRedirect(next_page)
 
-		return render(request, 'payment.html', {'slipForm':slipForm,'store':store})		
+		return render(request, 'payment.html', {'slipForm':slipForm,'store':store,'total':total})		
+	
+	except Order.DoesNotExist:
+		raise
+	
+@login_required
+def showSlip(request,pk):
+	
+	try:
+		# slipForm = SlipPaymentForm()
+		order = Order.objects.get(id=pk)
+		image = order.slip_payment.url
+		
+		
+	
+		return render(request, 'slip.html', {'order':order,'image':image,})		
 	
 	except Order.DoesNotExist:
 		raise
