@@ -788,3 +788,26 @@ def use_coupon(request,coupon):
 		return render(request, 'use_coupon.html',{'coupon':success_coupon})
 	except : 	
 		raise
+
+@login_required
+def use_code(request):
+	if request.is_ajax():
+		try:
+			code = request.GET.get('code',False)
+			coupon = Coupon.objects.get(code=code)
+			c = CodeType.objects.get(coupon=coupon)
+			if c.code_type == 'ส่วนลด':
+				code_type = 0
+				msg = 'ส่วนลด'
+				value = int(c.value)
+			elif c.code_type == 'แถม' :
+				code_type = 1
+				msg = 'รับฟรี'
+				value = c.value
+		
+		except Exception as e:
+			raise
+
+
+		print(code)
+		return JsonResponse({'code':code_type,'value':value,'msg':msg},safe=False)

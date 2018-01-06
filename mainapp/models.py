@@ -181,6 +181,11 @@ class Payment(models.Model):
 	store = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
 	pay = models.CharField(max_length=200,blank=True,null=True)
 	
+class CodeType (models.Model):
+	coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL,blank=True,null=True)
+	code_type = models.CharField(max_length=10,blank=True,null=True)
+	# menu = models.ForeignKey(Menu, on_delete=models.SET_NULL,blank=True,null=True)
+	value =  models.CharField(max_length=50,blank=True,null=True)
 
 
 # class Review(models.Model):
