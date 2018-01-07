@@ -388,6 +388,7 @@ def profile(request):
         print(profile.user)
     
     # check = Profile.objects.get(user=request.user)
+    person = Profile.objects.get(user=request.user)
     try :
         s = StoreByUser.objects.get(user=request.user)
         try :
@@ -418,7 +419,7 @@ def profile(request):
                 user_order_list.append(temp)
                 print(user_order_list)
             return render(request, 'profile_store.html',{'form': form,'username': request.user.username,
-                'person':p,'user_order_list_mobile':user_order_list,'user_order_list_desktop':user_order_list,
+                'person':person,'user_order_list_mobile':user_order_list,'user_order_list_desktop':user_order_list,
                 'delivery':delivery})
         except :
             raise
