@@ -79,6 +79,8 @@ input[type="submit"] {
     /*position: absolute;*/
 }
 
+.pointer {cursor: pointer;}
+
 img.user {
     height: 150px;
     width: 150px;
@@ -113,6 +115,11 @@ img.user {
     color: white;
 }
 
+    #img-inline,#h4-inline{
+         display: inline-block;
+          vertical-align: middle;
+          margin: 10px 0;
+    }
 
 
 
@@ -125,13 +132,16 @@ img.user {
         <div class="ps-slider uk-margin-remove-button " id="slider2" >
             <div class="ps-slides " id="slides2">
                
-                 <div  id="slide1" class="ps-slide " data-slide-laps="4" 
+                <div id="slide1" class="ps-slide " data-slide-laps="4" 
                 style="background-image: url('{% static "images/banner3.jpg" %}'); width: 100%; height:auto;"></div>
-                <div id="slide2" class="ps-slide " data-slide-laps="4" 
+                 <!-- <a href="{% url 'is_inf' %}">                   -->
+                     <div  id="slide2" class="ps-slide pointer" data-slide-laps="4" 
                 style="background-image: url('{% static "images/banner1.jpg" %}');"></div>
-                 <div id="slide3" class="ps-slide " data-slide-laps="4" 
+                <!-- </a> -->
+                 <!-- <a href="about-ginim">  -->
+                  <div   id="slide3 " class="ps-slide pointer slide3 " data-slide-laps="4" 
                 style="background-image: url('{% static "images/banner2.jpg" %}');"></div>
-              
+               <!-- </a> -->
               
             </div>
         </div>    
@@ -366,48 +376,79 @@ img.user {
     <div class="review-desktop">
         <div class="container" id="home">
             <h1 class="uk-heading-bullet">รีวิวล่าสุด</h1>
-             {% if out|length <= 0 %}
+             {% if desktop|length <= 0 %}
                                 <div  uk-alert>
                                             <!-- <a class="uk-alert-close" uk-close></a> -->
                                 <h4 class="uk-margin-remove-top">อ่านรีวิวล่าสุด เร็ว ๆนี้</h4>
                                          
                             </div>
             {% endif %}
-    {% for review,rate,picture in out reversed %} 
-       
-         
-               <div class="uk-card uk-card-default uk-card-body uk-margin"> 
+    {% for item in desktop reversed %} 
+           {% if item.type == 'review' %} 
+                <div class="uk-card uk-card-default uk-card-body uk-margin"> 
                    <article class="uk-comment">
                     <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
-                               <img class="uk-comment-avatar " src="{{picture}}" style="object-fit: cover;" alt="">
+                               <img class="uk-comment-avatar " src="{{item.profile_picture}}" style="object-fit: cover;" alt="">
                         </div>
                         <div class="uk-width-expand">
                                <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
-                           
+                      
                                 <a href=" "></a>
                                 <div class="uk-margin-remove-top">  
-                                {% for value in rate.rating_color|times %}
+                                {% for value in item.rating_color|times %}
                                     <i class="fa fa-star star-color"> </i>
                                 {% endfor %}
-                                {% for value in rate.rating_no_color|times %}
+                                {% for value in item.rating_no_color|times %}
                                     <i class="fa fa-star"> </i>
                                 {% endfor %}
-                            {{rate.rating_color}}</div>
+                            {{item.rating_color}}</div>
                             </h4>
-                             <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{review.store}}</b></a></h4>
+                             <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{item.username}} ไปร้าน <b>{{item.store}}</b></a></h4>
                             <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                <li><a href="#">{{review.created_at | timesince }}</a></li>
+                                <li><a href="#">{{item.create_at | timesince }}</a></li>
               
                             </ul>
                         </div>
                     </header>
                     <div class="uk-comment-body">
-                                     <p class="comment"> {{review.comment}}!</p>
+                                     <p class="comment"> {{item.comment}}!</p>
                     </div>
                 </article>  
     <!-- <br> -->
             </div>
+           {% elif item.type == 'coupon' %}
+
+              <div class="uk-card uk-card-default uk-card-body uk-padding-remove-bottom"> 
+
+            <!--     <h4 class="h4-inline"> <img  src="{{item.profile_picture}}" style="object-fit: cover; "  class="uk-comment-avatar uk-border-circle img-inline" alt="">
+              <i class="fa fa-map-marker uk-text-large" aria-hidden="true" style="color:#E74C3C  "></i> {{item.username}} ไปร้าน <span class="uk-text-bold"> {{item.store}}</span> และใช้คูปอง  <span class="uk-text-bold">  {{item.coupon_msg}}</span><span class="uk-text-small uk-text-muted">{{item.create_at | timesince }} </span></h4> -->
+            
+             <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                               <img class="uk-comment-avatar uk-border-circle" src="{{item.profile_picture}}" style="object-fit: cover;" alt="">
+                        </div>
+                        <div class="uk-width-expand">
+                               <h4 class="uk-card-title uk-text-left" >
+                      
+                
+              <i class="fa fa-map-marker uk-text-large" aria-hidden="true" style="color:#E74C3C  "></i> {{item.username}} ไปร้าน <span class="uk-text-bold"> {{item.store}}</span> และใช้คูปอง  <span class="uk-text-bold">  {{item.coupon_msg}}</span><span class="uk-text-small uk-text-muted"> </span> <span class="uk-text-small uk-text-muted">{{item.create_at | timesince }} </span></h4>
+            
+
+            </div>
+                            
+                            
+                         
+                    
+                    </header>
+
+
+            <br>
+          </div>
+          
+
+           
+           {% endif %}
                 {% endfor %}
         </div>
           
@@ -417,40 +458,73 @@ img.user {
             <br>
             <h1 class="uk-heading-bullet uk-margin-remove-top">รีวิวล่าสุด</h1>
 
-                   {% for review,rate,picture in mobile_out reversed %} 
-       
-         
-               <div class="uk-card uk-card-default uk-card-body uk-margin">
+                  {% for item in mobile reversed %} 
+           {% if item.type == 'review' %} 
+                <div class="uk-card uk-card-default uk-card-body uk-margin"> 
                    <article class="uk-comment">
                     <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">   <img class="uk-comment-avatar " src="{{picture}}" style="object-fit: cover;" alt="">
+                        <div class="uk-width-auto">
+                               <img class="uk-comment-avatar " src="{{item.profile_picture}}" style="object-fit: cover;" alt="">
                         </div>
                         <div class="uk-width-expand">
                                <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
-                           
+                      
                                 <a href=" "></a>
                                 <div class="uk-margin-remove-top">  
-                                {% for value in rate.rating_color|times %}
+                                {% for value in item.rating_color|times %}
                                     <i class="fa fa-star star-color"> </i>
                                 {% endfor %}
-                                {% for value in rate.rating_no_color|times %}
+                                {% for value in item.rating_no_color|times %}
                                     <i class="fa fa-star"> </i>
                                 {% endfor %}
-                            {{rate.rating_color}}</div>
+                            {{item.rating_color}}</div>
                             </h4>
-                             <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{review.store}}</b></a></h4>
+                             <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{item.username}} ไปร้าน <b>{{item.store}}</b></a></h4>
                             <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                <li><a href="#">{{review.created_at | timesince }}</a></li>
+                                <li><a href="#">{{item.create_at | timesince }}</a></li>
               
                             </ul>
                         </div>
                     </header>
                     <div class="uk-comment-body">
-                                     <p class="comment"> {{review.comment}}!</p>
+                                     <p class="comment"> {{item.comment}}!</p>
                     </div>
-                </article>
+                </article>  
+    <!-- <br> -->
             </div>
-              {% endfor %}
+           {% elif item.type == 'coupon' %}
+
+              <div class="uk-card uk-card-default uk-card-body uk-padding-remove-bottom"> 
+
+            <!--     <h4 class="h4-inline"> <img  src="{{item.profile_picture}}" style="object-fit: cover; "  class="uk-comment-avatar uk-border-circle img-inline" alt="">
+              <i class="fa fa-map-marker uk-text-large" aria-hidden="true" style="color:#E74C3C  "></i> {{item.username}} ไปร้าน <span class="uk-text-bold"> {{item.store}}</span> และใช้คูปอง  <span class="uk-text-bold">  {{item.coupon_msg}}</span><span class="uk-text-small uk-text-muted">{{item.create_at | timesince }} </span></h4> -->
+            
+             <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                               <img class="uk-comment-avatar uk-border-circle" src="{{item.profile_picture}}" style="object-fit: cover;" alt="">
+                        </div>
+                        <div class="uk-width-expand">
+                               <h4 class="uk-card-title uk-text-left" >
+                      
+                
+              <i class="fa fa-map-marker uk-text-large" aria-hidden="true" style="color:#E74C3C  "></i> {{item.username}} ไปร้าน <span class="uk-text-bold"> {{item.store}}</span> และใช้คูปอง  <span class="uk-text-bold">  {{item.coupon_msg}}</span><span class="uk-text-small uk-text-muted"> </span> <span class="uk-text-small uk-text-muted">{{item.create_at | timesince }} </span></h4>
+            
+
+            </div>
+                            
+                            
+                         
+                    
+                    </header>
+
+
+            <br>
+          </div>
+          
+
+           
+           {% endif %}
+                {% endfor %}
         </div>
           
           
@@ -460,5 +534,22 @@ img.user {
      
     
  </div>
+<script type="text/javascript">
+  
 
+    $( document ).ready(function() {
+    $( "#slide2" ).click(function() {
+ 
+        location.href="{% url 'is_inf' %}";
+    });
+
+     $('.slide3').click(function(){
+ 
+        location.href="{% url 'about_us' %}";
+ });
+
+});
+
+     
+</script>
 {% endblock %}

@@ -18,28 +18,59 @@ from datetime import  timedelta
 # import calendar
 
 def home(request):
-	reviews_list = Review.objects.all()[:10]
-	temp = { 'rating_color': 0,'rating_no_color': 0, }
+	display_list = DisplayHome.objects.all()[:10]
+
+	# out= []
+	# mobile_out =[]
 	rate = []
 	profile_picture = []
-	out= []
-	mobile_out =[]
+	reviews_list = []
+	desktop = []
+	mobile = []
+	item_list =[]
+	# coupon_list= []
+	for item in display_list:
+		if item.coupon is None :
+			item_list = {'rating_color': 0 ,'rating_no_color': 0 ,'profile_picture':None,
+			'type':'review','store':'','username':'','create_at' : None,'comment' : ''}
+			temp = { 'rating_color': 0,'rating_no_color': 0, }
+
+			item_list['rating_color'] = item.review.rating
+			item_list['rating_no_color'] = 5 - item_list['rating_color']
+			# item_list['reiview'] = item.review
+			# item_list['rate'] =temp
+			# item_list['rate'] =temp
+			item_list['store'] = item.review.store.name
+			item_list['username'] = item.user.username
+			item_list['create_at'] = item.review.created_at
+			item_list['comment'] = item.review.comment
 
 
-	
-	try :
-		for i in reviews_list:
-			temp['rating_color'] = i.rating
-			temp['rating_no_color'] = 5 - temp['rating_color']
-			rate.append(temp)
-			profile_picture.append(Profile.objects.get(user=i.user).picture.url)
-		out = zip(reviews_list,rate,profile_picture)
-		mobile_out= zip(reviews_list,rate,profile_picture)
-	except :
-		raise Http404
+			item_list['profile_picture'] = Profile.objects.get(user=item.review.user).picture.url
+			# rate.append(temp)
+			# reviews_list.append(item.review)
+			# profile_picture.append(Profile.objects.get(user=item.review.user).picture.url)
+			# out = zip(reviews_list,rate,profile_picture)
+			# mobile_out= zip(reviews_list,rate,profile_picture)
+			# except :
+			# 	raise Http404
+
+		elif item.review is None :
+			coupon = Coupon.objects.get(id=item.coupon.id)
+			item_list = {'username':'','profile_picture': None,'coupon_msg' :'','store':''
+			,'type':'coupon','create_at' : None}
+			item_list['profile_picture'] = Profile.objects.get(user=item.user).picture.url
+			item_list['coupon_msg'] = coupon.msg
+			item_list['store'] = coupon.store.name
+			item_list['username'] = item.user.username
+			item_list['create_at'] = item.coupon.created_at
+
+		desktop.append(item_list)
+		mobile.append(item_list)
 
 
-	response = set_cookie(request, 'home.html', {'out':out,'mobile_out':mobile_out})
+
+	response = set_cookie(request, 'home.html', {'desktop':desktop,'mobile':mobile})
 	
 	
 	return response
@@ -404,6 +435,7 @@ def shop(request, pk):
 		            store = store,
 		            comment = reviewForm.cleaned_data['comment'],
 		            rating = star,)
+				DisplayHome.objects.create(user=request.user,review=review)
 				next_page = "/store/"+str(pk)
 				return HttpResponseRedirect(next_page)
 		elif "order" in request.POST:
@@ -876,7 +908,6 @@ def like_button(request):
 @login_required
 def use_coupon(request,coupon):
 	try :
-
 		print(coupon)
 		c = GetCoupon.objects.get(coupon__id=coupon,user=request.user)
 
@@ -884,7 +915,9 @@ def use_coupon(request,coupon):
 		c.save()
 
 		cou = Coupon.objects.get(id=coupon)
+		DisplayHome.objects.create(user=request.user,coupon=cou)
 
+		collect_session(request,'ใช้คูปอง',coupon)
 		
 		time = datetime.datetime.now()
 		add_time = time + datetime.timedelta(0,3600)
@@ -910,6 +943,7 @@ def use_code(request):
 				code_type = 1
 				msg = 'รับฟรี'
 				value = c.value
+			collect_session(request,'ใช้โค้ด',coupon.id)
 		
 		except Exception as e:
 			raise

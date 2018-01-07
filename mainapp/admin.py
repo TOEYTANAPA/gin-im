@@ -69,3 +69,7 @@ admin.site.register(CodeType, CodeTypeAdmin)
 class DeliveryTimeAdmin(admin.ModelAdmin):
 	list_display=[f.name for f in DeliveryTime._meta.fields]
 admin.site.register(DeliveryTime, DeliveryTimeAdmin)
+
+class DisplayHomeAdmin(admin.ModelAdmin):
+	list_display=[f.name for f in DisplayHome._meta.fields]
+admin.site.register(DisplayHome, DisplayHomeAdmin)

@@ -182,6 +182,12 @@ class GetCoupon(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True,)
 	amount = models.IntegerField(default=1, blank=True,null=True)
 
+class DisplayHome(models.Model):
+	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+	coupon =  models.ForeignKey(Coupon, on_delete=models.SET_NULL,blank=True,null=True)
+	review = models.ForeignKey(Review, on_delete=models.SET_NULL,blank=True,null=True)
+
+
 
 	
 class CodeType (models.Model):
