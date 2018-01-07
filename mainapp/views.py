@@ -15,6 +15,7 @@ from datetime import date
 import datetime
 from django.core import serializers
 from datetime import  timedelta
+from django.core.paginator import Paginator
 # import calendar
 
 def home(request):
@@ -31,22 +32,43 @@ def home(request):
 	# coupon_list= []
 	for item in display_list:
 		if item.coupon is None :
-			item_list = {'rating_color': 0 ,'rating_no_color': 0 ,'profile_picture':None,
-			'type':'review','store':'','username':'','create_at' : None,'comment' : ''}
-			temp = { 'rating_color': 0,'rating_no_color': 0, }
+			if item.review is None :
+				item_list = {'rating_color': 0 ,'rating_no_color': 0 ,'profile_picture':None,
+				'type':'review','store':'','username':'','create_at' : None,'comment' : ''}
+				temp = { 'rating_color': 0,'rating_no_color': 0, }
+			else:
+				item_list = {'rating_color': 0 ,'rating_no_color': 0 ,'profile_picture':None,
+					'type':'review','store':'','username':'','create_at' : None,'comment' : ''}
+				temp = { 'rating_color': 0,'rating_no_color': 0, }
 
-			item_list['rating_color'] = item.review.rating
-			item_list['rating_no_color'] = 5 - item_list['rating_color']
-			# item_list['reiview'] = item.review
-			# item_list['rate'] =temp
-			# item_list['rate'] =temp
-			item_list['store'] = item.review.store.name
-			item_list['username'] = item.user.username
-			item_list['create_at'] = item.review.created_at
-			item_list['comment'] = item.review.comment
+				item_list['rating_color'] = item.review.rating
+				item_list['rating_no_color'] = 5 - item_list['rating_color']
+					# item_list['reiview'] = item.review
+					# item_list['rate'] =temp
+					# item_list['rate'] =temp
+				item_list['store'] = item.review.store.name
+				item_list['username'] = item.user.username
+				item_list['create_at'] = item.review.created_at
+				item_list['comment'] = item.review.comment
 
 
-			item_list['profile_picture'] = Profile.objects.get(user=item.review.user).picture.url
+				item_list['profile_picture'] = Profile.objects.get(user=item.review.user).picture.url
+					
+		elif item.review is None :
+			if item.coupon is None :
+				item_list = {'rating_color': 0 ,'rating_no_color': 0 ,'profile_picture':None,
+				'type':'review','store':'','username':'','create_at' : None,'comment' : ''}
+				temp = { 'rating_color': 0,'rating_no_color': 0, }
+		
+			else:
+				coupon = Coupon.objects.get(id=item.coupon.id)
+				item_list = {'username':'','profile_picture': None,'coupon_msg' :'','store':''
+				,'type':'coupon','create_at' : None}
+				item_list['profile_picture'] = Profile.objects.get(user=item.user).picture.url
+				item_list['coupon_msg'] = coupon.msg
+				item_list['store'] = coupon.store.name
+				item_list['username'] = item.user.username
+				item_list['create_at'] = item.coupon.created_at
 			# rate.append(temp)
 			# reviews_list.append(item.review)
 			# profile_picture.append(Profile.objects.get(user=item.review.user).picture.url)
@@ -54,16 +76,6 @@ def home(request):
 			# mobile_out= zip(reviews_list,rate,profile_picture)
 			# except :
 			# 	raise Http404
-
-		elif item.review is None :
-			coupon = Coupon.objects.get(id=item.coupon.id)
-			item_list = {'username':'','profile_picture': None,'coupon_msg' :'','store':''
-			,'type':'coupon','create_at' : None}
-			item_list['profile_picture'] = Profile.objects.get(user=item.user).picture.url
-			item_list['coupon_msg'] = coupon.msg
-			item_list['store'] = coupon.store.name
-			item_list['username'] = item.user.username
-			item_list['create_at'] = item.coupon.created_at
 
 		desktop.append(item_list)
 		mobile.append(item_list)
@@ -151,6 +163,7 @@ def set_cookie(request,template,dicts):
     
 @login_required
 def report(request):
+	# collect_session(request,"รีวิวร้านค้า",review.id)
 	today =datetime.date.today()
 	today_name = today.strftime('%B')
 	month = today.strftime('%B')
@@ -158,34 +171,41 @@ def report(request):
 	store = StoreByUser.objects.get(user = request.user).store
 	reviews_count = Review.objects.filter(store=store).count()
 	order_count = Order.objects.filter(store=store).count()
-	viewer = User_session.objects.filter(action="enter_store",value=store.id).count()
-	viewer_today =  User_session.objects.filter(created_at__gt=today).count()
-	print(viewer_today)
+	member_viewer = User_session.objects.filter(action="enter_store",value=store.id).count()
+	anonymous_viewer =Anonymous_session.objects.filter(action="enter_store",value=store.id).count()
+	viewer = member_viewer+anonymous_viewer
+
+	# member_viewer_today =  User_session.objects.filter(created_at__gt=today).count()
+	# anonymous_viewer_today = Anonymous_session.objects.filter(created_at__gt=today).count()
+	# viewer_today= member_viewer_today+anonymous_viewer_today
+
+	now = datetime.datetime.now()
+	first_day_string = "2018-01-01"
+	first_day = datetime.datetime.strptime(first_day_string, "%Y-%m-%d").date()
+
+	print("now",now)
+	# print(viewer_today)
+	print("today",today)
+	differ = datetime.date.today() - first_day
+	print("differ",differ.days)
 	viewer_list_per_day = []
-	for i in reversed(range(4)):
-		print(i+1)
+	for i in reversed(range(differ.days)):
+		member_viewer_yesterday = 0
+		anonymous_viewer_yesterday =0
+		viewer_yesterday =0
+		print('',i+1)
 		yesterday = datetime.date.today() - datetime.timedelta(days=i+1)
-		viewer_yesterday =  User_session.objects.filter(created_at__date=yesterday).count()
+		member_viewer_yesterday =  User_session.objects.filter(action="enter_store",value=store.id,created_at__date=yesterday).count()
+		anonymous_viewer_yesterday = Anonymous_session.objects.filter(action="enter_store",value=store.id,created_at__date=yesterday).count()
+		print("member_viewer_yesterday ",member_viewer_yesterday)
+
+		viewer_yesterday= int(anonymous_viewer_yesterday)+int(member_viewer_yesterday)
 		viewer_list_per_day.append(viewer_yesterday)
-	# viewer_list_per_day.append(viewer_today)
-	# d = datetime.date.today()- timedelta(days=days_to_subtract)
-	
-    # import datetime
-	# yesterday = datetime.date.today() - datetime.timedelta(days=4)
-	# print(today)
-	# print(yesterday)
-	# viewer_yesterday =  User_session.objects.filter(created_at__date=yesterday).count()
-	# print(viewer_yesterday)
-	# viewer_yesterday = User_session.objects.filter(date__gt=yesterday)
-	# print(view_yesterday)
-    # print(store.quote)
-   
-	# print(today.month)
-	# print(today.strftime('%Y'))
-	# print(today.strftime('%y'))
-	# print(today.strftime('%A'))
+	print("viewer_list_per_day",viewer_list_per_day)
+
 	return render(request, 'report.html',{'month':month,'year':year,'store':store,
-		'reviews_count':reviews_count,'order_count':order_count,'viewer':viewer,'viewer_list_per_day':json.dumps(viewer_list_per_day)})
+		'reviews_count':reviews_count,'order_count':order_count,
+		'viewer':viewer,'viewer_list_per_day':json.dumps(viewer_list_per_day),'differ_dates':differ.days})
 
 def about_us(request):
     return render(request, 'about_us.html')
@@ -534,6 +554,69 @@ def shop(request, pk):
 
 
 
+# def searchBycate(request,cate):
+# 	stores_list = []
+# 	stores =[]
+# 	store_love_list =[]
+
+# 	collect_session(request,"search_cate",cate)
+# 	try :
+# 		if cate == "all":
+# 			stores = Store.objects.all()
+# 		else :
+# 			stores = Store.objects.filter(tags__contains=cate)
+# 		print("stores",stores)
+		
+
+# 		for s in stores :
+# 			temp = {'name': '', 'tags' : [], 'rating_color': 0,'rating_no_color': 0, 'no_reviews':0,'menues' : [],'love':0,'store_loved_color':[]}
+			
+# 			# temp['name'].append(s.name)
+# 			temp['name'] = s.name
+# 			tags = s.tags.split(',')
+# 			for tag in tags :
+# 				temp['tags'].append(tag)
+
+# 			try:
+# 				rating_avg = Review.objects.filter(store__name = s.name).aggregate(Avg('rating'))
+# 				temp['rating_color'] = round(rating_avg['rating__avg'])
+
+# 			except:
+# 				temp['rating_color'] = 0
+
+
+# 			temp['rating_no_color'] = 5 - temp['rating_color']
+
+# 			temp['no_reviews'] = Review.objects.filter(store__name=s.name).count()
+
+# 			menues = Menu.objects.filter(store__name=s.name)[:4]
+# 			for menu in menues:
+# 				temp['menues'].append(menu)
+
+# 			temp['love'] = s.total_likes
+			
+# 			if request.user.is_authenticated():
+# 				user = request.user
+# 				store = get_object_or_404(Store, name=s.name)
+# 				if store.likes.filter(id=user.id).exists():
+# 					temp['store_loved_color'] = True
+# 				else:
+# 					temp['store_loved_color'] = None
+					
+			
+# 			stores_list.append(temp)
+
+# 		print("============================")
+# 		for i in stores_list:
+# 			print (i)
+
+# 	except Exception as e:
+# 		raise Http404
+
+
+# 	return render(request, 'search_cate.html',{'stores':stores_list,'category':cate,})
+
+
 def searchBycate(request,cate):
 	stores_list = []
 	stores =[]
@@ -547,18 +630,20 @@ def searchBycate(request,cate):
 			stores = Store.objects.filter(tags__contains=cate)
 		print("stores",stores)
 		
+		page = request.GET.get('page', 1)
 
 		for s in stores :
-			temp = {'name': '', 'tags' : [], 'rating_color': 0,'rating_no_color': 0, 'no_reviews':0,'menues' : [],'love':0,'store_loved_color':[]}
+			temp = {'id':'','name': '', 'tags' : [], 'rating_color': 0,'rating_no_color': 0, 'no_reviews':0,'menues' : [],'love':0,'store_loved_color':[]}
 			
 			# temp['name'].append(s.name)
 			temp['name'] = s.name
+			temp['id'] = s.id
 			tags = s.tags.split(',')
 			for tag in tags :
 				temp['tags'].append(tag)
 
 			try:
-				rating_avg = Review.objects.filter(store__name = s.name).aggregate(Avg('rating'))
+				rating_avg = Review.objects.filter(store__id = s.id).aggregate(Avg('rating'))
 				temp['rating_color'] = round(rating_avg['rating__avg'])
 
 			except:
@@ -567,9 +652,9 @@ def searchBycate(request,cate):
 
 			temp['rating_no_color'] = 5 - temp['rating_color']
 
-			temp['no_reviews'] = Review.objects.filter(store__name=s.name).count()
+			temp['no_reviews'] = Review.objects.filter(store__id=s.id).count()
 
-			menues = Menu.objects.filter(store__name=s.name)[:4]
+			menues = Menu.objects.filter(store__id=s.id)[:4]
 			for menu in menues:
 				temp['menues'].append(menu)
 
@@ -577,7 +662,7 @@ def searchBycate(request,cate):
 			
 			if request.user.is_authenticated():
 				user = request.user
-				store = get_object_or_404(Store, name=s.name)
+				store = get_object_or_404(Store, id=s.id)
 				if store.likes.filter(id=user.id).exists():
 					temp['store_loved_color'] = True
 				else:
@@ -590,11 +675,21 @@ def searchBycate(request,cate):
 		for i in stores_list:
 			print (i)
 
+		paginator = Paginator(stores_list, 10)
+		try:
+			stores = paginator.page(page)
+		except PageNotAnInteger:
+			stores = paginator.page(1)
+		except EmptyPage:
+			stores = paginator.page(paginator.num_pages)
+
 	except Exception as e:
-		raise Http404
+		raise 
 
 
-	return render(request, 'search_cate.html',{'stores':stores_list,'category':cate,})
+	return render(request, 'search_cate.html',{'stores':stores,'category':cate,})
+
+
 
 
 
@@ -605,16 +700,21 @@ def searchAll(request):
 	cate = request.POST.get("search", "")
 
 	collect_session(request,'search_input',cate)
+
+	page = request.GET.get('page', 1)
+
+
 	# collect_session(request,'search_input',cate)
+	page = request.GET.get('page', 1)
 
 	if request.method == 'POST':
 		if request.POST.get('search') is None:
-			return  HttpResponseRedirect('/main/')
+			return  HttpResponseRedirect('home')
 		else:
 			print("ddd",request.POST.get('search'))	
 
 		
-
+	
 
 	try :
 		# stores = Store.objects.filter(tags__contains=cate)
@@ -622,15 +722,16 @@ def searchAll(request):
 		stores= Store.objects.annotate(search=SearchVector('tags', 'name')).filter(search__contains=cate)
 
 		for s in stores :
-			temp = {'name': '', 'tags' : [], 'rating_color': 0,'rating_no_color': 0, 'no_reviews':0,'menues' : [],'love':0,'store_loved_color':[]}
+			temp = {'id':'','name': '', 'tags' : [], 'rating_color': 0,'rating_no_color': 0, 'no_reviews':0,'menues' : [],'love':0,'store_loved_color':[]}
 			temp['name'] = s.name
+			temp['id'] = s.id
 
 			tags = s.tags.split(',')
 			for tag in tags :
 				temp['tags'].append(tag)
 
 			try:
-				rating_avg = Review.objects.filter(store__name = s.name).aggregate(Avg('rating'))
+				rating_avg = Review.objects.filter(store__id = s.id).aggregate(Avg('rating'))
 				temp['rating_color'] = round(rating_avg['rating__avg'])
 
 			except:
@@ -639,9 +740,9 @@ def searchAll(request):
 
 			temp['rating_no_color'] = 5 - temp['rating_color']
 
-			temp['no_reviews'] = Review.objects.filter(store__name=s.name).count()
+			temp['no_reviews'] = Review.objects.filter(store__id=s.id).count()
 
-			menues = Menu.objects.filter(store__name=s.name)[:4]
+			menues = Menu.objects.filter(store__id=s.id)[:4]
 			for menu in menues:
 				temp['menues'].append(menu)
 
@@ -649,7 +750,7 @@ def searchAll(request):
 			
 			if request.user.is_authenticated():
 				user = request.user
-				store = get_object_or_404(Store, name=s.name)
+				store = get_object_or_404(Store, id=s.id)
 				if store.likes.filter(id=user.id).exists():
 					temp['store_loved_color'] = True
 				else:
@@ -658,12 +759,86 @@ def searchAll(request):
 			stores_list.append(temp)
 
 
+		paginator = Paginator(stores_list, 10)
+		try:
+			stores = paginator.page(page)
+		except PageNotAnInteger:
+			stores = paginator.page(1)
+		except EmptyPage:
+			stores = paginator.page(paginator.num_pages)
 
 	except :
 		raise
 
 
-	return render(request, 'search_input.html',{'stores':stores_list,'category':cate})
+	return render(request, 'search_input.html',{'stores':stores,'category':cate})
+
+# def searchAll(request):
+# 	stores_list = []
+# 	stores =[]
+# 	store_love_list =[]
+# 	cate = request.POST.get("search", "")
+
+# 	collect_session(request,'search_input',cate)
+# 	# collect_session(request,'search_input',cate)
+
+# 	if request.method == 'POST':
+# 		if request.POST.get('search') is None:
+# 			return  HttpResponseRedirect('/main/')
+# 		else:
+# 			print("ddd",request.POST.get('search'))	
+
+		
+
+
+# 	try :
+# 		# stores = Store.objects.filter(tags__contains=cate)
+
+# 		stores= Store.objects.annotate(search=SearchVector('tags', 'name')).filter(search__contains=cate)
+
+# 		for s in stores :
+# 			temp = {'name': '', 'tags' : [], 'rating_color': 0,'rating_no_color': 0, 'no_reviews':0,'menues' : [],'love':0,'store_loved_color':[]}
+# 			temp['name'] = s.name
+
+# 			tags = s.tags.split(',')
+# 			for tag in tags :
+# 				temp['tags'].append(tag)
+
+# 			try:
+# 				rating_avg = Review.objects.filter(store__name = s.name).aggregate(Avg('rating'))
+# 				temp['rating_color'] = round(rating_avg['rating__avg'])
+
+# 			except:
+# 				temp['rating_color'] = 0
+
+
+# 			temp['rating_no_color'] = 5 - temp['rating_color']
+
+# 			temp['no_reviews'] = Review.objects.filter(store__name=s.name).count()
+
+# 			menues = Menu.objects.filter(store__name=s.name)[:4]
+# 			for menu in menues:
+# 				temp['menues'].append(menu)
+
+# 			temp['love'] = s.total_likes
+			
+# 			if request.user.is_authenticated():
+# 				user = request.user
+# 				store = get_object_or_404(Store, name=s.name)
+# 				if store.likes.filter(id=user.id).exists():
+# 					temp['store_loved_color'] = True
+# 				else:
+# 					temp['store_loved_color'] = None
+
+# 			stores_list.append(temp)
+
+
+
+# 	except :
+# 		raise
+
+
+# 	return render(request, 'search_input.html',{'stores':stores_list,'category':cate})
 
 
 def outofstock(request):
@@ -914,24 +1089,23 @@ def checkIsSell(request):
 
     context = 'success'
     return HttpResponse(json.dumps(context), content_type='application/json')
-
+    
 def like_button(request):
     print("earn")
     if request.method == 'POST':
         user = request.user
-        s_name = request.POST.get('pk', None)
-        print(s_name)
-        store = get_object_or_404(Store, name=s_name)
+        sid = request.POST.get('pk', None)
+        print(sid)
+        store = get_object_or_404(Store, id=int(sid))
         print(store)
 
         if store.likes.filter(id=user.id).exists():
             store.likes.remove(user)
         else:
             store.likes.add(user)
-
+        collect_session(request,'กด like ',store)
     context = {'likes_count': store.total_likes}
     return HttpResponse(json.dumps(context), content_type='application/json')
-
 @login_required
 def use_coupon(request,coupon):
 	try :

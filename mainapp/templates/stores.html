@@ -14,7 +14,6 @@
     color: white;
     border-color: #FFBF00;
     }
- 
     button{
     background-color:#FFBF00;
     color: white;
@@ -155,8 +154,6 @@
     color: #FE2E64;
     
     }
-
-
     @keyframes pop{
     50%  {transform: scale(1.2);}
     }
@@ -177,19 +174,20 @@
     </div>
     
     <div class="container " id="home" >
-        <h1 class="uk-heading-divider  uk-heading-bullet uk-margin-remove-top">{{store.name}} <span >
-            {% if user.is_authenticated %}
-                {% if store_loved_color   %}
-                    <a class="uk-link-reset " ><i id="{{store.name}}"  class="fa fa-heart uk-text-meta uk-text-large   like pop"  aria-hidden="true" name="{{store.name}}" >  <span class="thai_font "> {{ store.total_likes }}  อยากกิน </span></i></a>
+           <h1 class="uk-heading-divider  uk-heading-bullet uk-margin-remove-top">{{store.name}} <span >
+        {% if user.is_authenticated %}
+                                      {% if store_loved_color   %}
+                                  <a class="uk-link-reset " ><i id="{{store.name}}"  class="fa fa-heart uk-text-meta uk-text-large   like pop"  aria-hidden="true" name="{{store.id}}" >  <span class="thai_font "> {{ store.total_likes }}  อยากกิน </span></i></a> 
+
+                                        {% else %}
+                                        <a class="uk-link-reset uk-text-large" ><i id="{{store.id}}"  class="fa fa-heart uk-text-large uk-text-meta  like"  aria-hidden="true" name="{{store.id}}" >  <span class="thai_font  "> {{ store.total_likes }}  อยากกิน </span></i></a> 
+                                        {% endif %}
+                                        
                 {% else %}
-                    <a class="uk-link-reset uk-text-large" ><i id="{{store.name}}"  class="fa fa-heart uk-text-large uk-text-meta  like"  aria-hidden="true" name="{{store.name}}" >  <span class="thai_font  "> {{ store.total_likes }}  อยากกิน </span></i></a>
-                {% endif %}
-                
-            {% else %}
-                <i   class="fa fa-heart uk-text-meta uk-text-meta  uk-text-large"  aria-hidden="true"  >  <span class="thai_font" > {{ store.total_likes }}  อยากกิน </span></i>
-                
+            <i   class="fa fa-heart uk-text-meta uk-text-meta  uk-text-large"  aria-hidden="true"  >  <span class="thai_font" > {{ store.total_likes }}  อยากกิน </span></i> 
+                                  
             {% endif %}</span> </h1>
-           <div class=" uk-margin-top ">
+                    <div class=" uk-margin-top ">
                 <div class="uk-child-width-1-2@m uk-grid-collapse uk-child-width-1-2@s " uk-grid>
                     
                     <div>
@@ -245,172 +243,213 @@
     </div>
     
 </div>
+
 </div>
 <br>
 <!--  <div class="uk-section uk-section-muted   uk-padding " > -->
-        <div class="container menu-desktop" id="home">
-            
-            <ul class="uk-tab  uk-margin-remove-top" >
-                <li class="uk-active " ><a href="#" id="text-tab"> เมนู </a></li>
-                <li><a href="#review"  id="text-tab">รีวิว</a></li>
-                
-            </ul>
-            
-            <br>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="uk-child-width-1-4@m uk-child-width-1-4@s  uk-grid-collapse uk-grid-match" uk-grid>
-                    {% for menu in menues %}
-                        <div >
-                            <div class="uk-card-default uk-card uk-card-hover  " >
-                                <div class="uk-card-media-top" uk-lightbox >
+<div class="container menu-desktop" id="home">
 
-                                    <a href="../{{menu.image.url}}">
-                                    <div class="imgCrop">
-                                        <img src=" ../{{menu.image.url}}" class="inImg" alt="{{menu.name}}" />
-                                    </div>
-                                    </a>
-                                </div>
-                                <div class="uk-card-body uk-padding-small"  >
-                    
-                                    <p  >{{menu.name}}</p>
-                                    <p>ราคา {{menu.price}} ฿</p>
-                               
-                                    {% if delivery %}
-                                          <div class="input-group number-spinner uk-text-center uk-margin-top order"  >
-                                        
-                                        
-                                        
-                                        <button   type="button" class="uk-button uk-button-default uk-button-small " data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
-                                        
-                                        
-                                        <input style="font-weight: bold ; width: 30%; height: 30px" type="text" class="uk-input uk-form-medium uk-text-center" name="{{menu.id}}" value="0">
-                                   
-                                        <!-- <span> -->
-                                        <button  type="button" class="uk-button uk-button-default  uk-button-small " data-dir="up" style="height: 30px"><span class="glyphicon glyphicon-plus"></span></button>
-                                        <!-- </span> -->
-                                        
-                                        
-                                    </div>
-                    
-                                    {% endif %}
-                                    
+<ul class="uk-tab  uk-margin-remove-top" >
+    <li class="uk-active " ><a href="#" id="text-tab"> เมนู </a></li>
+    <li><a href="#review"  id="text-tab">รีวิว</a></li>
+    
+</ul>
 
-                                </div>
-
-                                 
+<br>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="uk-child-width-1-4@m uk-child-width-1-4@s  uk-grid-collapse uk-grid-match" uk-grid>
+        {% for menu in menues %}
+            <div >
+                <div class="uk-card-default uk-card uk-card-hover  " >
+                    <div class="uk-card-media-top" uk-lightbox >
+                        <a href="../{{menu.image.url}}">
+                            <div class="imgCrop">
+                                <img src=" ../{{menu.image.url}}" class="inImg" alt="{{menu.name}}" />
                             </div>
+                        </a>
+                    </div>
+                    <div class="uk-card-body uk-padding-small"  >
+                        {% if menu.isSell %}
+                            <p  >{{menu.name}}</p>
+                            <p>ราคา {{menu.price}} ฿</p>
+                        {% else %}
+                            
+                            <!-- <div class=".uk-column-1-2@s">    </div> -->
+                            <!-- <div uk-grid>
+                                <div>  <p>{{menu.name}}  </p></div>
+                                <div>  <p class="sellOnlyShop">ขายที่ร้านเท่านั้น</p></div>
+                                </div> --><p>{{menu.name}}  </p>
+                                <p>ราคา {{menu.price}} ฿</p>
+                                <p class="sellOnlyShop">ขายที่ร้านเท่านั้น</p>
+                            {% endif %}
+                            
+                            
+                            {% if delivery and menu.isSell %}
+                                <div class="input-group number-spinner uk-text-center uk-margin-top order"  >
+                                    
+                                    
+                                    
+                                    <button   type="button" class="uk-button uk-button-default uk-button-small " data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                                    
+                                    
+                                    <input style="font-weight: bold ; width: 30%; height: 30px" type="text" class="uk-input uk-form-medium uk-text-center" name="{{menu.id}}" value="0">
+                                    
+                                    <!-- <span> -->
+                                    <button  type="button" class="uk-button uk-button-default  uk-button-small " data-dir="up" style="height: 30px"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <!-- </span> -->
+                                    
+                                    
+                                </div>
+
+                            {% endif %}
+                            
                         </div>
                         
-                    {% endfor %}
+                    </div>
+                </div>
+                
+            {% endfor %}
+              <div >
+                <div class="uk-card-default uk-card uk-card-hover uk-text-center  uk-text-middle" >
+                   
+                    <div class="uk-card-body uk-padding-small "  >
+                        <h2 class=""><i class="fa fa-plus-circle" aria-hidden="true"></i> เพิ่มเมนูอาหาร</h2>
+                        <a href="{% url 'add_menu' store.id %}" class=" uk-button uk-button-text  "
+                        > <h2>คลิกที่นี่</h2></a>
+                    </div>
                     
                 </div>
-           
-
-                 {% if delivery and user.is_authenticated and time_status == 1 %}
-                <div class="uk-text-center">
-                    <button type="submit" name="order"  class="uk-margin-top uk-button  " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
-                </div>
-                 {% endif %}
-               
-                
-            </form>
-                      {% if delivery and user.is_anonymous %}
-                <div class="uk-text-center">
-               
-                      <a href="#modal-sections" uk-toggle><button name="order"  class="uk-margin-top uk-button " style="color: white;"><h2 class="uk-margin-small-top">Log in เพื่อสั่งอาหาร</h2> </button></a>
-                </div>
-                 {% endif %}
-                  <br>
+            </div>
+            
         </div>
-     <div class="container menu-mobile" id="home">
-            
-            <ul class="uk-tab  uk-margin-remove-top" >
-                <li class="uk-active " ><a href="#" id="text-tab"> เมนู </a></li>
-                <li><a href="#review"  id="text-tab">รีวิว</a></li>
-                
-            </ul>
-            
-            <br>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="uk-child-width-1-1@m  uk-grid-collapse" uk-grid>
-                    {% for menu in mobile_menues %}
-                        <div class="uk-card uk-card-default uk-card-body uk-padding-small">
-                            <div class="uk-column-1-2" >
-                                <div class="uk-width-1-1 " uk-lightbox>
-                                        <a href="../{{menu.image.url}}">
-                                    <div class="imgCrop-mobile">
-                                             <img src="../{{menu.image.url}}"  class="uk-inline inImg-mobile" alt="{{menu.name}}" />
-                                    </div>
-                                        </a>
-                                       
-                                    
-                                </div>
-                                <div  class="">
-                      
-                                    <p  >{{menu.name}}</p>
-                                    <p>ราคา {{menu.price}} ฿</p>
         
+        {% if delivery and user.is_authenticated %}
+            <div class="uk-text-center">
+                <button type="submit" name="order"  class="uk-margin-top uk-button  " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
+            </div>
+        {% endif %}
+        
+        
+    </form>
+    {% if delivery and user.is_anonymous %}
+        <div class="uk-text-center">
+            
+            <a href="#modal-sections" uk-toggle><button name="order"  class="uk-margin-top uk-button " style="color: white;"><h2 class="uk-margin-small-top">Log in เพื่อสั่งอาหาร</h2> </button></a>
+        </div>
+    {% endif %}
+    <br>
+</div>
+<div class="container menu-mobile" id="home">
+    
+    <ul class="uk-tab  uk-margin-remove-top" >
+        <li class="uk-active " ><a href="#" id="text-tab"> เมนู </a></li>
+        <li><a href="#review"  id="text-tab">รีวิว</a></li>
+        
+    </ul>
+    
+    <br>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="uk-child-width-1-1@m  uk-grid-collapse" uk-grid>
+            {% for menu in mobile_menues %}
+                <div class="uk-card uk-card-default uk-card-body uk-padding-small">
+                    <div class="uk-column-1-2" >
+                        <div class="uk-width-1-1 " uk-lightbox>
+                            <a href="../{{menu.image.url}}">
+                                <div class="imgCrop-mobile">
+                                    <img src="../{{menu.image.url}}"  class="uk-inline inImg-mobile" alt="{{menu.name}}" />
+                                </div>
+                            </a>
+                            
+                            
+                        </div>
+                        <div  class="">
+                            
+                         {% if menu.isSell %}
+                            <p  >{{menu.name}}</p>
+                            <p>ราคา {{menu.price}} ฿</p>
+                        {% else %}
+                            
+                            <!-- <div class=".uk-column-1-2@s">    </div> -->
+                            <!-- <div uk-grid>
+                                <div>  <p>{{menu.name}}  </p></div>
+                                <div>  <p class="sellOnlyShop">ขายที่ร้านเท่านั้น</p></div>
+                                </div> --><p>{{menu.name}}  </p>
+                                <p>ราคา {{menu.price}} ฿</p>
+                                <p class="sellOnlyShop">ขายที่ร้านเท่านั้น</p>
+                            {% endif %}
+
+                        
+                            
+                            
+                            
+                            {% if delivery and menu.isSell %}
+                                <div class="input-group number-spinner uk-text-center uk-margin-top "  >
                                     
                                     
                                     
-                                     {% if delivery %}
-                                          <div class="input-group number-spinner uk-text-center uk-margin-top "  >
-                                        
-                                        
-                                        
-                                        <button   type="button" class="uk-button uk-button-default uk-button-small  " data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
-                                        
-                                        
-                                        <input style="font-weight: bold ; width: 30%; height: 30px" type="text" class="uk-input uk-form-medium uk-text-center" name="{{menu.id}}" value="0">
-                                        
-                                        <!-- <span> -->
-                                        <button  type="button" class="uk-button uk-button-default  uk-button-small " data-dir="up" style="height: 30px"><span class="glyphicon glyphicon-plus"></span></button>
-                                        <!-- </span> -->
-                                        
-                                        
-                                    </div>
-                    
-                                    {% endif %}
-                                       <br>
-                                       <br>
+                                    <button   type="button" class="uk-button uk-button-default uk-button-small  " data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                                    
+                                    
+                                    <input style="font-weight: bold ; width: 30%; height: 30px" type="text" class="uk-input uk-form-medium uk-text-center" name="{{menu.id}}" value="0">
+                                    
+                                    <!-- <span> -->
+                                    <button  type="button" class="uk-button uk-button-default  uk-button-small " data-dir="up" style="height: 30px"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <!-- </span> -->
                                     
                                     
                                 </div>
-                              
-                            </div>
+                                
+                            {% endif %}
+                            <br>
+                            <br>
+                            
+                            
                         </div>
-                    {% endfor %}
+                        
+                    </div>
+                </div>
+            {% endfor %}
+              <div >
+                <div class="uk-card-default uk-card uk-card-hover uk-text-center  uk-text-middle" >
+                   
+                    <div class="uk-card-body uk-padding-small uk-margin-large-top"  >
+                        <h2 class=""><i class="fa fa-plus-circle" aria-hidden="true"></i> เพิ่มเมนูอาหาร</h2>
+                        <a href="{% url 'add_menu' store.id %}" class=" uk-button uk-button-text  "
+                        > <h2>คลิกที่นี่</h2></a>
+                    </div>
                     
                 </div>
-                    
-                 {% if delivery and user.is_authenticated and time_status == 1%}
-                <div class="uk-text-center">
-                    <button type="submit" name="order"  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
-                </div>
-                 {% endif %}
-            </form>
-                    {% if delivery and user.is_anonymous %}
-                <div class="uk-text-center">
-               
-                      <a href="#modal-sections" uk-toggle><button name="order"  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top">Log in เพื่อสั่งอาหาร</h2> </button></a>
-
-                     
-
-                </div>
-                 {% endif %}
-            <br>
+            </div>
+            
         </div>
+        
+        {% if delivery and user.is_authenticated %}
+            <div class="uk-text-center">
+                <button type="submit" name="order"  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
+            </div>
+        {% endif %}
+    </form>
+    {% if delivery and user.is_anonymous %}
+        <div class="uk-text-center">
+            
+            <a href="#modal-sections" uk-toggle><button name="order"  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top">Log in เพื่อสั่งอาหาร</h2> </button></a>
+            
+        </div>
+    {% endif %}
+    <br>
+</div>
+
 <div id="modal-sections"  uk-modal>
-<div class="uk-modal-dialog" style="width: 400px">
-    <button class="uk-modal-close-default" type="button" uk-close></button>
-    <div class="uk-modal-header uk-padding-small uk-padding-remove-top">
-        <h2 class="uk-modal-title " style="text-align: center">เข้าสู่ระบบด้วย</h2>
-    </div>
-    <div class="uk-modal-body">
-        <div class="uk-container">
-           <div class="uk-margin-small">
+    <div class="uk-modal-dialog" style="width: 400px">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header uk-padding-small uk-padding-remove-top">
+            <h2 class="uk-modal-title " style="text-align: center">เข้าสู่ระบบด้วย</h2>
+        </div>
+        <div class="uk-modal-body">
+            <div class="uk-container">
+                <div class="uk-margin-small">
                 <a href="{% url 'social:begin' 'facebook' %}" class="uk-width-1-1 uk-button uk-button-default" href="#facebook"  style="background-color: #3B5998;color:white">
                 <img class="pull-left login-icon " src="{% static "images/facebook.png" %}"/>Facebook</a>
             </div>
@@ -418,128 +457,120 @@
                 <a href="{% url 'social:begin' 'google-oauth2' %}" class="uk-width-1-1 uk-button uk-button-default" style="background-color: #d9534f;color:white" >
                 <img class="pull-left login-icon " src="{% static "images/google.png" %}"/>Google</a>
             </div>
-          
-            <div class="uk-margin-small ">
-                <ul class="uk-subnav uk-subnav-divider uk-margin-left" >
-                    <li><a href="{% url 'login'   %}"  class="uk-button-text" ><h2>เข้าสู่ระบบ</h2></a></li>
-                    <li ><a href="{% url 'signup'  %}" class="uk-button-text" ><h2>สมัครสมาชิก</h2></a> </li>
-                    
-                </ul>
-                
-            </div>
-        </div>
-        
-        
-    </div>
-    <div class="uk-modal-footer uk-text-right thai_font">
-        <button class="uk-button uk-button-default  uk-modal-close  uk-text" type="button"><h2 class="uk-margin-small-top">ยกเลิก</h2></button>
-        <button class="uk-button uk-button-primary  uk-text" type="button"><h2 class="uk-margin-small-top">ตกลง</h2></button>
-    </div>
-</div>
-</div>
-<form class="checkout-form" name="checkoutForm" method="POST" action="/checkout">
-<script type="text/javascript" src="https://cdn.omise.co/omise.js"
-data-key="YOUR_PUCLIC_KEY"
-data-frame-label="Merchant site name"
-data-frame-description="Merchant site description"
-data-amount="10025"
-data-currency="thb">
-</script>
-</form>
-<script src="https://cdn.omise.co/omise.js.gz"></script>
-<div class="container"  id="home">
-<ul class="uk-tab uk-margin-top " uk-margin>
-    <li class="uk-active" ><a href="#" id="text-tab">รีวิว</a></li>
-    <li><a href="#review" id="text-tab">เขียนรีวิว</a></li>
-    
-</ul>
-
-<A name="review" >
-    <!-- <hr> -->
-    <br>
-    {% for review,rate,picture in out %}
-        <!-- <div class="<u>    </u>k-card uk-card-default uk-card-body uk-margin"> -->
-        <article class="uk-comment uk-comment-primary uk-margin-small-bottom" >
-            <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
-                <div class="uk-width-auto">
-                    <div class="">
-                        <img class="uk-comment-avatar " src="../{{picture}}" style="object-fit: cover;" alt="">
-                    </div>
-                    
-                </div>
-                <div class="uk-width-expand">
-                    
-                    <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
-                    <!-- <a  href="../store/{{store.name}}" class="store-name"></a> -->
-                    <!-- </form> -->
-                    <a href=" "></a>
-                    <div class="uk-margin-remove-top">
-                        {% for value in rate.rating_color|times %}
-                            <i class="fa fa-star star-color"> </i>
-                        {% endfor %}
-                        {% for value in rate.rating_no_color|times %}
-                            <i class="fa fa-star"> </i>
-                        {% endfor %}
-                    {{rate.rating_color}}</div>
-                    </h4>
-                    <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{store.name}}</b></a></h4>
-                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                        <li><a href="#">{{review.created_at | timesince }}</a></li>
-                        <!-- <p>{{review.rating}}</p> -->
+           
+                <div class="uk-margin-small ">
+                    <ul class="uk-subnav uk-subnav-divider uk-margin-left" >
+                        <li><a href="{% url 'login'   %}"  class="uk-button-text" ><h2>เข้าสู่ระบบ</h2></a></li>
+                        <li ><a href="{% url 'signup'  %}" class="uk-button-text" ><h2>สมัครสมาชิก</h2></a> </li>
+                        
                     </ul>
+                    
                 </div>
-            </header>
-            <div class="uk-comment-body">
-                <p class="comment"> {{review.comment}}!</p>
             </div>
-        </article>
-        <!-- </div> -->
-    {% endfor %}
+            
+            
+        </div>
+        <div class="uk-modal-footer uk-text-right thai_font">
+            <button class="uk-button uk-button-default  uk-modal-close  uk-text" type="button"><h2 class="uk-margin-small-top">ยกเลิก</h2></button>
+            <button class="uk-button uk-button-primary  uk-text" type="button"><h2 class="uk-margin-small-top">ตกลง</h2></button>
+        </div>
+    </div>
+</div>
+<div class="container"  id="home">
+    <ul class="uk-tab uk-margin-top " uk-margin>
+        <li class="uk-active" ><a href="#" id="text-tab">รีวิว</a></li>
+        <li><a href="#review" id="text-tab">เขียนรีวิว</a></li>
+        
+    </ul>
     
-</A>
-
-
+    <A name="review" >
+        <!-- <hr> -->
+        <br>
+        {% for review,rate,picture in out %}
+            <!-- <div class="<u>    </u>k-card uk-card-default uk-card-body uk-margin"> -->
+            <article class="uk-comment uk-comment-primary uk-margin-small-bottom" >
+                <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <div class="">
+                            <img class="uk-comment-avatar " src="../{{picture}}" style="object-fit: cover;" alt="">
+                        </div>
+                        
+                    </div>
+                    <div class="uk-width-expand">
+                        
+                        <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
+                        <!-- <a  href="../store/{{store.name}}" class="store-name"></a> -->
+                        <!-- </form> -->
+                        <a href=" "></a>
+                        <div class="uk-margin-remove-top">
+                            {% for value in rate.rating_color|times %}
+                                <i class="fa fa-star star-color"> </i>
+                            {% endfor %}
+                            {% for value in rate.rating_no_color|times %}
+                                <i class="fa fa-star"> </i>
+                            {% endfor %}
+                        {{rate.rating_color}}</div>
+                        </h4>
+                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{store.name}}</b></a></h4>
+                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                            <li><a href="#">{{review.created_at | timesince }}</a></li>
+                            <!-- <p>{{review.rating}}</p> -->
+                        </ul>
+                    </div>
+                </header>
+                <div class="uk-comment-body">
+                    <p class="comment"> {{review.comment}}!</p>
+                </div>
+            </article>
+            <!-- </div> -->
+        {% endfor %}
+        
+    </A>
+    
+    
 </div>
 <div class="container" id="home">
-<ul class="uk-tab" uk-margin>
-    <h2 class="uk-heading-bullet">เขียนรีวิว</h2>
-    
-    
-</ul>
-<div class="uk-child-width-1-2@m  uk-text-left uk-margin-large-bottom" uk-grid>
-    
-    <div>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="uk-align-left uk-margin-remove-bottom">
-                <input class="star star-5" id="star-5" value="5" type="radio" name="star" />
-                <label class="star star-5" for="star-5"></label>
-                <input class="star star-4" id="star-4" value="4" type="radio" name="star" />
-                <label class="star star-4" for="star-4"></label>
-                <input class="star star-3" id="star-3" value="3" type="radio" name="star" />
-                <label class="star star-3" for="star-3"></label>
-                <input class="star star-2" id="star-2" value="2" type="radio" name="star" />
-                <label class="star star-2" for="star-2"></label>
-                <input class="star star-1" id="star-1" value="1" type="radio" name="star" />
-                <label class="star star-1" for="star-1"></label>
-            </div>
-            
-            
-            
-            
-            {{ reviewForm.comment }}
-            <br> <br>
-            
-            
-            <button type="submit" name="review" class="uk-button uk-width-1-1@s uk-width-1-4@m" style="color: white"><h2 class="uk-margin-small-top">โพสต์</h2>
-            </button>
-        </form>
+    <ul class="uk-tab" uk-margin>
+        <h2 class="uk-heading-bullet">เขียนรีวิว</h2>
+        
+        
+    </ul>
+    <div class="uk-child-width-1-2@m  uk-text-left uk-margin-large-bottom" uk-grid>
+        
+        <div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="uk-align-left uk-margin-remove-bottom">
+                    <input class="star star-5" id="star-5" value="5" type="radio" name="star" />
+                    <label class="star star-5" for="star-5"></label>
+                    <input class="star star-4" id="star-4" value="4" type="radio" name="star" />
+                    <label class="star star-4" for="star-4"></label>
+                    <input class="star star-3" id="star-3" value="3" type="radio" name="star" />
+                    <label class="star star-3" for="star-3"></label>
+                    <input class="star star-2" id="star-2" value="2" type="radio" name="star" />
+                    <label class="star star-2" for="star-2"></label>
+                    <input class="star star-1" id="star-1" value="1" type="radio" name="star" />
+                    <label class="star star-1" for="star-1"></label>
+                </div>
+                
+                
+                
+                
+                {{ reviewForm.comment }}
+                <br> <br>
+                
+                
+                <button type="submit" name="review" class="uk-button uk-width-1-1@s uk-width-1-4@m" style="color: white"><h2 class="uk-margin-small-top">โพสต์</h2>
+                </button>
+            </form>
+        </div>
+        
     </div>
     
 </div>
 
-</div>
 <!-- </div> -->
+
 <script>
 function initMap() {}
 $(document).ready(function(){
@@ -573,12 +604,17 @@ btn.closest('.number-spinner').find('input').val(newVal);
 });
 });
 $(document).ready(function(){
+
 // alert("earn");
 $(".like").on("click", function() {
+
 var pk = $(this).attr('name');
 var love_btn = $(this);
 var id = $(this).attr('id');
+
 love_btn.toggleClass("pop");
+
+
 $.ajax({
 type: "POST",
 url: "{% url 'like_button' %}",
@@ -586,6 +622,7 @@ data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
 dataType: "json",
 success: function(response) {
 love_btn.html(" "+response.likes_count+" อยากกิน");
+
 }
 });
 });

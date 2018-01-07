@@ -16,11 +16,8 @@ class ProfileForm(forms.Form):
 
 
 class ReviewForm(forms.Form):
-    comment =  forms.CharField(max_length=100, help_text='',widget=forms.Textarea(attrs={'cols': 5,'rows': 5,'class': 'uk-textarea','placeholder':'เขียนรีวิว', }))
-    # sex = forms.CharField(max_length=10, required=False, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
-    # birthdate = forms.DateField(widget=extras.SelectDateWidget(years = range(2022, 1930, -1)))
-    # phone= forms.CharField(max_length=20, required=False, help_text='',widget=forms.TextInput(attrs={'class': 'uk-input'}))
-
+    comment =  forms.CharField(max_length=2000, help_text='',widget=forms.Textarea(attrs={'cols': 5,'rows': 5,'class': 'uk-textarea','placeholder':'เขียนรีวิว', }))
+   
 class StoreForm(forms.Form):
     TRUE_FALSE_CHOICES = (
     (True, 'มีบริการส่ง'),
