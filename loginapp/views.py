@@ -392,14 +392,21 @@ def profile(request):
         s = StoreByUser.objects.get(user=request.user)
         try :
             p = s.store
-            user_order = Order.objects.filter(store__id=p.id)
+            if "delivery" in p.tags :
+                delivery = True
+            else :
+                delivery = False
+           
+            user_order = Order.objects.filter(store__id=p.id).order_by('-date')
 
             for i in user_order:
-                temp = {'id':0,'username':'','address':'','menu_amount':[],'date':None,'total':0}
+                temp = {'id':0,'username':'','address':'','menu_amount':[],'date':None,'total':0,
+                'slip':None}
                 temp['id'] = i.id
                 temp['username'] = i.user.username
                 temp['address'] = i.address
                 temp['total'] = i.total
+                temp['slip'] = i.slip_payment
                 menu_list = []
                 amount_list = []
                     
@@ -409,14 +416,17 @@ def profile(request):
                 temp['date'] = i.date
 
                 user_order_list.append(temp)
+                print(user_order_list)
             return render(request, 'profile_store.html',{'form': form,'username': request.user.username,
-                'person':p,'user_order_list_mobile':user_order_list,'out':out,'mobile_out':mobile_out})
+                'person':p,'user_order_list_mobile':user_order_list,'user_order_list_desktop':user_order_list,
+                'delivery':delivery})
         except :
             raise
     except StoreByUser.DoesNotExist:
         return render(request, 'profile.html',{'form': form,'username': request.user.username,
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
             'mobile_out':mobile_out,'coupon_list':coupon_list,'coupon_list_mobile':coupon_list})
+
 
   
     # if check.status == 'store' :
@@ -450,6 +460,6 @@ def profile(request):
 
     
 
-    return render(request, 'profile.html',{'form': form,'username': request.user.username,
-            'person':p,'love_list':love_list,'order_list':order_list,'out':out,
-            'mobile_out':mobile_out,'coupon_list':coupon_list,'coupon_list_mobile':coupon_list})
+    # return render(request, 'profile.html',{'form': form,'username': request.user.username,
+    #         'person':p,'love_list':love_list,'order_list':order_list,'out':out,
+    #         'mobile_out':mobile_out,'coupon_list':coupon_list,'coupon_list_mobile':coupon_list})
