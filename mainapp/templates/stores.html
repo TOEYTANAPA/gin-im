@@ -198,7 +198,7 @@
                             <p ><span class="uk-text-muted"> <i class="fa fa-calendar" aria-hidden="true"></i> เปิดให้บริการ :</span><span class="">{{store.day_open}}  </span> </p>
                             <p ><span class="uk-text-muted"> <i class="fa fa-clock-o" aria-hidden="true"></i> เวลาเปิด - ปิด :</span><span class="">{{store.time_open}}  - </span> <span class="">{{store.time_close}}  </span></p>
                             
-                            <p> <span class="uk-text-muted"> <i class="fa fa-phone" aria-hidden="true"></i> ติดต่อเรา :</span> <span class=""> {{store.phone}}  </span></p>
+                           
                             
                             {% if delivery %}
                                 <p ><span class="uk-text-muted"> <i class="fa fa-user" aria-hidden="true"></i> Delivery :</span>
@@ -220,6 +220,7 @@
                     {% endif %}
                     
                     <p > <span class="uk-text-muted"> <i class="fa fa-map-marker" aria-hidden="true"></i> สถานที่ :</span> <span > {{store.place}} </span></p>
+                     <p> <span class="uk-text-muted"> <i class="fa fa-phone" aria-hidden="true"></i> ติดต่อเรา :</span> <span class=""> {{store.phone}}  </span></p>
                     
                     {% if store.qrcode %}<p class="imgCrop">
                         

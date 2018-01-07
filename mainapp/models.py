@@ -215,4 +215,10 @@ class DeliveryTime (models.Model):
 	sunday_open = models.TimeField(null=True, blank=True)
 	sunday_close = models.TimeField(null=True, blank=True)
 	sunday = models.BooleanField(default=False)
+	
+class StoreContact(models.Model):
+	tore = models.ForeignKey(Store, on_delete=models.SET_NULL,blank=True,null=True)
+	contact_type =  models.CharField(max_length=100,blank=True,null=True)
+	contact =  models.CharField(max_length=100,blank=True,null=True)
+	
 
