@@ -10,7 +10,7 @@ from django.contrib.postgres.fields import ArrayField
 
 
 class Store(models.Model):
-	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+	# user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
 	name = models.CharField(max_length=30)
 	place = models.CharField(max_length=50)
 	image=models.ImageField(upload_to='stores/')
@@ -28,7 +28,7 @@ class Store(models.Model):
 	likes = models.ManyToManyField(User, related_name="likes",blank=True,null=True)
 	delivery_boundary = models.CharField(max_length=1000,blank=True,null=True)
 	delivery_payment = models.CharField(max_length=20,blank=True,null=True)
-	# created_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
+	created_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
 
 
 	def __unicode__(self):
@@ -71,7 +71,7 @@ class Profile(models.Model):
 	phone_number = models.CharField(max_length=20)
 	address = models.CharField(max_length=500,blank=True,null=True)
 	picture=models.ImageField(upload_to="profilePicture/",default="")
-	status = models.CharField(max_length=10,blank=True,null=True,default="user")
+	# status = models.CharField(max_length=10,blank=True,null=True,default="user")
 
 class StoreByUser(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True)
@@ -187,9 +187,6 @@ class DisplayHome(models.Model):
 	coupon =  models.ForeignKey(Coupon, on_delete=models.SET_NULL,blank=True,null=True)
 	review = models.ForeignKey(Review, on_delete=models.SET_NULL,blank=True,null=True)
 
-
-
-	
 class CodeType (models.Model):
 	coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL,blank=True,null=True)
 	code_type = models.CharField(max_length=10,blank=True,null=True)

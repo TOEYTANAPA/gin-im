@@ -189,7 +189,7 @@
                 <i   class="fa fa-heart uk-text-meta uk-text-meta  uk-text-large"  aria-hidden="true"  >  <span class="thai_font" > {{ store.total_likes }}  อยากกิน </span></i>
                 
             {% endif %}</span> </h1>
-            <div class=" uk-margin-top ">
+           <div class=" uk-margin-top ">
                 <div class="uk-child-width-1-2@m uk-grid-collapse uk-child-width-1-2@s " uk-grid>
                     
                     <div>
@@ -198,22 +198,20 @@
                             <cite><p  style="color:#ABABAB">" {{store.quote}} "</p></cite>
                             
                             <p ><span class="uk-text-muted"> <i class="fa fa-calendar" aria-hidden="true"></i> เปิดให้บริการ :</span><span class="">{{store.day_open}}  </span> </p>
-                             <p ><span class="uk-text-muted"> <i class="fa fa-clock-o" aria-hidden="true"></i> เวลาเปิด - ปิด :</span><span class="">{{store.time_open}}  - </span> <span class="">{{store.time_close}}  </span></p>
+                            <p ><span class="uk-text-muted"> <i class="fa fa-clock-o" aria-hidden="true"></i> เวลาเปิด - ปิด :</span><span class="">{{store.time_open}}  - </span> <span class="">{{store.time_close}}  </span></p>
                             
                             <p> <span class="uk-text-muted"> <i class="fa fa-phone" aria-hidden="true"></i> ติดต่อเรา :</span> <span class=""> {{store.phone}}  </span></p>
                             
                             {% if delivery %}
                                 <p ><span class="uk-text-muted"> <i class="fa fa-user" aria-hidden="true"></i> Delivery :</span>
                                 <i class="fa fa-check uk-text-success" aria-hidden="true" > </i>
-                                <span class="">บริการส่งถึงที่ </span> 
-            
+                                <span class="">บริการส่งถึงที่ </span>
+                                
                                 {% if time_status == 0 %}
                                     <span class="uk-badge uk-text-large " style="background-color : #E74C3C;">close</span>
-
-                               {% else %}
-                                      <span class="uk-badge uk-text-large" style="background-color : #2ECC71;">open</span>
-
-                               {% endif %}
+                                {% else %}
+                                    <span class="uk-badge uk-text-large" style="background-color : #2ECC71;">open</span>
+                                {% endif %}
                             </p>
                             
                         {% else %}
