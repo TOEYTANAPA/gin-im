@@ -329,70 +329,93 @@ def shop(request, pk):
 			time_now = datetime.datetime.now().time()
 			time_status = 0
 			if day == 0 :# monday
-				time_open = time.monday_open
-				time_close = time.monday_close
-				if time_open is None and time_close is None:
-					time_status = 0
+
+				if time.monday :
+					time_open = time.monday_open
+					time_close = time.monday_close
+					if time_open is None and time_close is None:
+						time_status = 0
+					else :
+						if time_now >= time_open and time_now <= time_close :
+							time_status = 1
 				else :
-					if time_now >= time_open and time_now <= time_close :
-						time_status = 1
+					time_status = 0
 				
 			elif day == 1 :# tuesday
-				time_open = time.tuesday_open
-				time_close = time.tuesday_close
-				if time_open is None and time_close is None:
-					time_status = 0
+				if time.tuesday :
+					time_open = time.tuesday_open
+					time_close = time.tuesday_close
+					if time_open is None and time_close is None:
+						time_status = 0
+					else :
+						if time_now >= time_open and time_now <= time_close :
+							time_status = 1
 				else :
-					if time_now >= time_open and time_now <= time_close :
-						time_status = 1
-				
+					time_status = 0
+
 			elif day == 2:	# wednesday
-				time_open = time.wednesday_open
-				time_close = time.wednesday_close
-				if time_open is None and time_close is None:
-					time_status = 0
+				if time.wednesday :
+					time_open = time.wednesday_open
+					time_close = time.wednesday_close
+					if time_open is None and time_close is None:
+						time_status = 0
+					else :
+						if time_now >= time_open and time_now <= time_close :
+							time_status = 1
 				else :
-					if time_now >= time_open and time_now <= time_close :
-						time_status = 1
+					time_status = 0
 			
 			elif day == 3 :# thursday
-				time_open = time.thursday_open
-				time_close = time.thursday_close
-				if time_open is None and time_close is None:
-					time_status = 0
+				if time.thursday :
+					time_open = time.thursday_open
+					time_close = time.thursday_close
+					if time_open is None and time_close is None:
+						time_status = 0
+					else :
+						if time_now >= time_open and time_now <= time_close :
+							time_status = 1
 				else :
-					if time_now >= time_open and time_now <= time_close :
-						time_status = 1
+					time_status = 0
 				
 			elif day == 4:# friday
-				time_open = time.friday_open
-				time_close = time.friday_close
-				if time_open is None and time_close is None:
-					time_status = 0
+				if time.friday :
+					time_open = time.friday_open
+					time_close = time.friday_close
+					if time_open is None and time_close is None:
+						time_status = 0
+					else :
+						if time_now >= time_open and time_now <= time_close :
+							time_status = 1
 				else :
-					if time_now >= time_open and time_now <= time_close :
-						time_status = 1
+					time_status = 0
 				
 			elif day == 5 :# saturday
-				time_open = time.saturday_open
-				time_close = time.saturday_close
-				if time_open is None and time_close is None:
-					time_status = 0
+				if time.saturday :
+					time_open = time.saturday_open
+					time_close = time.saturday_close
+					if time_open is None and time_close is None:
+						time_status = 0
+					else :
+						if time_now >= time_open and time_now <= time_close :
+							time_status = 1
 				else :
-					if time_now >= time_open and time_now <= time_close :
-						time_status = 1
+					time_status = 0
 				
 			elif day == 6:# sunday
-				time_open = time.sunday_open
-				time_close = time.sunday_close
-				# print(time_close)
-				# print(time_open)
-				if time_open is None and time_close is None:
-					time_status = 0
-					# print(None)
+				# print(time.sunday)
+				if time.sunday :
+					time_open = time.sunday_open
+					time_close = time.sunday_close
+					# print(time_close)
+					# print(time_open)
+					if time_open is None and time_close is None:
+						time_status = 0
+						# print(None)
+					else :
+						if time_now >= time_open and time_now <= time_close :
+							time_status = 1
 				else :
-					if time_now >= time_open and time_now <= time_close :
-						time_status = 1
+					time_status = 0
 				# print()
 		except :
 			pass
@@ -506,7 +529,7 @@ def shop(request, pk):
 
 
 	return render(request,'stores.html',{'reviewForm':reviewForm,'username':request.user.username,'menues':reversed(menues2),'mobile_menues':reversed(menues2),
-		'reviews':reviews,'out':out,'store':store,'delivery':delivery,'category':cate,'store_loved_color':store_loved_color,'time_status':1})
+		'reviews':reviews,'out':out,'store':store,'delivery':delivery,'category':cate,'store_loved_color':store_loved_color,'time_status':time_status})
 
 
 
@@ -955,3 +978,50 @@ def use_code(request):
 
 		print(code)
 		return JsonResponse({'code':code_type,'value':value,'msg':msg},safe=False)
+
+@login_required
+def edit_delivery(request):
+	s = StoreByUser.objects.get(user=request.user)
+	t= DeliveryTime.objects.get(store=s.store)
+
+	# time = {'m': t.monday_off,'tu':t.tuesday_off,'w': t.wednesday_off,'th': t.thursday_close,
+	# 'f':t.friday_off,'sa':t.saturday_off,'su':t.sunday_off}
+	time = [t.monday,t.tuesday,t.wednesday,t.thursday_close,t.friday,t.saturday,t.sunday]
+	day = ['วันจันทร์','วันอังคาร','วันพุธ','วันพฤหัสบดี','วันศุกร์','วันเสาร์','วันอาทิตย์']
+	index =  [0,1,2,3,4,5,6,]
+	list_time = zip(time,day,index)
+	return render(request, 'delivery_close.html',{'time':list_time})
+
+def changeDelivery(request):
+	if request.method == 'POST':
+		user = request.user
+		index = request.POST.get('index', None)
+		isChecked = request.POST.get('isChecked', None)
+		if isChecked == 'true':
+			checked=True
+		elif isChecked == 'false':
+			checked=False
+
+		print(checked)
+		index = int(index)
+		s = StoreByUser.objects.get(user=request.user)
+		print(s.store.name)
+		if index == 0 :
+			DeliveryTime.objects.filter(store=s.store).update(monday=checked)
+		elif index == 1 :
+			DeliveryTime.objects.filter(store=s.store).update(tuesday=checked)
+		elif index == 2 :
+			DeliveryTime.objects.filter(store=s.store).update(wednesday=checked)
+		elif index == 3 :
+			DeliveryTime.objects.filter(store=s.store).update(thursday=checked)
+		elif index == 4 :
+			DeliveryTime.objects.filter(store=s.store).update(friday=checked)
+		elif index == 5 :
+			DeliveryTime.objects.filter(store=s.store).update(saturday=checked)
+		elif index == 6 :
+			print("55555555")
+			DeliveryTime.objects.filter(store=s.store).update(sunday=checked)
+	
+
+		context = 'success'
+	return HttpResponse(json.dumps(context), content_type='application/json')
