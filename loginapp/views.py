@@ -387,10 +387,11 @@ def profile(request):
         profile = Profile.objects.create(user=request.user,name=request.user.get_short_name(),email = request.user.email)
         print(profile.user)
     
-    check = Profile.objects.get(user=request.user)
-    if check.status == 'store' :
+    # check = Profile.objects.get(user=request.user)
+    try :
+        s = StoreByUser.objects.get(user=request.user)
         try :
-            p = Store.objects.get(user = request.user)
+            p = s.store
             user_order = Order.objects.filter(store__id=p.id)
 
             for i in user_order:
@@ -408,17 +409,47 @@ def profile(request):
                 temp['date'] = i.date
 
                 user_order_list.append(temp)
+            return render(request, 'profile_store.html',{'form': form,'username': request.user.username,
+                'person':p,'user_order_list_mobile':user_order_list,'out':out,'mobile_out':mobile_out})
         except :
             raise
+    except StoreByUser.DoesNotExist:
+        return render(request, 'profile.html',{'form': form,'username': request.user.username,
+            'person':p,'love_list':love_list,'order_list':order_list,'out':out,
+            'mobile_out':mobile_out,'coupon_list':coupon_list,'coupon_list_mobile':coupon_list})
 
-        return render(request, 'profile_store.html',{'form': form,'username': request.user.username,
-            'person':p,'user_order_list_mobile':user_order_list,'out':out,
-            'mobile_out':mobile_out})
-    else :
+  
+    # if check.status == 'store' :
+    #     try :
+    #         p = Store.objects.get(user = request.user)
+    #         user_order = Order.objects.filter(store__id=p.id)
+
+    #         for i in user_order:
+    #             temp = {'id':0,'username':'','address':'','menu_amount':[],'date':None,'total':0}
+    #             temp['id'] = i.id
+    #             temp['username'] = i.user.username
+    #             temp['address'] = i.address
+    #             temp['total'] = i.total
+    #             menu_list = []
+    #             amount_list = []
+                    
+    #             for m,a in zip(i.menu,i.amount):
+    #                 ma = {'menu':Menu.objects.get(id=m),'amount':a}
+    #                 temp['menu_amount'].append(ma)
+    #             temp['date'] = i.date
+
+    #             user_order_list.append(temp)
+    #     except :
+    #         raise
+
+        # return render(request, 'profile_store.html',{'form': form,'username': request.user.username,
+        #     'person':p,'user_order_list_mobile':user_order_list,'out':out,
+        #     'mobile_out':mobile_out})
+    # else :
 
 
     
 
-        return render(request, 'profile.html',{'form': form,'username': request.user.username,
+    return render(request, 'profile.html',{'form': form,'username': request.user.username,
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
             'mobile_out':mobile_out,'coupon_list':coupon_list,'coupon_list_mobile':coupon_list})
