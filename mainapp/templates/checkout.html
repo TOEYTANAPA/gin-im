@@ -155,8 +155,13 @@
                             <h2 class="uk-heading-bullet">ที่อยู่จัดส่ง</h2>
                             <label for="">ขอบเขตที่ร้านค้าสามารถจัดส่งได้ {{store.delivery_boundary}} </label>
                             <div class="uk-margin">
-                                <textarea id="myTextarea" class="uk-textarea" rows="3" placeholder="{{delivery_address}}"></textarea>
+                                <textarea id="myTextarea" class="uk-textarea" rows="3" placeholder="{{delivery_address}}" required></textarea>
                             </div>
+
+<div id="addressAlertBlock" class="uk-alert-danger" uk-alert>
+    <!-- <a class="uk-alert-close" uk-close></a> -->
+    <p>กรุณาระบุที่อยู่เพื่อจัดส่งอาหาร</p>
+</div>
                             
                             
                             <!--
@@ -176,20 +181,8 @@
             {% block javascript %}
                 <script type="text/javascript">
                 $(document).ready(function(){
-                //                 $(function(){
-                //      $('form').on('submit', function(e){
-                //          e.preventDefault();
-                //          $.ajax({
-                //              url: $(this).attr('action'),
-                //              method: $(this).attr('method'),
-                //              success: function(data){
-                //                 $('#target').html(data)
-                //             }
-                //          });
-                //      });
-                // });
-                //                 // document.getElementById("orderBtn").disabled = true;
-                
+                     addressAlertBlock.style.display = "none";
+    
                 var total = {{total}}
                 $("#orderBtn").click(function() {
                 
@@ -198,6 +191,21 @@
                 if (!address){
                 address=  document.getElementById("myTextarea").placeholder;
                 }
+                //user fill address
+                var addressAlertBlock = document.getElementById("addressAlertBlock");
+                if (address  != "None"){  
+                    document.getElementById("myTextarea").required = false;
+                }
+                else if (address == "None"){
+                      addressAlertBlock.style.display = "block";
+                       e.preventDefault();
+                      document.getElementById("myTextarea").required = true;
+                }
+                else { 
+                    addressAlertBlock.style.display = "block";
+                     e.preventDefault();
+                    document.getElementById("myTextarea").required = true;
+                   }  
                 console.log(address);
                 var data = JSON.stringify({{output|safe}});
                 var d_address= JSON.stringify(address);
@@ -205,6 +213,7 @@
                 var d_phone_number =  document.getElementById("myPhoneNumbet").value;
                 
                 // console.log(payment);
+
                 $.ajax({
                 url: '/delivery/',
                 type: 'GET',
