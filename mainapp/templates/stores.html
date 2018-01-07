@@ -155,6 +155,8 @@
     color: #FE2E64;
     
     }
+
+
     @keyframes pop{
     50%  {transform: scale(1.2);}
     }
@@ -203,7 +205,15 @@
                             {% if delivery %}
                                 <p ><span class="uk-text-muted"> <i class="fa fa-user" aria-hidden="true"></i> Delivery :</span>
                                 <i class="fa fa-check uk-text-success" aria-hidden="true" > </i>
-                                <span class="">บริการส่งถึงที่ </span>
+                                <span class="">บริการส่งถึงที่ </span> 
+            
+                                {% if time_status == 0 %}
+                                    <span class="uk-badge uk-text-large " style="background-color : #E74C3C;">close</span>
+
+                               {% else %}
+                                      <span class="uk-badge uk-text-large" style="background-color : #2ECC71;">open</span>
+
+                               {% endif %}
                             </p>
                             
                         {% else %}
@@ -299,7 +309,7 @@
                 </div>
            
 
-                 {% if delivery and user.is_authenticated %}
+                 {% if delivery and user.is_authenticated and time_status == 1 %}
                 <div class="uk-text-center">
                     <button type="submit" name="order"  class="uk-margin-top uk-button  " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
                 </div>
@@ -377,7 +387,7 @@
                     
                 </div>
                     
-                 {% if delivery and user.is_authenticated %}
+                 {% if delivery and user.is_authenticated and time_status == 1%}
                 <div class="uk-text-center">
                     <button type="submit" name="order"  class="uk-margin-top uk-button uk-width-1-1@s " style="color: white;"><h2 class="uk-margin-small-top"> สั่งอาหาร</h2> </button>
                 </div>
