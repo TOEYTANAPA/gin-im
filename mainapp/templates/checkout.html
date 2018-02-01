@@ -150,12 +150,19 @@
                             <br>
                             <h2 class="uk-heading-bullet">เบอร์โทรศัพท์ที่สามารถติดต่อได้</h2>
                             <div class="uk-margin">
-                                <input id="myPhoneNumbet" class="uk-input" type="text" placeholder="{{delivery_phone}}">
+                                <input id="myPhoneNumber" class="uk-input" type="text" value="{{delivery_phone}}">
+                            </div>
+                            <div id="phoneAlertBlock" class="uk-alert-danger" uk-alert>
+                                <p>กรุณาระบุเบอร์โทรศัพท์เพื่อใช้ติดต่อ</p>
                             </div>
                             <h2 class="uk-heading-bullet">ที่อยู่จัดส่ง</h2>
                             <label for="">ขอบเขตที่ร้านค้าสามารถจัดส่งได้ {{store.delivery_boundary}} </label>
                             <div class="uk-margin">
-                                <textarea id="myTextarea" class="uk-textarea" rows="3" placeholder="{{delivery_address}}"></textarea>
+                                <textarea id="myTextarea" class="uk-textarea" rows="3" value="{{delivery_address}}" required></textarea>
+                            </div>
+                            <div id="addressAlertBlock" class="uk-alert-danger" uk-alert>
+                                <!-- <a class="uk-alert-close" uk-close></a> -->
+                                <p>กรุณาระบุที่อยู่เพื่อจัดส่งอาหาร</p>
                             </div>
                             
                             
@@ -176,27 +183,59 @@
             {% block javascript %}
                 <script type="text/javascript">
                 $(document).ready(function(){
-                //                 $(function(){
-                //      $('form').on('submit', function(e){
-                //          e.preventDefault();
-                //          $.ajax({
-                //              url: $(this).attr('action'),
-                //              method: $(this).attr('method'),
-                //              success: function(data){
-                //                 $('#target').html(data)
-                //             }
-                //          });
-                //      });
-                // });
-                //                 // document.getElementById("orderBtn").disabled = true;
+                var addressAlertBlock = document.getElementById("addressAlertBlock");
+                var phoneAlertBlock = document.getElementById("phoneAlertBlock");
+                addressAlertBlock.style.display = "none";
+                phoneAlertBlock.style.display = "none";;
                 
                 var total = {{total}}
                 $("#orderBtn").click(function() {
                 
                 
+                
+                var phone_number =  document.getElementById("myPhoneNumber").value;
                 var address =  document.getElementById("myTextarea").value;
-                if (!address){
-                address=  document.getElementById("myTextarea").placeholder;
+                // if (document.getElementById("myPhoneNumber").value == ""  && document.getElementById("myTextarea").value == "" ){
+                // phoneAlertBlock.style.display = "block";
+                // addressAlertBlock.style.display = "block";
+                // e.preventDefault();
+                // document.getElementById("phone_number").required = true;
+                // document.getElementById("myPhoneNumbet").required = true;
+                // }
+                // else if (document.getElementById("myPhoneNumber").value == ""  && document.getElementById("myTextarea").value == "" ){
+                // phoneAlertBlock.style.display = "block";
+                // e.preventDefault();
+                // document.getElementById("phone_number").required = true;
+                // }
+                // if (!phone_number){
+                // phone_number=  document.getElementById("phone_number").placeholder;
+                // }
+                // user fill phone
+                if (phone_number  == "None" || phone_number=="" ){
+                phoneAlertBlock.style.display = "block";
+                // document.getElementById("phone_number").required;
+                $("#phone_number").attr('required', '');
+                // e.preventDefault();
+                }
+                else {
+                // document.getElementById("phone_number").required;
+                phoneAlertBlock.style.display = "none";
+                }
+                
+                //address
+                
+                // if (!address){
+                // address=  document.getElementById("myTextarea").placeholder;
+                // }
+                // user fill phone
+                if (address  == "None" || address=="" ){
+                addressAlertBlock.style.display = "block";
+                $("#address").attr('required', '');
+                // e.preventDefault();
+                }
+                else {
+                addressAlertBlock.style.display = "none";
+                // document.getElementById("address").required;
                 }
                 console.log(address);
                 var data = JSON.stringify({{output|safe}});
@@ -266,28 +305,21 @@ text += data.value;
 text += '</h3></td></tr>';
 total = {{total}};
 var text_total ='<tr><td class="uk-width-small"></td><td class="uk-width-small"><h4 class="uk-text-success uk-text-bold">';
-
 text_total += 'รวม</h4></td><td class="uk-width-small"><h3 class="uk-text-success uk-text-bold">';
 text_total += total;
 text_total += ' บาท</h3></td></tr>';
 }
-
 $('#add_table tr:last').remove();
 $("#add_table").last().append(text);
-
 $("#add_table").last().append(text_total);
 $('#code').prop('disabled', true);
-
-
 },
 error: function(data) {
 alert("โค้ดไม่ถูกต้อง");
 }
 });
 });
-
 });
 </script>
 {% endblock %}
-
 {% endblock %}

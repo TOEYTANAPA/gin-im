@@ -428,8 +428,6 @@ def profile(request):
             'person':p,'love_list':love_list,'order_list':order_list,'out':out,
             'mobile_out':mobile_out,'coupon_list':coupon_list,'coupon_list_mobile':coupon_list})
 
-
-  
     # if check.status == 'store' :
     #     try :
     #         p = Store.objects.get(user = request.user)

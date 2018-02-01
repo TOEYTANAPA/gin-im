@@ -1,5 +1,5 @@
 from django import template
-
+from django.contrib.auth.models import Group 
 register = template.Library()
 
 @register.filter(name='range')
@@ -16,3 +16,9 @@ def _range(_min, args=None):
 @register.filter(name='times') 
 def times(number):
     return range(number)
+
+
+@register.filter(name='has_group') 
+def has_group(user, group_name):
+    group =  Group.objects.get(name=group_name) 
+    return group in user.groups.all()     

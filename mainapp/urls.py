@@ -7,8 +7,6 @@ import os
 from django.conf.urls.static import static
 
 
-import os
-
 urlpatterns = [
 
     url(r'^$', views.home, name='home'),
