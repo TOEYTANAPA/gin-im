@@ -23,8 +23,7 @@
     color: #6ACAD1;
     font-weight: bold;
     }
-
-     .click-add {
+    .click-add {
     /*background-color: #6ACAD1;*/
     color: #FFBF00;
     font-weight: bold;
@@ -39,6 +38,8 @@
     color: black;
     /*font-weight: bold;*/
     }
+
+  
     .divide {
     display: block;
     height: 1px;
@@ -51,16 +52,26 @@
     font-size: 14px;
     color: #9E9E9E;
     }
-
     #btn-inline,#p-inline{
-         display: inline-block;
-          vertical-align: middle;
-          margin: 10px 0;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 10px 0;
+    }
+ #home{
+    width: 98%;
     }
 
+    .uk-badge {
+        background-color: #faa05a;
+    }
 
+    .uk-badge.muted {
+        background-color: #b9b9b9;
+    }
+   
+
+   
     </style>
-
     <hr class="uk-box-shadow-medium ">
     <div class="uk-background-muted" style="margin-top: -20px;">
         <div class="container profile-desktop " id="home">
@@ -69,15 +80,14 @@
                 <div class="uk-card-body uk-margin-remove">
                     <h2 class="uk-heading-bullet" style="color: black">บัญชีของฉัน</h2>
                     <div uk-grid>
-
-                        <div class="uk-width-1-3@m uk-text-center">
+                        <div class="uk-width-1-4@m uk-text-center">
                             <div class="uk-margin-top">
                                 <ul class=" uk-list-divider uk-list  uk-text-left" style="width: 70%">
                                     <li class="click-about"><a class="uk-link-reset " href=""><span>&#8226;</span> ข้อมูลส่วนตัว</a></li>
                                     <li><a class="click-review" ><span>&#8226;</span> รีวิวของฉัน</a></li>
                                     <li><a class="click-love" ><span>&#8226;</span> ร้านอาหารโปรด</a></li>
                                     <li><a class="click-order" ><span>&#8226;</span> ออเดอร์ของฉัน</a></li>
-                                    <li><a class="click-coupon" ><span>&#8226;</span> คูปองของฉัน</a></li>                                       
+                                    <li><a class="click-coupon" ><span>&#8226;</span> คูปองของฉัน</a></li>
                                     <li><a href="{% url 'is_inf' %}"><span>&#8226;</span> ประวัติความหิว</a></li>
                                     <li><a href="{% url 'mainapp:add_store' %}" ><span>&#8226;</span> เพิ่มร้านค้าที่คุณรู้จัก</a></li>
                                     <li><a href="{% url 'change_password' %}" class="" ><span>&#8226;</span> เปลี่ยนพาสเวิร์ด</a></li>
@@ -85,8 +95,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="uk-width-2-3@m uk-grid-match " uk-grid>
-                            <div class="about" id="about">
+                        <div class="uk-width-3-4@m uk-grid-match " uk-grid>
+                            <div class="about  uk-margin-remove-top" id="about">
                                 
                                 <form method="post" enctype='multipart/form-data'>
                                     <!-- <fieldset class="uk-fieldset"> -->
@@ -95,7 +105,7 @@
                                     <hr class="divide">
                                     <table class="uk-table ">
                                         <tbody>
-                                         <tr>
+                                            <tr>
                                                 <td>
                                                     <label class="uk-align-right">สถานะ</label>
                                                 </td>
@@ -123,9 +133,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="imgCrop">
-
                                                         <div> <img src="../{{person.picture.url}}" style="width: 150px;height: 140px;" class="inImg" /></div>
-
                                                     </div>
                                                 </td>
                                             </tr>
@@ -143,7 +151,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                    </table>                                  
+                                    </table>
                                     <table class="uk-table ">
                                         <tbody>
                                             <tr>
@@ -170,16 +178,16 @@
                                     
                                 </form>
                             </div>
-                                  <div class="review uk-width-1-1 uk-margin-remove-top" id="review">
+                            <div class="review uk-width-1-1 uk-margin-remove-top" id="review">
                                 <h4 class="title uk-heading-bullet ">รีวิวของฉัน</h4>
-                                   <hr class="divide " >
-                                   {% if out|length <= 0 %}
-                                        <div uk-alert style="">
-                                            <!-- <a class="uk-alert-close" uk-close></a> -->
-                                            <h4 class="uk-margin-remove">คุณยังไม่ได้รีวิว</h4>
-                                         
-                                        </div>
-                                   {% endif %}
+                                <hr class="divide " >
+                                <!--   {% if out|length <= 0 %}
+                                    <div uk-alert style="">
+                                        
+                                        <h4 class="uk-margin-remove">คุณยังไม่ได้รีวิว</h4>
+                                        
+                                    </div>
+                                {% endif %} -->
                                 {% for review,rate,picture in out reversed %}
                                     
                                     
@@ -216,61 +224,128 @@
                                     </div>
                                 {% endfor %}
                             </div>
-                            <div class="order uk-margin-remove-top" id="order">
+                            <div class="order uk-width-1-1 uk-margin-remove-top" id="order">
                                 <h4 class="title uk-heading-bullet">ออเดอร์ของฉัน</h4>
-                                   <hr class="divide">
-
-                                <table class="uk-table uk-table-responsive uk-table-hover uk-table-divider  uk-table-justify">
+                                <hr class="divide">
+                                <table class="uk-table uk-table-responsive uk-table-hover uk-table-divider  uk-table-justify ">
                                     <thead>
                                         <tr>
-                                            <th style="width: 5%"><p>No.</p></th>
-                                            <th style="width: 20%;"><p>ร้าน</p></th>
-                                            <th style="width: 45%;"><p>เมนู</p></th>
-                                      
-                                            <th style="width:30%;"><p>วันที่</p></th>
+                                            <th style="width: 5%"><h2>No.</h2></th>
+                                            <th style="width: 15%;"><h2>ร้าน</h2></th>
+                                            <th style="width: 35%;"><h2>เมนู</h2></th>
+                                            <th style="width:10%;"><h2>ราคา</h2></th>
+                                             <th style="width:20%;"><h2>สถานะ</h2></th>
+                                            
+                                            <th style="width:10%;"><h2>วันที่</h2></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                     {% for order in order_list %}
-                                  
-                                        <tr>
-                                            <td><p>{{order.id}}</p></td>
-                                            <td><p>{{order.name_s}}</p></td>
-                                            <td>
-                                              <div>
+                                        {% for order in order_list %}
+                                            
+                                            <tr>
+                                                <td><p>{{order.id}}</p></td>
+                                                <td><p>{{order.name_s}}</p></td>
+                                                <td>
+                                                    <div>
                                                 {% for ma in order.menu_amount %}
-                                        
-                                                    <img  src="../{{ma.menu.image.url}}" style="width: 50px; height: auto" >
+                                                            
+                                               <!--  <img  src="../{{ma.menu.image.url}}" style="width: 50px; height: auto" > -->
+                                                            <span>{{ma.menu.name}}x{{ma.amount}}</span>
+                                                            
+                                                            
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
+                                                
+                                                <td><p>{{order.total}}</p></td>
+                                                
+                                                <td>
 
-                                                    <span>x{{ma.amount}}</span>
+                              
+                                                <p>{{order.status}}</p>
+
+                                                <div uk-dropdown>
+
+                                              <ul class="uk-list uk-list-divider">
+
+                                              {% if order.status == "รับออเดอร์" %}
+                                                      <li class="uk-text-warning"><span class="uk-badge">1</span> รับออเดอร์</li>
+
+                                             <li class="uk-text-muted ">
+
+                                            <span class="uk-badge muted ">2</span> กำลังทำอาหาร
+
+                                                    </li>
+                                                    <li class="uk-text-muted ">
+
+                                                    <span  class="uk-badge muted ">3</span> กำลังจัดส่ง
+
+                                                    </li> 
 
 
-                                               
-                                                      
-                                                   {% endfor %}
-                                              </div>
-                                            </td>
-                                        
-                                             <td><p>{{order.date}}</p></td>
-                                        </tr>
-                                    {% endfor %}
 
+
+                                            {% elif order.status == "กำลังทำอาหาร" %}
+                                                <li><span class="uk-badge">1</span> รับออเดอร์</li>
+
+                                             <li class="uk-text-warning">
+
+                                            <span class="uk-badge  ">2</span> <b>กำลังทำอาหาร</b>
+
+                                                    </li>
+                                                    <li class="uk-text-muted ">
+
+                                                    <span  class="uk-badge muted ">3</span> กำลังจัดส่ง
+
+                                                    </li> 
+
+                                            {% elif order.status == "กำลังส่ง" %}
+                                                    <li><span class="uk-badge">1</span> รับออเดอร์</li>
+
+                                             <li >
+
+                                            <span class="uk-badge  ">2</span> กำลังทำอาหาร
+
+                                                    </li>
+                                                    <li class="uk-text-warning">
+
+                                                    <span class="uk-badge">3</span> <b>กำลังจัดส่ง</b>
+
+                                                    </li> 
+
+                                              
+                                                {% endif %}
+
+                                                </ul>
+
+
+                                                </div>
+
+
+
+                                                
+
+
+                                                </td>
+                                                 <td><h5>{{order.date}}</h5></td>
+                                            </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
-                      
+                            
                             
                             <div class="love uk-width-1-1 uk-margin-remove-top" id="love">
                                 <h4 class="title uk-heading-bullet">ร้านอาหารโปรด</h4>
-                                   <hr class="divide">
+                                <hr class="divide">
                                 <table class="uk-table uk-table-hover uk-table-divider">
-                                     {% if love_list|length <= 0 %}
+                                    {% if love_list|length <= 0 %}
                                         <div  uk-alert>
                                             <!-- <a class="uk-alert-close" uk-close></a> -->
                                             <h4 class="uk-margin-remove-top">ไม่มีร้านในรายการโปรด</h4>
-                                         
+                                            
                                         </div>
-                                   {% endif %}
+                                    {% endif %}
                                     <tbody>
                                         {% for love in love_list %}
                                             <tr>
@@ -291,60 +366,55 @@
                                     </tbody>
                                 </table>
                             </div>
-
-                            <div class="coupon uk-width-1-1 " id="coupon">
+                            <div class="coupon uk-width-1-1 uk-margin-remove-top" id="coupon">
                                 <h4 class="title uk-heading-bullet uk-margin-remove-top">คูปองของฉัน</h4>
-                                   <hr class="divide">
-                                        {% for coupon in coupon_list %}
+                                <hr class="divide">
+                                {% for coupon in coupon_list %}
                                     <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-                                            <div class="uk-card-media-left uk-cover-container">
-                                                <img src="../{{coupon.image.url}}" alt="" uk-cover>
-                                                <canvas width="600" height="400"></canvas>
-                                            </div>
-                                            <div>
-                                                <div class="uk-card-body uk-padding-small">
-                                                     <h3 >คูปองร้าน <a  href="../store/{{coupon.id_store}}" class="uk-card-title uk-text-bold " style="color: #ffbf00" >
-                                    {{coupon.name}}</a> </h3>
-
+                                        <div class="uk-card-media-left uk-cover-container">
+                                            <img src="../{{coupon.image.url}}" alt="" uk-cover>
+                                            <canvas width="600" height="400"></canvas>
+                                        </div>
+                                        <div>
+                                            <div class="uk-card-body uk-padding-small">
+                                                <h3 >คูปองร้าน <a  href="../store/{{coupon.id_store}}" class="uk-card-title uk-text-bold " style="color: #ffbf00" >
+                                                {{coupon.name}}</a> </h3>
                                                 
-                                                 {% if coupon.code != "-" %} 
-
+                                                {% if coupon.code != "-" %}
                                                     <p class="uk-text-muted uk-text-small">เฉพาะบริการจัดส่ง</p>
-                                                  
-                                                    {% endif %}
-                                                    <p>{{coupon.msg}}</p>
-                                                    <p>กรอกโค้ด : {{coupon.code}}</p>
-                                                    <br>
-                                                     {% if coupon.code == "-" %} 
-                                                        <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
-                                                    {% endif %}
-                                                        <p id="p-inline" class="uk-text-muted">เหลือ {{coupon.amount}}      </p>
-                                                        <p class="uk-text-muted uk-text-small" id="p-inline"> หมดอายุ  {{coupon.date}}</p>
-                                                   
-                                                </div>
-                                            </div>
-                                            
-                                     
-                     {% if coupon.code == "-" %} 
-                                        <!-- This is the modal -->
-                                        <div id="modal-example"  uk-modal>
-                                            <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
-                                                <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
-                                                <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
+                                                    
+                                                {% endif %}
+                                                <p>{{coupon.msg}}</p>
+                                                <p>กรอกโค้ด : {{coupon.code}}</p>
                                                 <br>
-                                                <p class="uk-text-center">
-                                                    <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
-                                                    <a class="uk-button uk-button-primary" type="button" style=" font-size: 1.0em;" href="{% url 'use_coupon' coupon.id_coupon %}">ใช้</a>
-                                                </p>
+                                                {% if coupon.code == "-" %}
+                                                    <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
+                                                {% endif %}
+                                                <p id="p-inline" class="uk-text-muted">เหลือ {{coupon.amount}}      </p>
+                                                <p class="uk-text-muted uk-text-small" id="p-inline"> หมดอายุ  {{coupon.date}}</p>
+                                                
                                             </div>
                                         </div>
-    {% endif %}
+                                        
+                                        
+                                        {% if coupon.code == "-" %}
+                                            <!-- This is the modal -->
+                                            <div id="modal-example"  uk-modal>
+                                                <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
+                                                    <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
+                                                    <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
+                                                    <br>
+                                                    <p class="uk-text-center">
+                                                        <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
+                                                        <a class="uk-button uk-button-primary" type="button" style=" font-size: 1.0em;" href="{% url 'use_coupon' coupon.id_coupon %}">ใช้</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
                                     </div>
-                                       {% endfor %}
-
-
+                                {% endfor %}
                             </div>
-                           
+                            
                         </div>
                     </div>
                 </div>
@@ -439,13 +509,13 @@
                                         <a class="uk-link-reset icon-click " href=""> ร้านอาหารโปรด
                                         <i class="fa fa-angle-left " style="float: right"></i></a>
                                         <ul class="uk-nav-sub">
-                                        {% if love_list|length <= 0 %}
-                                        <div  uk-alert>
-                                            <!-- <a class="uk-alert-close" uk-close></a> -->
-                                            <h4 class="uk-margin-remove-top">ไม่มีร้านในรายการโปรด</h4>
-                                         
-                                        </div>
-                                   {% endif %}
+                                            {% if love_list|length <= 0 %}
+                                                <div  uk-alert>
+                                                    <!-- <a class="uk-alert-close" uk-close></a> -->
+                                                    <h4 class="uk-margin-remove-top">ไม่มีร้านในรายการโปรด</h4>
+                                                    
+                                                </div>
+                                            {% endif %}
                                             <table class="uk-table uk-table-hover uk-table-divider">
                                                 
                                                 <tbody>
@@ -473,50 +543,50 @@
                                         <a class="uk-link-reset icon-click " href=""> รีวิวของฉัน
                                         <i class="fa fa-angle-left " style="float: right"></i></a>
                                         <ul class="uk-nav-sub">
-                                        {% if out|length <= 0 %}
-                                        <div  uk-alert>
-                                            <!-- <a class="uk-alert-close" uk-close></a> -->
-                                            <h4 class="uk-margin-remove-top">คุณยังไม่ได้รีวิว</h4>
-                                         
-                                        </div>
-                                   {% endif %}
-                                            {% for review,rate,picture in mobile_out reversed %}
-                                    
-                                       <li>
-                                    <div class="uk-card uk-card-default uk-card-body uk-margin ">
-                                        <article class="uk-comment">
-                                            <header class="uk-comment-header uk-grid-medium uk-flex-middle " uk-grid>
-                                                <div class="uk-width-auto">
-                                                    <img class="uk-comment-avatar " src="../{{picture}}" style="object-fit: cover;" alt="">
-                                                </div>
-                                                <div class="uk-width-expand">
-                                                    <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
+                                            <!--   {% if out|length <= 0 %}
+                                                <div  uk-alert>
                                                     
-                                                    <a href=" "></a>
-                                                    <div class="uk-margin-remove-top">
-                                                        {% for value in rate.rating_color|times %}
-                                                            <i class="fa fa-star star-color"> </i>
-                                                        {% endfor %}
-                                                        {% for value in rate.rating_no_color|times %}
-                                                            <i class="fa fa-star"> </i>
-                                                        {% endfor %}
-                                                    {{rate.rating_color}}</div>
-                                                    </h4>
-                                                    <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{review.store}}</b></a></h4>
-                                                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                                        <li><a href="#">{{review.created_at | timesince }}</a></li>
-                                                        
-                                                    </ul>
+                                                    <h4 class="uk-margin-remove-top">คุณยังไม่ได้รีวิว</h4>
+                                                    
                                                 </div>
-                                            </header>
-                                            <div class="uk-comment-body">
-                                                <p class="comment"> {{review.comment}}!</p>
-                                            </div>
-                                        </article>
-                                    </div>
-                                {% endfor %}
-                                           </li>
-                                           
+                                            {% endif %} -->
+                                            {% for review,rate,picture in mobile_out reversed %}
+                                                
+                                                <li>
+                                                    <div class="uk-card uk-card-default uk-card-body uk-margin ">
+                                                        <article class="uk-comment">
+                                                            <header class="uk-comment-header uk-grid-medium uk-flex-middle " uk-grid>
+                                                                <div class="uk-width-auto">
+                                                                    <img class="uk-comment-avatar " src="../{{picture}}" style="object-fit: cover;" alt="">
+                                                                </div>
+                                                                <div class="uk-width-expand">
+                                                                    <h4 class="uk-card-title uk-text-left " style="color: #BDBDBD;">
+                                                                    
+                                                                    <a href=" "></a>
+                                                                    <div class="uk-margin-remove-top">
+                                                                        {% for value in rate.rating_color|times %}
+                                                                            <i class="fa fa-star star-color"> </i>
+                                                                        {% endfor %}
+                                                                        {% for value in rate.rating_no_color|times %}
+                                                                            <i class="fa fa-star"> </i>
+                                                                        {% endfor %}
+                                                                    {{rate.rating_color}}</div>
+                                                                    </h4>
+                                                                    <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="#">{{review.user.username}} ไปร้าน <b>{{review.store}}</b></a></h4>
+                                                                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                                                        <li><a href="#">{{review.created_at | timesince }}</a></li>
+                                                                        
+                                                                    </ul>
+                                                                </div>
+                                                            </header>
+                                                            <div class="uk-comment-body">
+                                                                <p class="comment"> {{review.comment}}!</p>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+                                                {% endfor %}
+                                            </li>
+                                            
                                         </ul>
                                     </li>
                                     
@@ -525,105 +595,165 @@
                                         <i class="fa fa-angle-left " style="float: right"></i></a>
                                         
                                         <ul class="uk-nav-sub">
-                                        <table class="uk-table uk-table-responsive">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 5%"><p>No.</p></th>
-                                                    <th style="width: 20%;"><p>ร้าน</p></th>
-                                                    <th style="width: 45%;"><p>เมนู</p></th>
+                                            <table class="uk-table uk-table-responsive uk-table-divider">
+                                                 <thead>
+                                        <tr>
+                                            <th ><h2>No.</h2></th>
+                                            <th ><h2>ร้าน</h2></th>
+                                            <th ><h2>เมนู</h2></th>
+                                            <th ><h2>ราคา</h2></th>
+                                             <th ><h2>สถานะ</h2></th>
+                                            
+                                            <th ><h2>วันที่</h2></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in order_list %}
+                                            
+                                            <tr>
+                                                <td><p>{{order.id}}</p></td>
+                                                <td><p>{{order.name_s}}</p></td>
+                                                <td>
+                                                    <div>
+                                                {% for ma in order.menu_amount %}
+                                                            
+                                               <!--  <img  src="../{{ma.menu.image.url}}" style="width: 50px; height: auto" > -->
+                                                            <span>{{ma.menu.name}}x{{ma.amount}}</span>
+                                                            
+                                                            
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
+                                                
+                                                <td><p>{{order.total}}</p></td>
+                                                
+                                                <td>
+
+                              
+                                    <a class="uk-text-warning " style="color :#ffd043"><u>{{order.status}}</u></a>
+
+                                                <div uk-dropdown>
+
+                                              <ul class="uk-list uk-list-divider">
+
+                                    {% if order.status == "รับออเดอร์" %}
+                                                      <li class="uk-text-warning"><span class="uk-badge">1</span> รับออเดอร์</li>
+
+                                                <li class="uk-text-muted ">
+
+                                    <span class="uk-badge muted ">2</span> กำลังทำอาหาร
+
+                                                    </li>
+                                                    <li class="uk-text-muted ">
+
+                                                    <span  class="uk-badge muted ">3</span> กำลังจัดส่ง
+
+                                                    </li> 
+
+
+
+
+                                            {% elif order.status == "กำลังทำอาหาร" %}
+                                                <li><span class="uk-badge">1</span> รับออเดอร์</li>
+
+                                             <li class="uk-text-warning">
+
+                                            <span class="uk-badge  ">2</span> <b>กำลังทำอาหาร</b>
+
+                                                    </li>
+                                                    <li class="uk-text-muted ">
+
+                                                    <span  class="uk-badge muted ">3</span> กำลังจัดส่ง
+
+                                                    </li> 
+
+                                            {% elif order.status == "กำลังส่ง" %}
+                                                    <li><span class="uk-badge">1</span> รับออเดอร์</li>
+
+                                             <li >
+
+                                            <span class="uk-badge  ">2</span> กำลังทำอาหาร
+
+                                                    </li>
+                                                    <li class="uk-text-warning">
+
+                                                    <span class="uk-badge">3</span> <b>กำลังจัดส่ง</b>
+
+                                                    </li> 
+
                                               
-                                                    <th style="width:30%;"><p>วันที่</p></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                             {% for order in order_list %}
-                                          
-                                                <tr>
-                                                    <td><p>{{order.id}}</p></td>
-                                                    <td><p>{{order.name_s}}</p></td>
-                                                    <td>
-                                                      <div>
-                                                        {% for ma in order.menu_amount %}
+                                                {% endif %}
+
+                                                </ul>
+
+
+                                                </div>
+
+
+
                                                 
-                                                            <img  src="../{{ma.menu.image.url}}" style="width: 50px; height: auto" >
-
-                                                            <span>x{{ma.amount}}</span>
 
 
-                                                       
-                                                              
-                                                           {% endfor %}
-                                                      </div>
-                                                    </td>
-                                                
-                                                     <td><p>{{order.date}}</p></td>
-                                                </tr>
-                                            {% endfor %}
-
-                                            </tbody>
-                                        </table>
+                                                </td>
+                                                <td><h5>{{order.date}}</h5></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                            </table>
                                         </ul>
                                     </li>
-
                                     <li class="uk-parent ">
                                         <a class="uk-link-reset icon-click" href=""> คูปองของฉัน
                                         <i class="fa fa-angle-left " style="float: right"></i></a>
                                         
                                         <ul class="uk-nav-sub">
-                                     {% for coupon in coupon_list %}
-                                    <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-                                            <div class="uk-card-media-left uk-cover-container">
-                                                <img src="../{{coupon.image.url}}" alt="" uk-cover>
-                                                <canvas width="200" height="150"></canvas>
-                                            </div>
-                                            <div>
-                                                <div class="uk-card-body uk-padding-small">
-                                                     <h3 >คูปองร้าน <a  href="../store/{{coupon.id_store}}" class="uk-card-title uk-text-bold " style="color: #ffbf00" >
-                                    {{coupon.name}}</a> </h3>
-
-                                                
-                                                 {% if coupon.code != "-" %} 
-
-                                                    <p class="uk-text-muted uk-text-small">เฉพาะบริการจัดส่ง</p>
-                                                  
+                                            {% for coupon in coupon_list %}
+                                                <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+                                                    <div class="uk-card-media-left uk-cover-container">
+                                                        <img src="../{{coupon.image.url}}" alt="" uk-cover>
+                                                        <canvas width="200" height="150"></canvas>
+                                                    </div>
+                                                    <div>
+                                                        <div class="uk-card-body uk-padding-small">
+                                                            <h3 >คูปองร้าน <a  href="../store/{{coupon.id_store}}" class="uk-card-title uk-text-bold " style="color: #ffbf00" >
+                                                            {{coupon.name}}</a> </h3>
+                                                            
+                                                            {% if coupon.code != "-" %}
+                                                                <p class="uk-text-muted uk-text-small">เฉพาะบริการจัดส่ง</p>
+                                                                
+                                                            {% endif %}
+                                                            <p>{{coupon.msg}}</p>
+                                                            <p>กรอกโค้ด : {{coupon.code}}</p>
+                                                            <br>
+                                                            {% if coupon.code == "-" %}
+                                                                <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
+                                                            {% endif %}
+                                                            <p id="p-inline" class="uk-text-muted">เหลือ {{coupon.amount}}      </p>
+                                                            <p class="uk-text-muted uk-text-small" id="p-inline"> หมดอายุ  {{coupon.date}}</p>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                    {% if coupon.code == "-" %}
+                                                        <!-- This is the modal -->
+                                                        <div id="modal-example"  uk-modal>
+                                                            <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
+                                                                <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
+                                                                <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
+                                                                <br>
+                                                                <p class="uk-text-center">
+                                                                    <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
+                                                                    <a class="uk-button uk-button-primary" type="button" style=" font-size: 1.0em;" href="{% url 'use_coupon' coupon.id_coupon %}">ใช้</a>
+                                                                </p>
+                                                            </div>
+                                                        </div>
                                                     {% endif %}
-                                                    <p>{{coupon.msg}}</p>
-                                                    <p>กรอกโค้ด : {{coupon.code}}</p>
-                                                    <br>
-                                                     {% if coupon.code == "-" %} 
-                                                        <button id="btn-inline" class="uk-button uk-button-small uk-button-primary"><h2 class="uk-margin-small-top" uk-toggle="target: #modal-example">ใช้คูปอง</h2></button>
-                                                    {% endif %}
-                                                        <p id="p-inline" class="uk-text-muted">เหลือ {{coupon.amount}}      </p>
-                                                        <p class="uk-text-muted uk-text-small" id="p-inline"> หมดอายุ  {{coupon.date}}</p>
-                                                   
                                                 </div>
-                                            </div>
-                                            
-                                     
-                     {% if coupon.code == "-" %} 
-                                        <!-- This is the modal -->
-                                        <div id="modal-example"  uk-modal>
-                                            <div class="uk-modal-dialog uk-modal-body uk-padding-small" >
-                                                <h2 class="uk-modal-title uk-heading-bullet">ใช้คูปอง</h2>
-                                                <p>เมื่อกดใช้คูปอง คูปองจะลดลง 1 จำนวนทันที คุณต้องการใช้คูปองหรือไม่</p>
-                                                <br>
-                                                <p class="uk-text-center">
-                                                    <button class="uk-button uk-button-default uk-modal-close" type="button"><h2 class="uk-margin-small-top">ยังดีกว่า</h2></button>
-                                                    <a class="uk-button uk-button-primary" type="button" style=" font-size: 1.0em;" href="{% url 'use_coupon' coupon.id_coupon %}">ใช้</a>
-                                                </p>
-                                            </div>
-                                        </div>
-    {% endif %}
-                                    </div>
-                                       {% endfor %}
-
+                                            {% endfor %}
                                         </ul>
                                     </li>
-
-
-                              
-
-
+                                    
                                     <li  >
                                         <a class="uk-link-reset" href="{% url 'is_inf' %}"> ประวัติความหิว</a>
                                         
@@ -644,129 +774,110 @@
         </div>
     </div>
     <script type="text/javascript">
-            $("#love").css("display", "none");
-            $("#order").css("display", "none");
-            $("#review").css("display", "none");
-            // $("#add").css("display", "none");
-            $("#about").css("display", "block");
-            $("#coupon").css("display", "none");
-            
-
-            $(".click-about").addClass( "active" );
-            $(".click-love").removeClass("active");
-            $(".click-coupon").removeClass("active");
-            $(".click-review").removeClass("active");
-            $(".click-order").removeClass("active");
-            // $(".click-add").removeClass("active");
-
+    $("#love").css("display", "none");
+    $("#order").css("display", "none");
+    $("#review").css("display", "none");
+    // $("#add").css("display", "none");
+    $("#about").css("display", "block");
+    $("#coupon").css("display", "none");
+    
+    $(".click-about").addClass( "active" );
+    $(".click-love").removeClass("active");
+    $(".click-coupon").removeClass("active");
+    $(".click-review").removeClass("active");
+    $(".click-order").removeClass("active");
+    // $(".click-add").removeClass("active");
     $(document).ready(function() {
-        $('.icon-click').click(function() {
-        $("i", this).toggleClass("fa-angle-left fa-angle-down");
-        });
-
-       
-        $(".click-about").click(function(){
-          
-
-            $("#love").css("display", "none");
-            $("#order").css("display", "none");
-            $("#review").css("display", "none");
-            // $("#add").css("display", "block");
-            $("#about").css("display", "none");
-            $("#coupon").css("display", "none");
-            $(".click-about").addClass( "active" );
-            $(".click-love").removeClass("active");
-            $(".click-review").removeClass("active");
-            $(".click-order").removeClass("active");
-             // $(".click-add").removeClass("active");
-             $(".click-coupon").removeClass("active");
-
-        });
-
-        $(".click-love").click(function(){
-      
-            $("#love").css("display", "block");
-            $("#order").css("display", "none");
-            $("#review").css("display", "none");
-            // $("#add").css("display", "none");
-            $("#about").css("display", "none");
-            $("#coupon").css("display", "none");
-
-            $(".click-love").addClass( "active" );
-            $(".click-about").removeClass("active");
-            $(".click-review").removeClass("active");
-            $(".click-order").removeClass("active");
-             // $(".click-add").removeClass("active");
-             $(".click-coupon").removeClass("active");
-
-        });
-
-        $(".click-order").click(function(){
-            $("#love").css("display", "none");
-            $("#order").css("display", "block");
-            $("#review").css("display", "none");
-            // $("#add").css("display", "none");
-            $("#about").css("display", "none");
-            $("#coupon").css("display", "none");
-            $(".click-order").addClass( "active" );
-            $(".click-about").removeClass("active");
-            $(".click-review").removeClass("active");
-            $(".click-love").removeClass("active");
-             // $(".click-add").removeClass("active");
-             $(".click-coupon").removeClass("active");
-
-        });
-
-        $(".click-review").click(function(){
-            $("#love").css("display", "none");
-            $("#order").css("display", "none");
-            $("#review").css("display", "block");
-            // $("#add").css("display", "none");
-            $("#about").css("display", "none");
-            $("#coupon").css("display", "none");
-            $(".click-review").addClass( "active" );
-            $(".click-about").removeClass("active");
-            $(".click-order").removeClass("active");
-            $(".click-love").removeClass("active");
-             // $(".click-add").removeClass("active");
-             $(".click-coupon").removeClass("active");
-
-        });
-
-        $(".click-add").click(function(){
-            $("#love").css("display", "none");
-            $("#order").css("display", "none");
-            $("#review").css("display", "none");
-            // $("#add").css("display", "block");
-            $("#about").css("display", "none");
-            $("#coupon").css("display", "none");
-            // $(".click-add").addClass( "active" );
-            $(".click-about").removeClass("active");
-            $(".click-order").removeClass("active");
-            $(".click-love").removeClass("active");
-             $(".click-review").removeClass("active");
-             $(".click-coupon").removeClass("active");
-
-        });
-
-
-        $(".click-coupon").click(function(){
-            $("#love").css("display", "none");
-            $("#order").css("display", "none");
-            $("#review").css("display", "none");
-            // $("#add").css("display", "none");
-            $("#about").css("display", "none");
-            $("#coupon").css("display", "block");
-            // $(".click-add").removeClass( "active" );
-            $(".click-about").removeClass("active");
-            $(".click-order").removeClass("active");
-            $(".click-love").removeClass("active");
-             $(".click-review").removeClass("active");
-             $(".click-coupon").addClass("active");
-
-        });
-
-
+    $('.icon-click').click(function() {
+    $("i", this).toggleClass("fa-angle-left fa-angle-down");
+    });
+    
+    $(".click-about").click(function(){
+    
+    $("#love").css("display", "none");
+    $("#order").css("display", "none");
+    $("#review").css("display", "none");
+    // $("#add").css("display", "block");
+    $("#about").css("display", "none");
+    $("#coupon").css("display", "none");
+    $(".click-about").addClass( "active" );
+    $(".click-love").removeClass("active");
+    $(".click-review").removeClass("active");
+    $(".click-order").removeClass("active");
+    // $(".click-add").removeClass("active");
+    $(".click-coupon").removeClass("active");
+    });
+    $(".click-love").click(function(){
+    
+    $("#love").css("display", "block");
+    $("#order").css("display", "none");
+    $("#review").css("display", "none");
+    // $("#add").css("display", "none");
+    $("#about").css("display", "none");
+    $("#coupon").css("display", "none");
+    $(".click-love").addClass( "active" );
+    $(".click-about").removeClass("active");
+    $(".click-review").removeClass("active");
+    $(".click-order").removeClass("active");
+    // $(".click-add").removeClass("active");
+    $(".click-coupon").removeClass("active");
+    });
+    $(".click-order").click(function(){
+    $("#love").css("display", "none");
+    $("#order").css("display", "block");
+    $("#review").css("display", "none");
+    // $("#add").css("display", "none");
+    $("#about").css("display", "none");
+    $("#coupon").css("display", "none");
+    $(".click-order").addClass( "active" );
+    $(".click-about").removeClass("active");
+    $(".click-review").removeClass("active");
+    $(".click-love").removeClass("active");
+    // $(".click-add").removeClass("active");
+    $(".click-coupon").removeClass("active");
+    });
+    $(".click-review").click(function(){
+    $("#love").css("display", "none");
+    $("#order").css("display", "none");
+    $("#review").css("display", "block");
+    // $("#add").css("display", "none");
+    $("#about").css("display", "none");
+    $("#coupon").css("display", "none");
+    $(".click-review").addClass( "active" );
+    $(".click-about").removeClass("active");
+    $(".click-order").removeClass("active");
+    $(".click-love").removeClass("active");
+    // $(".click-add").removeClass("active");
+    $(".click-coupon").removeClass("active");
+    });
+    $(".click-add").click(function(){
+    $("#love").css("display", "none");
+    $("#order").css("display", "none");
+    $("#review").css("display", "none");
+    // $("#add").css("display", "block");
+    $("#about").css("display", "none");
+    $("#coupon").css("display", "none");
+    // $(".click-add").addClass( "active" );
+    $(".click-about").removeClass("active");
+    $(".click-order").removeClass("active");
+    $(".click-love").removeClass("active");
+    $(".click-review").removeClass("active");
+    $(".click-coupon").removeClass("active");
+    });
+    $(".click-coupon").click(function(){
+    $("#love").css("display", "none");
+    $("#order").css("display", "none");
+    $("#review").css("display", "none");
+    // $("#add").css("display", "none");
+    $("#about").css("display", "none");
+    $("#coupon").css("display", "block");
+    // $(".click-add").removeClass( "active" );
+    $(".click-about").removeClass("active");
+    $(".click-order").removeClass("active");
+    $(".click-love").removeClass("active");
+    $(".click-review").removeClass("active");
+    $(".click-coupon").addClass("active");
+    });
     });
     </script>
 {% endblock %}

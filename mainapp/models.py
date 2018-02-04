@@ -56,6 +56,7 @@ class Order(models.Model):
 	date = models.DateTimeField(default=datetime.now, blank=True)
 	address = models.CharField(max_length=500,blank=True,null=True)
 	total = models.FloatField(null=True, blank=True)
+	status = models.CharField(max_length=20,null=True, blank=True)
 	phone_number = models.CharField(max_length=20,null=True, blank=True)
 	slip_payment =models.ImageField(upload_to='slip_payment/%Y/%m/%d',blank=True,null=True)
 	payment_method = models.CharField(max_length=200,blank=True,null=True)

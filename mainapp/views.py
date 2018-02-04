@@ -1166,6 +1166,12 @@ def edit_delivery(request):
 	list_time = zip(time,day,index)
 	return render(request, 'delivery_close.html',{'time':list_time})
 
+
+
+def home_tohrung(request):
+	return render(request, 'midnight.html',{})
+
+
 def changeDelivery(request):
 	if request.method == 'POST':
 		user = request.user
@@ -1199,3 +1205,60 @@ def changeDelivery(request):
 
 		context = 'success'
 	return HttpResponse(json.dumps(context), content_type='application/json')
+
+@login_required
+def update_status(request):
+	order = Order.objects.all().order_by('-id')
+
+	order_list = []
+
+	for i in order :
+		temp = {'id':0,'name':"",'menu_amount':[],'total':0,'status':""}
+		temp['id'] = i.id
+		temp['name'] = i.store.name
+		temp['total'] = i.total
+		temp['status'] = i.status
+		for m,a in zip(i.menu,i.amount):
+
+			# ma = {'menu':None,'amount':""}
+			ma = {'menu':Menu.objects.get(id=m),'amount':a}
+			temp['menu_amount'].append(ma)
+	#         #             menu_list.append(Menu.objects.get(id=m))
+	#         #             amount_list.append(a)
+
+		order_list.append(temp)
+
+
+	return render(request, 'update_status.html',{'order_list':order_list})
+
+
+@login_required
+def change_status(request):
+
+	if request.method == 'POST':
+		status = int(request.POST.get('status', None))
+		order_id = int(request.POST.get('order_id', None))
+		
+		s = "รับออเดอร์"
+		print(order_id)
+		print(status)
+		if status == 0 :
+			s = "รับออเดอร์"
+			print(s)
+
+		elif status == 1:	
+			s = "กำลังทำอาหาร"
+			print(s)
+
+		elif status == 2 :
+			s = "กำลังส่ง"
+			print(s)
+
+
+		
+		# print(s)
+		Order.objects.filter(id=order_id).update(status=s)
+
+
+
+	return JsonResponse({},safe=False)

@@ -334,14 +334,17 @@ def profile(request):
             raise
 
         try :
-            orders = Order.objects.filter(user=request.user)
+            orders = Order.objects.filter(user=request.user).order_by('-date')
             for i in orders:
-                temp = {'id':0,'name_s':"",'menu_amount':[],'date':None}
+                temp = {'id':0,'name_s':"",'menu_amount':[],'date':None,
+                'status':'','total':0.0}
                 temp['id'] = i.id
                 print(i.store.id)
                 s = Store.objects.get(id=i.store.id) 
                 temp['name_s'] = s.name
                 temp['date'] = i.date
+                temp['status'] = i.status
+                temp['total'] = i.total
 
                 menu_list = []
                 amount_list = []
